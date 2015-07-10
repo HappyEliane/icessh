@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute" creationComplete="initApp()"  backgroundColor="#FDFEFE" width="660" height="574"  xmlns:CheckBoxColum="Common.controls.CheckBoxColum.*" xmlns:util="util.*">
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.mx_internal;
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import spark.events.TextOperationEvent;
+			
+			
+			//定义过滤器  
+			
+			
+			private var compOrg:String="";
+			
+			//	private var Login_userName:String="asd";
+			[Bindable]
+			public var callBackFunction:Function;
+			public var mainApp:homeFaultMenu = null;
+			public var haveComp:String="";
+			
+			private function initApp():void {  
+				
+			}  
+			
+			
+			
+			
+			
+			
+			
+			//构件查询
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var name:String=queryname.text;
+				var maker:String=querydev.text;
+				var sd:String="";
+				var ed:String="";
+				if(startdate.text==""&&enddate.text=="")
+				{
+					sd="";
+					ed="";
+				} 
+				else if(startdate.text!=""&&enddate.text!="")
+				{
+					sd=startdate.text;
+					ed=enddate.text;
+				}
+				else if((startdate.text==""&&enddate.text!="") || (startdate.text!=""&&enddate.text==""))
+				{
+					Alert.show("日期选择错误！","提示");
+				}
+				var qorg:String=queryOrg.selectedItem.data;
+				var qinfo:String=queryinfo.text;
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeComponentServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="query1";
+				param.name=name;
+				param.maker=maker;
+				param.sd=sd;
+				param.ed=ed;
+				param.qorg=qorg;
+				param.qinfo=qinfo;
+				param.menu=haveComp;
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_query_handler);
+			}
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object; 
+			private function success_query_handler(event:ResultEvent):void
+			{
+				//JSON:2
+				
+				var re:String=event.result.toString();                        //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+				//JSON:7
+				
+				//	Alert.show(re);
+				grid1.initdata(r,10);
+			}
+			
+			
+			//选择构件
+			var delCompID:String="";
+			var delname:String="";
+			var delurl:String="";
+			protected function button4_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var f:Array=new Array();
+				f=choosecomp.selectItems;
+				delname="";
+				delCompID="";
+				for each(var object:Object in f)
+				{
+					//Alert.show(object.id);
+					delCompID=object.comId;
+					delname=object.comName;
+					delurl=object.comURL;
+				}
+				if(delname!="")
+					Alert.show(delname,"您确定选择以下构件么？",3,this,deleteCallBack);
+				else
+					Alert.show("您没有选择任何构件！","提示");
+				
+				//h4.deluser(f);
+			}
+			import mx.events.CloseEvent;
+			private function deleteCallBack(event:CloseEvent):void
+			{
+				if(event.detail==Alert.YES)
+				{
+					//	callBackFunction.call(mainApp, delCompID,delname);
+					//Alert.show("删除成功！","提示");
+					mainApp.cccompname=delname;
+					mainApp.cccompid=delCompID;
+					mainApp.cccomurl=delurl;
+					dispatchEvent(new Event("finish",false));
+					//	PopUpManager.removePopUp(this);
+					remove(this);
+				}
+			}
+			
+			
+			
+			
+			protected function button5_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//	PopUpManager.removePopUp(this);
+				remove(this);
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			
+			public function check_clickHandler(event:MouseEvent):void
+			{
+				/*
+				var editObj:IFlexDisplayObject = 
+				PopUpManager.createPopUp(DisplayObject(Application.application),CompInfo,true);
+				*/
+				
+				var editWin:homeCompInfo = new homeCompInfo();	
+				editWin.home=grid1.cudg.selectedItem.home;
+				editWin.provider=grid1.cudg.selectedItem.provider;
+				editWin.business=grid1.cudg.selectedItem.business;
+				editWin.center=grid1.cudg.selectedItem.center;
+				show(editWin,this,true);
+				editWin.compid.text=grid1.cudg.selectedItem.comId;////
+				editWin.compname.text = grid1.cudg.selectedItem.comName;////
+				editWin.makeperson.text = grid1.cudg.selectedItem.comMaker;
+				editWin.makedate.text = grid1.cudg.selectedItem.comDate;
+				editWin.compdev.text = grid1.cudg.selectedItem.comDev;
+				editWin.compinfo.text = grid1.cudg.selectedItem.cominfo;
+				//	editWin.compdev.text = grid1.cudg.selectedItem.comDev;
+				
+				editWin.compurl.text=grid1.cudg.selectedItem.comURL;
+				editWin.mainApp = this;	
+				//editWin.initData();
+				//	editWin.addEventListener("finish",AddRoleFinish);
+				PopUpManager.centerPopUp(editWin);	
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import Common.controls.CheckBoxColum.CheckBoxHeaderRenderer;
+			import Common.controls.CheckBoxColum.CheckBoxItemRenderer;
+		]]>
+	</fx:Script>
+	<s:BorderContainer x="0" y="0" width="660" height="574" borderColor="#000000" borderWeight="2" fontFamily="微软雅黑">
+		<s:Label x="284" y="10" text="选取构件" fontSize="20" fontFamily="微软雅黑" fontWeight="bold"/>
+		<s:BorderContainer x="10" y="40" width="636" height="173">
+			<s:TextInput x="84" y="46" height="25" width="183" id="queryname"/>
+			<s:BorderContainer x="-1" y="-1" width="635" height="28">
+				
+				
+				<mx:Image x="0" y="0" width="634" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="7" text="查询条件" fontSize="14" fontWeight="bold" color="#000000"/>
+			</s:BorderContainer>
+			<s:Label x="10" y="99" text="注册日期：" fontSize="13"/>
+			<mx:DateField x="83" y="92" id="startdate"/>
+			<mx:DateField x="224" y="92" id="enddate"/>
+			<s:Label x="186" y="97" text="——"/>
+			<s:DropDownList x="414" y="90" height="25" width="165" id="queryOrg" selectedIndex="0">
+				<mx:ArrayCollection> 
+					<fx:Object label="全部用户" data="0"/> 
+					<fx:Object label="服务中心" data="1"/> 
+					<fx:Object label="业务中心" data="2"/> 
+					<fx:Object label="供应商" data="3"/> 
+					<fx:Object label="家庭用户" data="4"/> 
+				</mx:ArrayCollection> 
+			</s:DropDownList>
+			<s:Button x="559" y="144" label="查询" click="button3_clickHandler(event)"/>
+			<s:Label x="10" y="58" text="构件名称：" fontSize="13"/>
+			<s:Label x="360" y="50" text="开发者：" fontSize="13"/>
+			<s:TextInput x="415" y="46" id="querydev" width="164" height="25"/>
+			<s:Label x="351" y="98" text="所属组织：" fontSize="13"/>
+			<s:Label x="12" y="147" text="构件说明：" fontSize="13"/>
+			<s:TextInput x="83" y="140" width="288" height="25" id="queryinfo"/>
+			
+		</s:BorderContainer>
+		<s:BorderContainer x="10" y="219" width="636" height="301">
+			<util:CustomDataGridUnscroll x="1" y="30" width="632" height="270" id="grid1">
+				<util:mygridcolumns>
+					
+					
+					<CheckBoxColum:CheckBoxColum id="choosecomp" dataField="isSelected" width="25" draggable="false" resizable="false"
+												 sortable="false" headerRenderer="{new ClassFactory(CheckBoxHeaderRenderer)}" itemRenderer="{new ClassFactory(CheckBoxItemRenderer)}"/>
+					
+					<mx:DataGridColumn headerText="序号" dataField="num" width="40" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="comId" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="构件名称" dataField="comName" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="开发者" dataField="comDev" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="所属组织" dataField="comOrg" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="home" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="" dataField="provider" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="" dataField="business" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="" dataField="center" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="构件说明" dataField="cominfo" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="注册日期" dataField="comDate" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="comMaker" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="" dataField="comURL" draggable="false" textAlign="center" visible="false"/>
+					<mx:DataGridColumn headerText="查看" draggable="false" textAlign="center" editable="false">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Button label="查看" click="outerDocument.check_clickHandler(event)">
+									
+									
+									
+								</mx:Button>
+								
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+					
+				</util:mygridcolumns>
+			</util:CustomDataGridUnscroll>
+			
+			<s:Button x="160" y="320" label="确定返回" click="button4_clickHandler(event)"/>
+			<s:Button x="342" y="320" label="取消返回" click="button5_clickHandler(event)"/>
+			
+			<s:BorderContainer x="0" y="0" width="635" height="28">
+				<mx:Image x="0" y="0" width="633" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="7" text="查询结果" fontSize="14"/>
+			</s:BorderContainer>
+		</s:BorderContainer>
+		
+	</s:BorderContainer>
+	
+	
+</mx:Application>

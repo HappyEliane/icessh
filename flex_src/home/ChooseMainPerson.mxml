@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="598" height="426" title="选择主要联系人" fontSize="14" creationComplete="titlewindow1_creationCompleteHandler(event)" xmlns:util="util.*" xmlns:local="*" borderColor="#869CA7" color="#FFFFFF">
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.controls.Alert;
+			import mx.core.mx_internal;
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;  
+			import mx.core.IFlexDisplayObject;
+			import spark.events.TextOperationEvent;
+			import flash.display.DisplayObject;
+
+			public var userid:String;
+			public var username:String;
+			public var phonenumber:String;
+			public var email:String;
+			protected function titlewindow1_creationCompleteHandler(event:FlexEvent):void
+			{
+				query_userforhome();
+			}
+			private function query_userforhome():void{
+				
+				var homeid:String=homeid.text;
+				
+				
+				
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeUserObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;  
+				param.kind="query";
+				param.homeid=homeid;
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_query_handler);
+			}
+			
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object; 
+			private function success_query_handler(event:ResultEvent):void
+			{
+				//JSON:2	
+				var re:String=event.result.toString();                        //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+				//JSON:7
+				
+				//	Alert.show(re);
+				huserdg.initdata(r,10);
+				if(r.length==0)
+				{
+					Alert.show("没有符合条件的用户！","提示");
+				}
+			}
+
+			protected function cancel_clickHandler(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
+
+			protected function choose_clickHandler(event:MouseEvent):void
+			{
+				var selected:Object = huserdg.cudg.selectedItem;
+				userid = selected.h_id;
+				username = selected.h_name;
+				phonenumber = selected.mobile;
+				email = selected.email;
+				dispatchEvent(new Event("chooseUser",false));
+			}
+
+			protected function ro_query_resultHandler(event:ResultEvent):void
+			{
+				huserdg.initdata( event.result as ArrayCollection,11);
+			}
+			
+			
+			protected function ro_query_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("操作失败!","提示");
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:HBox x="0" y="0" width="100%" height="39" horizontalAlign="right" verticalAlign="middle" color="#000000">
+		<mx:TextInput id="homeid" visible="false"/>
+		<mx:Button label="选取" id="choose" click="choose_clickHandler(event)"/>
+		<mx:Button label="取消" id="cancel" click="cancel_clickHandler(event)"/>
+		<mx:Label/>
+	</mx:HBox>
+	<mx:Panel x="0" y="47" layout="absolute" width="100%" height="100%" title="用户列表" color="#000000">
+		<util:CustomDataGridUnscroll x="0" y="0" id="huserdg" width="100%" height="100%">
+			<util:mygridcolumns>
+				<mx:DataGridColumn dataField="selected" sortable="false" itemRenderer="mx.controls.RadioButton" rendererIsEditor="true" editorDataField="selected" headerText="选择" width="40" textAlign="center"/>
+				<mx:DataGridColumn headerText="用户编号" dataField="h_id" editable="false"/>
+				<mx:DataGridColumn headerText="姓名" dataField="h_name" editable="false"/>
+				<mx:DataGridColumn headerText="性别" dataField="gender" editable="false"/>
+				<mx:DataGridColumn headerText="手机" dataField="mobile" editable="false"/>
+				<mx:DataGridColumn headerText="email" dataField="email" editable="false"/>
+			</util:mygridcolumns>
+		</util:CustomDataGridUnscroll>
+	</mx:Panel>
+	
+</mx:TitleWindow>

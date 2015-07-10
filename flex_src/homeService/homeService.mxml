@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:util="util.*">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:Panel x="0" y="0" width="700" height="100%" layout="absolute" title="家庭服务信息" fontSize="14"  borderColor="#869CA7" color="#FFFFFF">
+		<util:CustomDataGridUnscroll x="0" y="87" height="100%" id="huserdg" width="100%" color="#000000">
+			<util:mygridcolumns>
+				<mx:DataGridColumn dataField="isChecked" headerText=" " width="20" sortable="false"  editable="false"/>
+				<mx:DataGridColumn headerText="家庭编号" dataField="homeid" editable="false"/>
+				<mx:DataGridColumn headerText="家庭" dataField="homename" editable="false"/>
+				<mx:DataGridColumn headerText="服务主题编号" dataField="servicethemeid" editable="false"/>
+				<mx:DataGridColumn headerText="服务主题" dataField="servicetheme" editable="false"/>
+				<mx:DataGridColumn headerText="服务编号" dataField="serviceid" editable="false"/>
+				<mx:DataGridColumn headerText="服务" dataField="service" editable="false"/>
+				<mx:DataGridColumn headerText="权限" dataField="birth" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="籍贯" dataField="birthplace" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="学历" dataField="education" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="家庭编号" dataField="homeid" editable="false" visible="false"/>
+				
+				<mx:DataGridColumn headerText="手机" dataField="mobile" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="住址" dataField="address" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="qq" dataField="qqnum" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="msn" dataField="msnnum" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="email" dataField="email" editable="false" textAlign="center"/>
+				<mx:DataGridColumn headerText="身份证号" dataField="idcard" editable="false"  visible="false"/>
+				<mx:DataGridColumn headerText="邮政编码" dataField="zipcode" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="是否主要联系人" dataField="ismainperson" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="查看" draggable="false" textAlign="center" editable="false">
+					
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="查看">							
+							</mx:Button>			
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="删除"  draggable="false" textAlign="center" editable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="删除">	
+							</mx:Button>
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+			</util:mygridcolumns>
+		</util:CustomDataGridUnscroll>
+		<mx:HBox x="0" y="0" width="100%" height="50" verticalAlign="middle" horizontalAlign="center" color="#000000">
+			<mx:HBox horizontalAlign="center" verticalAlign="middle" height="31" width="100%">
+				<mx:Label text="家庭编号"/>
+				<mx:TextInput id="h_id"/>
+				<mx:Label text="服务名称"/>
+				<mx:TextInput id="h_name"/>
+							<!--	<mx:Button label="查询" id="query" click="con_query_clickHandler(event)"/>-->
+							<!--	<mx:Button label="清空" id="clear" click="clear_clickHandler(event)"/>-->
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox verticalAlign="middle" height="30" horizontalAlign="right" width="100%" x="0" y="49" color="#000000">
+							<!--			<mx:Button label="新增" id="insert"  click="insert_clickHandler(event)"/>-->
+				<!--			<mx:Button label="明细" id="detail" click="modify_clickHandler(event)"/>-->
+				<!--			<mx:Button label="删除" id="delet" click="delet_clickHandler(event)"/>-->
+			<mx:Label/>
+		</mx:HBox>
+	</mx:Panel>
+</s:Application>

@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" width="955" creationComplete="init()" height="892">
+
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.events.KeyboardEvent;
+			import flash.external.ExternalInterface;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.effects.Dissolve;
+			import mx.effects.Fade;
+			import mx.effects.Iris;
+			import mx.effects.WipeDown;
+			import mx.effects.WipeLeft;
+			import mx.effects.WipeRight;
+			import mx.effects.WipeUp;
+			import mx.effects.Zoom;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import spark.effects.Wipe;
+			import spark.events.TextOperationEvent;
+			[Bindable]
+			private var effects:ArrayCollection=new ArrayCollection();
+			[Bindable]
+			private var effectIndex:int=2;
+			private var timer:Timer;
+			private var tempInt:int=0;
+			private var index:int=1;
+			private var chcode:String=null;
+			
+			
+			private function init():void{
+				//Alert.show("test");
+				this.effects.addItem(new Dissolve);
+				this.effects.addItem(new Fade);
+				//this.effects.addItem(new Iris);
+				//this.effects.addItem(new WipeDown);
+				this.effects.addItem(new WipeLeft);
+				//this.effects.addItem(new WipeRight);
+				//this.effects.addItem(new WipeUp);
+				
+				this.effects.addItem("assets/1.jpg");
+				this.effects.addItem("assets/2.jpg");
+				this.effects.addItem("assets/3.jpg");
+				this.effects.addItem("assets/4.jpg");
+				this.effects.addItem("assets/5.jpg");
+				this.timer=new Timer(2*1000,0.0);
+				this.timer.addEventListener(TimerEvent.TIMER,onTimeTick);
+				this.timer.start();
+				generateCheckCode();
+				code.text=chcode;
+				
+				this.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandle);
+				
+			}
+				public function keyDownHandle(event:KeyboardEvent):void	
+				{
+					// 判断按下的是不是回车键
+					if (event.charCode == 13) // 回车
+					{	
+						login();		
+					}	
+				} 
+			private function onTimeTick(event:TimerEvent):void{
+				//Alert.show("1111","2222");
+				if(index>5)
+					index=1;
+				this.imageUp.source="assets/"+index+".jpg";
+				change(index);
+				index++;
+				if(index>5)
+					index=1;
+				//aero();
+				//index++;
+			}
+			private function getRandNumer(min:Number,max:Number):Number{
+				var randNumber:Number=Math.floor(Math.random()*(max-min+1)+min);
+				return randNumber;
+			}
+			private function change(x:int):void{
+				switch(x)
+				{
+					case 1:
+						colorSet(lab1);
+						break;
+					case 2:
+						colorSet(lab2);
+						break;
+					case 3:
+						colorSet(lab3);
+						break;
+					case 4:
+						colorSet(lab4);
+						break;
+					case 5:
+						colorSet(lab5);
+						break;
+				}
+			}
+			private function colorSet(o:Label):void{
+				lab1.setStyle("color","black");
+				lab2.setStyle("color","black");
+				lab3.setStyle("color","black");
+				lab4.setStyle("color","black");
+				lab5.setStyle("color","black");
+				o.setStyle("color","red");
+			}
+			private function aero():void{
+				if(index>5)
+					index=1;
+				//if(tempInt==0)
+				//{
+					this.imageUp.source="assets/"+index+".jpg";
+					change(index);
+					index++;
+			//	}
+				//else{
+					//this.effectIndex=getRandNumer(0,this.effects.length-1);
+					//this.imageDowd.source=this.imageUp.source;
+			//	}
+				//this.tempInt=(this.tempInt+1)%2;
+			}
+			private function generateCheckCode():void{  
+				//init  
+				var num:Number;  
+				var code:String;  
+				var checkCode:String="";  
+				
+				for(var i:int=0;i<5;i++){  
+					num=Math.round(Math.random()*100000);  
+					if(num%2==0){  
+						code=String.fromCharCode(48+(num%10));  
+					}else{  
+						code=String.fromCharCode(65+(num%26));  
+					}  
+					checkCode +=code;  
+				}  
+				chcode=checkCode;
+				//return checkCode;  
+			}  
+
+
+			protected function label1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				generateCheckCode();
+				code.text=chcode;
+			}
+
+			private function check_name():Boolean
+			{
+				var userName:String="";
+					userName=username.text;
+				var result:Boolean=true;
+				if(userName=="" || userName==null)
+				{
+					result=false;
+					//Alert.show("kong","tishi");
+					//username.setStyle("borderColor", "#FF0000");	
+				}
+				return result;
+					
+			}
+			private function check_pw():Boolean
+			{
+				var userPW:String="";
+				userPW=pw.text;
+				var result:Boolean=true;
+				if(userPW=="" || userPW==null)
+				{
+					result=false;
+				}
+				return result;
+				
+			}
+			private function check_code():Boolean
+			{
+				var result:Boolean=true;
+				if(chcode.toLocaleLowerCase()!=ccc.text.toLocaleLowerCase())
+				{
+					ccc.setStyle("borderColor","#FF0000");
+					generateCheckCode();
+					code.text=chcode;
+				}
+				return result;
+				
+			}
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			//	Alert.show("1111","tishi",Alert.OK,this);
+				login();
+			}
+			private function login():void
+			{
+				var un:Boolean=check_name();
+				var up:Boolean=check_pw();
+				var cc:Boolean=check_code();
+				var checkrole:Boolean=false;
+				if(role.text=="")
+					checkrole=false;
+				else
+					checkrole=true;
+				if(!un)
+				{
+					username.setStyle("borderColor","#ff0000");
+				}
+				if(!up)
+				{
+					pw.setStyle("borderColor","#ff0000");
+				}
+				if(!cc)
+				{
+					ccc.setStyle("borderColor","#FF0000");
+					generateCheckCode();
+					code.text=chcode;
+				}
+				generateCheckCode();
+				code.text=chcode;
+				//验证登录是否成功
+				if(un && up && cc && checkrole)
+				{
+				//	Alert.show("123");
+					var org:String=k.selectedItem.label;
+					var editWin:loading = new loading();
+					editWin.uname=username.text;
+					editWin.pw=pw.text;
+					editWin.org=org;
+					editWin.role=role.text;
+					
+					
+					editWin.mainApp = this;	
+					
+					editWin.addEventListener("finish",LoginFinish);
+					show(editWin,this,true);
+					/*
+					showLoading();
+					var org:String=k.selectedItem.label;
+					var httpservice:HTTPService=new HTTPService();
+					httpservice.resultFormat="text";
+					//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+					httpservice.url="http://localhost:8080/icessh/UserLoginServlet";
+					httpservice.method="POST";
+					var param:Object=new Object;
+					param.kind="verify";
+					param.name=username.text;
+					param.pw=pw.text;
+					param.org=org;
+					param.role=role.text;
+					httpservice.send(param);
+					httpservice.addEventListener(ResultEvent.RESULT,successhandler);
+					
+					*/
+				}
+			}
+			public var Iflogin:String="";
+			public function LoginFinish(event:Event):void
+			{
+				if(Iflogin=="ok")
+				{
+				//	Alert.show("登录成功！","提示");
+					//jspCookie(username.text,k.selectedItem.label,role.text);
+					
+					var cookie:SharedObject=SharedObject.getLocal("userLogin","/");
+					cookie.data.name=username.text;
+					cookie.data.org=k.selectedItem.label;
+					cookie.data.role=role.text;
+					cookie.flush();
+					
+					//Alert.show("登录成功");
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/SC.html"), "_self");
+				}
+				else
+				{
+					Alert.show("用户、密码或者角色错误，请重新输入！","提示");
+					username.text="";
+					pw.text="";
+					role.text="";
+					generateCheckCode();
+					code.text=chcode;
+				}
+			}
+			/*
+			public function successhandler(event:ResultEvent):void
+			{
+				removeLoading();
+				var result:String=event.result.toString();
+			//	Alert.show(result);
+				if(result=="ok")
+				{
+					Alert.show("登录成功！","提示");
+					//jspCookie(username.text,k.selectedItem.label,role.text);
+					
+					var cookie:SharedObject=SharedObject.getLocal("userLogin","/");
+					cookie.data.name=username.text;
+					cookie.data.org=k.selectedItem.label;
+					cookie.data.role=role.text;
+					cookie.flush();
+					
+					//Alert.show("登录成功");
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/SC.html"), "_self");
+				}
+				else
+				{
+					Alert.show("用户、密码或者角色错误，请重新输入！","提示");
+					username.text="";
+					pw.text="";
+					role.text="";
+					generateCheckCode();
+					code.text=chcode;
+				}
+			}
+			*/
+			/*
+			var editWin:loading = new loading();
+			private function showLoading():void
+			{
+	
+				show(editWin,this,true);
+			}
+			private function removeLoading():void
+			{
+				remove(editWin);
+			}
+			*/
+			private function jspCookie(name:String ,org:String ,role:String ):void
+			{
+				if (ExternalInterface.available){
+				 var result:String=ExternalInterface.call("userLogin", name,org,role);
+				Alert.show(result); 
+				}
+				else
+				{
+					Alert.show("不能调用jsp","");
+				}
+			}
+			public function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				username.text=" ";
+				pw.text=" ";
+				ccc.text="";
+				generateCheckCode();
+				code.text=chcode;
+				
+			}
+
+
+			
+
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.hit.edu.cn"), "_blank");
+			}
+
+
+			protected function linkbutton2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.iotcn.org.cn/"), "_blank");
+			}
+			private function outColor(e:Event):void
+			{
+				(e.currentTarget as Label).setStyle('color','red');
+			}
+
+
+			
+
+
+			protected function label2_mouseOverHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				(event.currentTarget as Label).setStyle("textDecoration","underline");
+				
+			}
+
+
+			protected function new1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.baidu.com"),"_blank");
+				(event.currentTarget as Label).setStyle("color","red");
+			}
+
+
+			protected function new1_mouseOutHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				(event.currentTarget as Label).setStyle("textDecoration","");
+			}
+
+
+			protected function username_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				username.setStyle("borderColor","#ffffff");
+			}
+
+
+			protected function pw_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				pw.setStyle("borderColor","#ffffff");
+			}
+			protected function ccc_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				//Alert.show("111");
+				ccc.setStyle("borderColor","#FFFFFF");
+			}
+
+
+
+			protected function linkbutton3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://localhost:8080/icessh/register.html"),"_self");
+			}
+
+
+			protected function role_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(role.text=="")
+					role.setStyle("borderColor","red");
+				else
+					role.setStyle("borderColor","black");
+			}
+
+
+			protected function linkbutton4_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2013-12/17_222008.html"),"_blank");
+			}
+
+
+			protected function linkbutton5_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2013-08/08_212372.html"),"_blank");
+			}
+
+
+			protected function linkbutton6_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2014-01/10_223472.html"),"_blank");
+			}
+
+
+			protected function linkbutton7_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2013-05/17_205898.html"),"_blank");
+			}
+
+
+			protected function linkbutton8_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2013-08/14_212925.html"),"_blank");
+			}
+
+
+			protected function linkbutton9_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.qianjia.com/html/2014-01/10_223475.html"),"_blank");
+			}
+
+
+			protected function linkbutton10_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.narkii.com/news/news_128514.shtml"),"_blank");
+			}
+
+
+			protected function linkbutton11_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://tech.qq.com/a/20131031/008008.htm"),"_blank");
+			}
+
+
+			protected function linkbutton12_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.leiphone.com/0429-home-os.html"),"_blank");
+			}
+
+
+			protected function linkbutton13_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://article.pchome.net/content-1690081.html"),"_blank");
+			}
+
+
+			protected function linkbutton14_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.fcuhome.com/"),"_blank");
+			}
+
+
+			protected function linkbutton15_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://www.ehomecn.com/"),"_blank");
+			}
+
+
+			protected function linkbutton16_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://smarthome.duke.edu/"),"_blank");
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" width="955" height="194">
+		<mx:SWFLoader x="0" y="0" width="100%" height="100%" source="assets/12.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<s:Label x="610" y="30" text="智慧家庭服务中心" fontSize="40" chromeColor="#2BD4A6" color="#0C0C0C" fontWeight="normal" fontStyle="normal" fontFamily="微软雅黑"/>
+		<s:Label x="636" y="75" text="SMART HOME SERVICE CENTER" fontSize="18" fontFamily="Times New Roman" width="277"/>
+		
+		<mx:SWFLoader x="10" y="150" width="300" height="30" source="assets/aaa.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<mx:SWFLoader x="10" y="10" width="270" height="45" source="assets/bbb.swf" scaleContent="true" maintainAspectRatio="false"/>
+		
+	</s:BorderContainer>
+	
+
+	
+	<s:BorderContainer x="0" y="230" width="250" height="271"  borderColor="#B9DDF7" borderWeight="2">
+		
+		<mx:Image id="image1" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" width="100%" height="33"/>
+		<mx:Image x="5" y="3" height="25" source="assets/login.png" scaleContent="true" maintainAspectRatio="false" width="25" />
+		<s:Label text="用 户 登 录" fontSize="13"  x="35" y="11"  fontFamily="宋体" fontWeight="bold" color="#3F7088"/>
+		
+		<s:Label x="15" y="50" text="用户名：" fontSize="15" height="22"  fontFamily="微软雅黑"/>
+		<s:Label x="15" y="95" text="密    码：" fontSize="15" height="23"  fontFamily="微软雅黑"/>
+		<s:Label x="17" y="180" text="验证码：" fontSize="15" height="22" fontFamily="微软雅黑"/>
+		
+		<s:TextInput x="83" y="45" id="username" changing="username_changingHandler(event)" height="25" fontFamily="微软雅黑"/>
+		<s:TextInput x="83" y="90" id="pw" changing="pw_changingHandler(event)" height="25" fontFamily="微软雅黑" displayAsPassword="true"/>
+		<s:TextInput x="82" y="135" id="role" changing="role_changingHandler(event)" height="25" fontFamily="微软雅黑"/>
+		<s:TextInput x="82" y="177" width="45" id="ccc" maxChars="5" changing="ccc_changeHandler(event)" fontFamily="微软雅黑"/>
+		<s:Button x="26" y="215" label="登录" click="button1_clickHandler(event)" fontFamily="微软雅黑"/>
+		<s:Button x="130" y="215" label="重置" click="button2_clickHandler(event)" fontFamily="微软雅黑"/>
+		<s:TextArea x="138" y="177" width="52" height="22" borderVisible="false" id="code" editable="false" enabled="false" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="190" y="177" label="换一个" click="label1_clickHandler(event)" fontFamily="微软雅黑"/>
+		<s:Label x="16" y="140" text="角    色：" fontSize="15" height="23" fontFamily="微软雅黑"/>
+		
+		<s:Label x="15" y="47" text="用户类型:" fontSize="14" height="23" visible="false"/>
+		<s:DropDownList x="83" y="43" width="128" selectedIndex="0" id="k" visible="false">
+			<mx:ArrayCollection> 
+				<fx:Object label="服务中心" data="0"/> 
+				<fx:Object label="业务中心" data="1"/> 
+				<fx:Object label="供应商" data="2"/> 
+				<fx:Object label="家庭用户" data="3"/> 
+			</mx:ArrayCollection> 
+		</s:DropDownList>
+		<mx:LinkButton x="10" y="245" label="没有帐号？注册一个！" fontSize="10" click="linkbutton3_clickHandler(event)" color="#FF0000" fontFamily="微软雅黑"/>
+		
+	
+	</s:BorderContainer>
+	<!--<mx:Image x="248" y="230" width="465" height="270" id="imageDowd" source="assets/1.jpg"/>-->
+	<mx:Image id="imageUp" x="250" y="230" width="456" height="270" complete="{new WipeLeft}" source="assets/1.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	<s:Label id="lab1" x="610" y="480" click="{index=1;aero();}" text="1" width="20" fontFamily="微软雅黑"/>
+	<s:Label id="lab2" x="630" y="480" click="{index=2;aero();}" text="2" width="20" fontFamily="微软雅黑"/>
+	<s:Label id="lab3" x="650" y="480" click="{index=3;aero();}" text="3" width="20" fontFamily="微软雅黑"/>
+	<s:Label id="lab4" x="670" y="480" click="{index=4;aero();}" text="4" width="20" fontFamily="微软雅黑"/>
+	<s:Label id="lab5" x="690" y="480" click="{index=5;aero();}" text="5" width="20" fontFamily="微软雅黑"/>
+	<s:BorderContainer x="707" y="230" width="248" height="270" backgroundColor="#FFFFFF" borderColor="#B9DDF7" borderWeight="2">
+		<mx:Image x="-1" y="-1" width="250" height="33" source="assets/title7.gif"/>
+		<mx:LinkButton x="5" y="58" label="1. 智慧家庭服务中心开发完毕" fontSize="13" height="20" fontFamily="微软雅黑"/>
+		<s:Label x="195" y="65" text="1/11/14" fontSize="11" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="5" y="95" label="2. 尚未含有任何业务" fontFamily="微软雅黑"/>
+		<s:Label x="195" y="101" text="1/11/14" fontSize="11" fontFamily="微软雅黑"/>
+	</s:BorderContainer>
+	<s:BorderContainer x="0" y="193" width="955" height="38">
+		<mx:Image width="100%" height="100%" source="assets/back.jpg" scaleContent="true" maintainAspectRatio="false" />
+		<mx:VRule x="130" y="6" height="27"  strokeColor="#3F7088"/>
+		<s:Label x="54" y="12" text="首页" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<s:Label x="166" y="12" text="新闻资讯" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<mx:VRule x="260" y="6" height="27" strokeColor="#3F7088"/>
+		<s:Label x="296" y="12" text="产品中心" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<mx:VRule x="390" y="6" height="26" strokeColor="#3F7088"/>
+		<s:Label x="431" y="12" text="经典案例" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<mx:VRule x="520" y="6" height="26" strokeColor="#3F7088"/>
+		<s:Label x="554" y="12" text="解决方案" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<mx:VRule x="650" y="6" height="26" strokeColor="#3F7088"/>
+		<s:Label x="695" y="12" text="合作加盟" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+		<mx:VRule x="780" y="6" height="26" strokeColor="#3F7088"/>
+		<s:Label x="828" y="12" text="联系我们" fontSize="15" fontFamily="微软雅黑" fontWeight="bold"/>
+	</s:BorderContainer>
+	<s:BorderContainer x="0" y="501" width="709" height="250" borderVisible="false">
+		<mx:Image x="0" y="0" width="709" height="250" source="assets/back07.jpg" scaleContent="true" maintainAspectRatio="false"/>
+		<s:BorderContainer x="10" y="10" width="330" height="228" cornerRadius="15" borderColor="#B9DDF7" borderWeight="4">
+		<!--	<mx:Image x="0" y="0" width="325" height="33" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>-->
+			<mx:SWFLoader x="0" y="0" width="323" height="33" source="assets/back001.swf" scaleContent="true" maintainAspectRatio="false"/>
+			<mx:Image x="10" y="5" source="assets/news.png" width="25" height="25"/>
+			<s:Label x="40" y="10" text="新 闻 快 讯" fontSize="13"  color="#3F7088" fontFamily="宋体" fontWeight="bold"/>
+			<mx:Image x="270" y="10" source="assets/more.jpg" width="35" height="15"/>
+			<mx:LinkButton x="14" y="47" label="千家观察：2013年智能家居行业年度分析报告" click="linkbutton4_clickHandler(event)" fontSize="13" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="14" y="81" label="物联网的三个源头：智慧、网络与物联" fontSize="13" click="linkbutton5_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="14" y="115" label="可穿戴式技术帮助人们冷静下来" fontSize="13" click="linkbutton6_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="14" y="150" label="关于智能家居热潮背后的冷思考" click="linkbutton7_clickHandler(event)" fontSize="13" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="14" y="184" label="反思：中国智能家居行业的十年发展状况" fontSize="13" click="linkbutton8_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:Image x="10" y="54" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="88" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="122" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="157" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="191" width="10" height="10" source="assets/dote.jpg"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="349" y="10" width="348" height="228" cornerRadius="15" borderColor="#B9DDF7" borderWeight="4">
+		<!--	<mx:Image x="0" y="0" width="347" height="33" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>-->
+			<mx:SWFLoader x="0" y="0" width="343" height="33" source="assets/back001.swf" scaleContent="true" maintainAspectRatio="false"/>
+			<mx:Image x="14" y="5" source="assets/tec.png" width="25" height="25"/>
+			<s:Label x="40" y="10" text="技 术 创 新" fontSize="13" fontFamily="宋体" color="#3F7088" fontWeight="bold"/>
+			<mx:Image x="290" y="10" source="assets/more.jpg" width="35" height="15"/>
+			<mx:LinkButton x="20" y="47" label="迄今为止最大的智能手表 Neptune Pine 上手试玩" fontSize="13" click="linkbutton9_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="20" y="81" label="谷歌眼镜将给整形业带来一场大革命？" click="linkbutton10_clickHandler(event)" fontSize="13" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="20" y="115" label="Misfit Shine评测：也许是目前最好的手环" fontSize="13" click="linkbutton11_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="20" y="150" label="微软发布智能家居操作系统白皮书" fontSize="13" click="linkbutton12_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:LinkButton x="20" y="184" label="CES2014 长虹智能家居系统大放异彩" fontSize="13" click="linkbutton13_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+			<mx:Image x="10" y="54" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="88" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="122" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="157" width="10" height="10" source="assets/dote.jpg"/>
+			<mx:Image x="10" y="191" width="10" height="10" source="assets/dote.jpg"/>
+		</s:BorderContainer>
+	</s:BorderContainer>
+	<s:BorderContainer x="707" y="501" width="248" height="248" borderVisible="true" backgroundColor="#EDFCF8" borderColor="#B9DDF7" borderWeight="4">
+		<mx:LinkButton x="30" y="56" label="中国智能家居网" click="linkbutton1_clickHandler(event)" fontSize="13" height="20" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="30" y="132" label="智能家居世界网" click="linkbutton14_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="30" y="94" label="中国物联网" fontSize="13" click="linkbutton2_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="30" y="170" label="中国智能家居联盟网" click="linkbutton15_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+		<mx:LinkButton x="30" y="209" label="Duke Smart Home Program" click="linkbutton16_clickHandler(event)" height="20" fontFamily="微软雅黑"/>
+		<s:Label x="12" y="63" text="【"/>
+		<s:Label x="147" y="62" text="】"/>
+		<s:Label x="12" y="100" text="【"/>
+		<s:Label x="127" y="100" text="】"/>
+		<s:Label x="12" y="137" text="【"/>
+		<s:Label x="147" y="137" text="】"/>
+		<s:Label x="12" y="175" text="【"/>
+		<s:Label x="167" y="175" text="】"/>
+		<s:Label x="12" y="215" text="【"/>
+		<s:Label x="207" y="215" text="】"/>
+	</s:BorderContainer>
+		<mx:Image x="708" y="500" width="245" height="38" source="assets/index_jj.gif" scaleContent="true" maintainAspectRatio="false"/>
+		<!--<s:Label x="726" y="512" text="常用连接" fontSize="14" fontFamily="Times New Roman"/>-->
+		<s:BorderContainer x="0" y="748" width="955" height="144" borderVisible="false">
+				<mx:Image x="0" y="0" width="954" height="143" source="assets/back03.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:BorderContainer x="31" y="40" width="254" height="83" borderVisible="false">
+						<mx:Image x="0" y="0" width="93" height="100%" source="assets/phone.jpg" scaleContent="true" maintainAspectRatio="false"/>
+						<s:Label x="97" y="10" text="电话" color="#3F7088" fontFamily="宋体" fontWeight="bold"/>
+						<s:Label x="115" y="34" text="0451-1234567" fontFamily="微软雅黑"/>
+						<s:Label x="115" y="59" text="0451-7654321" fontFamily="微软雅黑"/>
+				</s:BorderContainer>
+				<s:BorderContainer x="346" y="40" width="254" height="83" borderVisible="false">
+					<mx:Image x="0" y="0" width="93" height="100%" source="assets/address.jpg" scaleContent="true" maintainAspectRatio="false"/>
+					<s:Label x="93" y="10" text="地址" color="#3F7088" fontFamily="宋体" fontWeight="bold"/>
+					<s:Label x="93" y="30" text="黑龙江哈尔滨市西大直街92号" fontFamily="微软雅黑"/>
+					<s:Label x="118" y="49" text="哈尔滨工业大学" fontFamily="微软雅黑"/>
+					<s:Label x="120" y="65" text="新技术楼512室" fontFamily="微软雅黑"/>
+				</s:BorderContainer>
+				<s:BorderContainer x="669" y="40" width="254" height="83" borderVisible="false">
+					<mx:Image x="0" y="0" width="93" height="100%" source="assets/email.jpg" scaleContent="true" maintainAspectRatio="false"/>
+					<s:Label x="95" y="10" text="邮箱" color="#3F7088" fontFamily="宋体" fontWeight="bold"/>
+					<s:Label x="102" y="42" text="15151858050@163.com" fontFamily="微软雅黑"/>
+				</s:BorderContainer>
+				<s:Label x="45" y="10" text="联 系 我 们" color="#3F7088" fontFamily="宋体" fontWeight="bold" fontSize="13"/>
+				<mx:Image x="10" y="3" width="25" height="25" source="assets/phone.png" scaleContent="true" maintainAspectRatio="false"/>
+				<mx:HRule x="0" y="1" width="955" />
+			
+		</s:BorderContainer>
+	
+	
+	
+	
+</s:Application>
+   

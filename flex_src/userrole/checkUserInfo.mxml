@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  backgroundColor="#FDFEFE" width="658" height="430" creationComplete="initData()" xmlns:util="util.*">
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.containers.*;
+			import mx.controls.*;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+
+			private var DGArray3:Array = [];
+			public var initDG3:ArrayCollection;
+			public var ziyuan:ArrayCollection = new ArrayCollection();
+			public var ff:ArrayCollection = new ArrayCollection();
+			public var dd:ArrayCollection= new ArrayCollection();
+			public var gridpara:DataGrid;
+			var txt:Text = new Text();
+			var nPage:LinkBar = new LinkBar();
+			var pPage:LinkBar = new LinkBar();
+			var fPage:LinkBar = new LinkBar();
+			var lPage:LinkBar = new LinkBar();
+			var goto:LinkBar = new LinkBar();
+			var hbo:HBox = new HBox();
+			var inputpage:NumericStepper = new NumericStepper();
+			public var mainApp:icesuser = null;
+			public var userpass:String="";
+			public var userstate:int=0;
+
+			public var uu:String="";
+			public function initData():void {
+			//	Alert.show("111111111");
+				initDG3=new ArrayCollection(DGArray3);
+				
+			//	var userid:String=auserid.text;
+			//	userpass=apassword.text;
+			//	userstate=auserstate.selectedIndex;
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+				httpservice.url="http://localhost:8080/icessh/userroleModifyRoleServlet";
+				httpservice.method="POST";
+				httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+				var param:Object=new Object;
+				param.kind="queryrole";
+				param.userid=uu;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,Query_successhandler);		
+
+			}
+			
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object;       //JSON:2
+			public function Query_successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();  //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+	
+				
+					var g2:Object=r.getItemAt(0);
+					var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+					
+					
+					
+	//	Alert.show(re);
+					grid2.initdata(g1,10);
+					//sum2.text=ff.length.toString();
+					
+			}
+			
+			
+			public var pageStartRow:uint = 1; //当前页开始的第一条记录在ff中所处的位置
+			public var pageEndRow:uint = 0;//当前页最后一条记录在ff中所处的位置
+			public  var  pagecount:int=10; //表示每页记录的条数,默认10条,可以由用户自行定义
+			public  var  curpage:int=1; //当前的页码
+			public  var  totalpage:int; //一共的页数
+			public  var  totalcount:int; //一共的记录条数
+			public function initGrid(ff:ArrayCollection):void
+			{
+				totalcount = ff.length; 
+				if(totalcount==0)
+			//		Alert.show("没有查到符合条件的用户！","提示");
+				curpage  =  1;
+				if(ff.length > pagecount){                      
+					
+					var  curNum:int  = 0; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}
+					if((totalcount % pagecount) == 0){ 
+						totalpage = Math.floor(totalcount / pagecount); 
+					}else{ 
+						totalpage = Math.floor(totalcount / pagecount + 1); 
+					} 
+					gridpara.dataProvider = ziyuan;
+					this.pageStartRow = 1; 
+					this.pageEndRow = pagecount; 
+				} else{
+					totalpage=1;
+					//ziyuan=ff;
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					
+					gridpara.dataProvider = ziyuan;
+				}
+				//Alert.show("22"+txt.text);
+				txt.text = "第" + curpage+"页/共"+totalpage+"页"; 
+				//Alert.show("11"+txt.text);	
+				Fresh_nPage_pPage();
+				
+			}
+			public  function  setPager(event:ItemClickEvent):void
+			{
+				var value:int = event.target.valueOf();
+				
+				if(value<=0  ||  value> totalpage){
+					Alert.show("该页不存在！");
+					inputpage.value=1;
+					return;
+				}
+				else{
+					if(totalpage==1){
+						ziyuan.removeAll();
+						for(var i:int=0;i<ff.length;i++)
+						{
+							ziyuan.addItem(ff.getItemAt(i));
+						}
+						gridpara.dataProvider = ziyuan;     
+					}else{
+						curpage  =  value;
+						var  curNum:int  =  (value-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+						ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+						for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+							//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+						{
+							ziyuan.addItem(ff.getItemAt(curNum));
+						}
+						gridpara.dataProvider = ziyuan;   
+					}                            
+					txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+					
+				}
+				Fresh_nPage_pPage();
+			} 
+			
+			public function showPreviousPage(event:ItemClickEvent):void{ 
+				curpage = curpage - 1; 
+				txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+				if (curpage == totalpage) { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = totalcount; 
+				} else { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = curpage * pagecount; 
+				} 
+				var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+				ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+				for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+					//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+				{
+					ziyuan.addItem(ff.getItemAt(curNum));
+				}
+				//   Alert.show("IndList:"+IndList.length);     
+				
+				gridpara.dataProvider = ziyuan;
+				Fresh_nPage_pPage();  
+			} 
+			public function showNextPage(event:ItemClickEvent):void{ 
+				curpage = curpage + 1; 
+				txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+				if (curpage == totalpage) { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = totalcount; 
+				} else { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = curpage * pagecount; 
+				} 
+				var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+				ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+				for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+					//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+				{
+					ziyuan.addItem(ff.getItemAt(curNum));
+				}
+				//   Alert.show("IndList:"+IndList.length);                           
+				gridpara.dataProvider = ziyuan;      
+				Fresh_nPage_pPage();                 
+			} 
+			
+			public function showFirstPage(event:ItemClickEvent):void{ 
+				if(totalpage==1){
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					gridpara.dataProvider = ziyuan;
+					
+				}else{
+					var  curNum:int  = 0 ; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}
+					
+					gridpara.dataProvider = ziyuan;  
+					
+				}
+				txt.text = " 第 " + 1 +"页/共"+totalpage+"页"; 
+				curpage = 1; 
+				Fresh_nPage_pPage();
+			} 
+			
+			public function showLastPage(event:ItemClickEvent):void{ 
+				if(totalpage==1){
+					curpage = 1; 
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					gridpara.dataProvider = ziyuan;
+				}
+				else{
+					curpage = totalpage;                              
+					var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}     
+					gridpara.dataProvider = ziyuan;                       
+				}
+				txt.text = " 第 " + totalpage+"页/共"+totalpage+"页";  
+				Fresh_nPage_pPage();
+			} 
+			
+			public function Fresh_nPage_pPage():void{
+				if(totalpage==1){
+					nPage.enabled = false;
+					pPage.enabled=false;
+				}
+				else if(curpage==1){
+					pPage.enabled=false;
+					nPage.enabled=true;
+				}
+				else if(curpage==totalpage){
+					pPage.enabled=true;
+					nPage.enabled=false;
+				}
+				else{
+					
+					pPage.enabled=true;
+					nPage.enabled=true;
+				}
+				
+				
+			}
+
+			import mx.managers.PopUpManager;
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				dispatchEvent(new Event("finish",false));
+			//	PopUpManager.removePopUp(this);
+				remove(this);
+			}
+
+			
+
+			//基本信息保存修改
+			protected function button4_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var mps:String=apassword.text;
+				
+				var mstate:int=auserstate.selectedIndex;
+	
+				if(mps!=userpass || mstate!=userstate)
+				{
+					userpass=mps;
+					userstate=mstate;
+					var httpservice:HTTPService=new HTTPService();
+					httpservice.resultFormat="text";
+					//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+					httpservice.url="http://localhost:8080/icessh/ChangeUserServlet";
+					httpservice.method="POST";
+					httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+					var param:Object=new Object;
+					param.kind="modify";
+					param.userid=auserid.text;
+					param.pass=apassword.text;
+					
+					param.state=auserstate.selectedIndex+1;
+					httpservice.send(param);
+					httpservice.addEventListener(ResultEvent.RESULT,Modify_userInfo_successhandler);		
+				}
+			}
+
+			private function Modify_userInfo_successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+					Alert.show("更新成功","提示");
+				else
+					Alert.show("更新失败","提示");
+			}
+			protected function button5_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				apassword.text=userpass;
+				
+					auserstate.selectedIndex=userstate;
+				
+					
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			public  function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var userroleid:String=grid2.cudg.selectedItem.userrole;
+				//Alert.show("选择了"+userid,"提示");
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+				httpservice.url="http://localhost:8080/icessh/ModifyUserRoleServlet";
+				httpservice.method="POST";
+				httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+				var param:Object=new Object;
+				param.roleKind="del";
+				param.userroleid=userroleid;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,DelUserRole_successhandler);	
+				
+			}
+			private function DelUserRole_successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re="ok")
+				{
+					Alert.show("操作成功","提示");
+					initData();
+				}
+				else
+					Alert.show("操作失败","提示");
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer x="0" y="0" width="656" height="428" borderWeight="2" borderColor="#000000" fontFamily="微软雅黑">
+	<s:Label x="257" y="10" text="用户详细信息" fontSize="18"/>
+	
+	<s:BorderContainer x="10" y="36" width="638" height="149">
+		<s:BorderContainer x="0" y="0" width="637" height="28">
+		
+		<mx:Image x="0" y="0" width="635" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" height="26"/>
+		</s:BorderContainer>
+	<s:Label y="46" text="用户ID：" fontSize="13" x="23"/>
+	<s:TextArea y="41" height="23" width="92" editable="false" enabled="false" x="81" id="auserid"/>
+	
+	<s:Label x="10" y="8" text="基本信息" fontSize="13"/>
+	<s:Label y="48" text="用户名：" fontSize="13" x="257"/>
+	<s:TextArea y="43" height="23" width="128" editable="false" enabled="false" x="314" id="ausername"/>
+	<s:Label x="470" y="48" text="密    码：" fontSize="13"/>
+	<s:TextInput x="529" y="44" width="91" id="apassword" enabled="true"/>
+	<s:Label x="23" y="81" text="创建者用户名：" fontSize="13"/>
+	<s:TextInput x="120" y="77" enabled="false" id="amakeperson"/>
+	<s:Label x="246" y="116" text="创建日期：" fontSize="13"/>
+	<s:TextInput x="314" y="111" enabled="false" id="amakedate"/>
+	<s:Label x="10" y="116" text="当前状态：" fontSize="13"/>
+	<s:DropDownList x="81" y="111" width="128" id="auserstate">
+		<mx:ArrayCollection> 
+			<fx:Object label="启用" data="0"/> 
+			<fx:Object label="禁用" data="1"/> 		
+		</mx:ArrayCollection> 
+	</s:DropDownList>
+	<s:Button x="477" y="116" label="保存修改" click="button4_clickHandler(event)"/>
+	<s:Button x="556" y="116" label="放弃修改" click="button5_clickHandler(event)"/>
+	<s:Label x="257" y="82" text="创建者角色名："/>
+	<s:TextInput x="344" y="77" enabled="false" id="makerole"/>
+	
+	
+	
+	</s:BorderContainer>
+	<s:BorderContainer x="10" y="193" width="638" height="227">
+		<s:BorderContainer x="0" y="0" width="637" height="28">
+		<mx:Image x="0" y="0" width="635" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" />
+			</s:BorderContainer>
+		<s:Label x="10" y="7" text="角色关联信息" fontSize="13"/>
+		
+		<util:CustomDataGridUnscroll x="1" y="29" height="195" width="634"   enabled="true" id="grid2">
+			<util:mygridcolumns>
+				
+			
+				<mx:DataGridColumn headerText="序号" dataField="id" width="35" editable="false" textAlign="center" visible="true" draggable="false"/>
+				<mx:DataGridColumn headerText="" dataField="cloudroleid" visible="false"/>
+				<mx:DataGridColumn headerText="角色名" dataField="rolename" textAlign="center" editable="false" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="角色类型" dataField="roleid" textAlign="center" editable="false" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="" dataField="userrole" textAlign="center" editable="false" draggable="false" visible="false"/>
+				
+				<mx:DataGridColumn headerText="创建日期" dataField="update" textAlign="center" editable="false" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="当前状态" dataField="state" textAlign="center" editable="false" draggable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="删除"  textAlign="center" editable="false" draggable="false">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Button label="删除" click="outerDocument.button2_clickHandler(event)">
+									
+								</mx:Button>
+								
+							</fx:Component>
+						</mx:itemRenderer>
+						</mx:DataGridColumn>
+			</util:mygridcolumns>
+			</util:CustomDataGridUnscroll>
+		
+	</s:BorderContainer>
+	<s:Button x="578" y="10" label="关闭" click="button3_clickHandler(event)"/>
+	</s:BorderContainer>
+</s:Application>

@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:util="util.*" initialize="initData()" creationComplete="create_handler(event)">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+	<![CDATA[
+	
+	
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.core.IFlexDisplayObject;
+	import mx.events.FlexEvent;
+	import mx.managers.PopUpManager;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	import mx.rpc.http.HTTPService;
+	
+	
+	
+	
+	
+	public var Login_user:String="liu";
+	public var Login_role:String="superadmin";
+	
+	public function initData():void {
+	
+	readCookie();
+	query1();
+	query2();
+	query3();
+	}
+		private function create_handler(event:FlexEvent):void{
+			grid1.cudg.addEventListener("clickedColumn",show_detail);
+		}
+		private function show_detail(event:Event):void{
+			var themeid:String = "";
+			themeid=grid1.cudg.selectedItem.servicethemeID;
+			var httpservice:HTTPService=new HTTPService();
+			httpservice.resultFormat="text";
+			//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+			httpservice.url="http://localhost:8080/icessh/serviceServlet";
+			httpservice.method="POST";
+			httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+			var param:Object=new Object;
+			param.kind="querythemeservice";
+			param.themeid = themeid;
+			httpservice.send(param);
+			httpservice.addEventListener(ResultEvent.RESULT,Query_themeservice_successhandler);		  
+		}
+		[Bindable]
+		private var jsonObjrole:Object;       //JSON:2
+		public function Query_themeservice_successhandler(event:ResultEvent):void
+		{
+			var re:String=event.result.toString();  //JSON:3
+			jsonObjrole=JSON.decode(re);                                      //JSON:4
+			var r:ArrayCollection=new ArrayCollection(jsonObjrole as Array);  //JSON:5	
+			
+			
+			//var g2:Object=r.getItemAt(0);
+			//var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+			
+			grid2.initdata(r,10);
+		}
+	private function readCookie():void
+	{
+	var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+	if(test2.size)
+	{
+	var name:String=test2.data.name;
+	var org:String=test2.data.org;
+	var role:String=test2.data.role;
+	
+	Login_user=name;
+	Login_role=role;
+	
+	
+	}
+	else 
+	{
+	navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"self");
+	}
+	
+	}
+	
+	
+	//查询家庭
+	public function query1():void{
+	//	Alert.show("1111");
+	//initDG1.removeAll();
+	var s1:String="null,null,null";
+	var kind:String="";
+	
+	
+	var httpservice:HTTPService=new HTTPService();
+	httpservice.resultFormat="text";
+	
+	httpservice.url="http://localhost:8080/icessh/homeServlet";
+	httpservice.method="POST";
+	var param:Object=new Object;
+	param.kind="queryhome";
+	
+	httpservice.send(param);
+	httpservice.addEventListener(ResultEvent.RESULT,Query_successhandler);
+	
+	}
+	//JSON方法传输数组数据,方法如下7步，缺一不可
+	import com.adobe.serialization.json.JSON;						  //JSON:1
+	[Bindable]
+	private var jsonObj:Object;                                       //JSON:2
+	public function Query_successhandler(event:ResultEvent):void
+	{
+	var re:String=event.result.toString();                        //JSON:3
+	jsonObj=JSON.decode(re);                                      //JSON:4
+	var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+	
+	var g2:Object=r.getItemAt(0);
+	var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+	//		Alert.show(re);
+	
+	
+	grid0.initdata(r,10);
+	
+	
+	}
+	//查询服务
+	public function query3():void
+	{
+	var httpservice:HTTPService=new HTTPService();
+	httpservice.resultFormat="text";
+	//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+	httpservice.url="http://localhost:8080/icessh/serviceServlet";
+	httpservice.method="POST";
+	httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+	var param:Object=new Object;
+	param.kind="querycomp";
+	
+	httpservice.send(param);
+	httpservice.addEventListener(ResultEvent.RESULT,Query_Comp_successhandler);		  
+	}
+	[Bindable]
+	private var jsonObjthemeservice:Object;       //JSON:2
+	public function Query_Comp_successhandler(event:ResultEvent):void
+	{
+	var re:String=event.result.toString();  //JSON:3
+	jsonObjthemeservice=JSON.decode(re);                                      //JSON:4
+	var r:ArrayCollection=new ArrayCollection(jsonObjthemeservice as Array);  //JSON:5	
+	
+	
+	//var g2:Object=r.getItemAt(0);
+	//var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+	
+	grid2.initdata(r,10);
+	}
+	
+		//查询主题
+		public function query2():void
+		{
+			var httpservice:HTTPService=new HTTPService();
+			httpservice.resultFormat="text";
+			//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+			httpservice.url="http://localhost:8080/icessh/themeServlet";
+			httpservice.method="POST";
+			httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+			var param:Object=new Object;
+			param.kind="querytheme";
+			
+			httpservice.send(param);
+			httpservice.addEventListener(ResultEvent.RESULT,Query_Theme_successhandler);		  
+		}
+		[Bindable]
+		private var jsonObjtheme:Object;       //JSON:2
+		public function Query_Theme_successhandler(event:ResultEvent):void
+		{
+			var re:String=event.result.toString();  //JSON:3
+			jsonObjtheme=JSON.decode(re);                                      //JSON:4
+			var r:ArrayCollection=new ArrayCollection(jsonObjtheme as Array);  //JSON:5	
+			
+			
+			var g2:Object=r.getItemAt(0);
+			var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+			
+			grid1.initdata(r,10);
+		}
+	
+	
+	
+	protected function button1_clickHandler(event:MouseEvent):void
+	{
+	// TODO Auto-generated method stub
+	var permission = dropdown_permission.selectedItem.label
+	var initDG1:ArrayCollection=new ArrayCollection();
+	initDG1=grid0.cudg.dataProvider as ArrayCollection;
+	var allRows:int =initDG1.length;
+	//	Alert.show(""+allRows,"tishi");
+	var homeid:String="";
+	for(var i:int=0;i<allRows;i++)
+	{
+	if(initDG1[i].selected==true)
+	{
+	homeid=initDG1.getItemAt(i).homeID;
+	
+	}
+	}
+	if(homeid=="")
+	{
+	Alert.show("请选择家庭！","提示");
+	}
+	else
+	{
+	var theme:String="";
+	var initDG3:ArrayCollection=new ArrayCollection();
+	initDG3=grid1.cudg.dataProvider as ArrayCollection;
+	var Rows:int = initDG3.length;
+	for(var i:int=0;i<Rows;i++)
+	{
+	if(initDG3[i].selected==true)
+	{
+	theme=initDG3.getItemAt(i).servicethemeID;
+	
+	}
+	}
+	if(theme=="")
+	{
+	Alert.show("请选择主题！","提示");
+	}
+	else{
+		var comp:String="";
+		var initDG3:ArrayCollection=new ArrayCollection();
+		initDG3=grid2.cudg.dataProvider as ArrayCollection;
+		var Rows:int = initDG3.length;
+		for(var i:int=0;i<Rows;i++)
+		{
+			if(initDG3[i].selected==true)
+			{
+				comp=initDG3.getItemAt(i).comId;
+				
+			}
+		}
+		if(comp=="")
+		{
+			Alert.show("请选择服务！","提示");
+		}
+	else
+	{
+	//	Alert.show(menuid+"  "+role,"提示");
+	var httpservice:HTTPService=new HTTPService();
+	httpservice.resultFormat="text";
+	//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+	httpservice.url="http://localhost:8080/icessh/homeServiceServlet";
+	httpservice.method="POST";
+	httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+	var param:Object=new Object;
+	param.kind="add";
+	param.homeid=homeid;
+	param.servicethemeid=theme;
+	param.serviceid=comp;
+	param.permission=permission;
+	httpservice.send(param);
+	httpservice.addEventListener(ResultEvent.RESULT,AddHomeSercice_successhandler);	 
+	}
+	}
+	}
+	}
+	public function AddHomeSercice_successhandler(event:ResultEvent):void
+	{
+	var result:String=event.result.toString();
+	if(result=="do")
+	{
+		Alert.show("该家庭和服务已经关联！","提示");
+	}
+	if(result=="wrong")
+	{
+	Alert.show("关联失败！","提示");
+	}
+	if(result=="ok")
+	{
+	Alert.show("关联成功！","提示");
+	}
+
+	}
+	
+	
+	
+	
+	
+
+	//查询角色-菜单数据表
+	protected function button2_clickHandler(event:MouseEvent):void
+	{
+	// TODO Auto-generated method stub
+	queryHomeService();
+	
+	
+	}
+	private function queryHomeService():void
+	{	
+	var httpservice:HTTPService=new HTTPService();
+	httpservice.resultFormat="text";
+	//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+	httpservice.url="http://localhost:8080/icessh/homeServiceServlet";
+	httpservice.method="POST";
+	httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+	var param:Object=new Object;
+	param.kind="query";
+	param.homename=homename.text;
+	param.servicetheme=servicetheme.text;
+	param.service=service.text;
+	httpservice.send(param);
+	httpservice.addEventListener(ResultEvent.RESULT,HomeService_Query_successhandler);	
+	}
+	[Bindable]
+	private var jsonObj2:Object; 
+	private function HomeService_Query_successhandler(event:ResultEvent):void
+	{
+	var re:String=event.result.toString();                        //JSON:3
+	jsonObj2=JSON.decode(re);                                      //JSON:4
+	var r:ArrayCollection=new ArrayCollection(jsonObj2 as Array);  //JSON:5	
+	var g2:Object=r.getItemAt(0);
+	var g1:ArrayCollection=new ArrayCollection(g2 as Array);	
+	//	Alert.show(re);
+	
+	
+	grid3.initdata(g1,10);
+	
+	}
+	
+	]]>
+	</fx:Script>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			public function button3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				var id:String = grid3.cudg.selectedItem.ID;
+				httpservice.resultFormat="text";
+				//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+				httpservice.url="http://localhost:8080/icessh/homeServiceServlet";
+				httpservice.method="POST";
+				httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+				var param:Object=new Object;
+				param.kind="del";
+				
+				param.id=id;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,HomeService_del_successhandler);	
+				
+			}
+			private function HomeService_del_successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+					Alert.show("操作成功","提示");
+				else
+					Alert.show("操作失败","提示");
+				queryHomeService();
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:TabNavigator x="10" y="10" width="640" height="579"  fontFamily="微软雅黑">
+		<s:NavigatorContent label="家庭-服务关联" width="100%" height="100%" creationPolicy="all">
+				
+				<s:BorderContainer x="0" y="0" width="638" height="30">
+				<mx:Image x="-1" y="-4" width="637" height="28" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="7" text="1.选择家庭"/>
+				<s:Label x="334" y="10" text="2.选择主题"/>
+				</s:BorderContainer>	
+			<util:littleCustomDataGridUnscroll x="12" y="40" height="238" width="302"   enabled="true" id="grid0">
+				<util:mygridcolumns>
+					
+					
+					<mx:DataGridColumn dataField="selected" sortable="false" itemRenderer="mx.controls.RadioButton" rendererIsEditor="true" editorDataField="selected" headerText="选择" width="40" textAlign="center"/>
+					<!--<mx:DataGridColumn headerText="序号" dataField="nid" width="40" editable="false" textAlign="center" visible="true" draggable="false"/>-->
+					<mx:DataGridColumn headerText="家庭编号" dataField="homeID" editable="false"/>
+					<mx:DataGridColumn headerText="家庭名称" dataField="homeName" editable="false"/>
+					<mx:DataGridColumn headerText="家庭类别" dataField="homeSort" editable="false"/>
+					<mx:DataGridColumn headerText="家庭住址" dataField="homeAddress" editable="false" visible="false"/>
+					<mx:DataGridColumn headerText="联系人" dataField="mainPerson" editable="false" visible="false"/>
+					<mx:DataGridColumn headerText="联系人电话" dataField="phoneNumber" editable="false" visible="false"/>
+					<mx:DataGridColumn headerText="家庭邮编" dataField="zipCode" editable="false" visible="false"/>
+					
+					<mx:DataGridColumn headerText="邮件" dataField="email" editable="false" visible="false"/>
+					<mx:DataGridColumn headerText="魔盒地址" dataField="magicboxAddress" editable="false" visible="false"/>
+					<mx:DataGridColumn headerText="联系人id" dataField="mainPersonId" editable="false" visible="false"/>
+				</util:mygridcolumns>
+				</util:littleCustomDataGridUnscroll>
+			
+				
+			<s:BorderContainer x="10" y="285" width="628" height="30">
+			<mx:Image x="0" y="0" width="627" height="28" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="14" y="10" text="3.选择服务"/>
+			<s:DropDownList x="484" y="3" id="dropdown_permission" selectedIndex="0">
+				<mx:ArrayCollection> 
+					<fx:Object label="可使用" data="0"/> 
+					<fx:Object label="可浏览" data="1"/> 
+					<fx:Object label="无权限" data="2"/>
+				</mx:ArrayCollection> 
+			
+			
+			</s:DropDownList>
+			<s:Label x="438" y="8" text="权限："/>
+				
+				</s:BorderContainer>
+			
+			<util:CustomDataGridUnscroll x="14" y="321" height="185" width="614"  enabled="true" id="grid2">
+				<util:mygridcolumns>
+					<mx:DataGridColumn dataField="selected" sortable="false" itemRenderer="mx.controls.RadioButton" rendererIsEditor="true" editorDataField="selected" headerText="选择" width="40" textAlign="center"/>
+					<mx:DataGridColumn headerText="序号" dataField="num" width="40" draggable="false" textAlign="center"  editable="false"/>
+					<mx:DataGridColumn headerText="" dataField="comId" draggable="false" textAlign="center" visible="false"  editable="false"/>
+					<mx:DataGridColumn headerText="构件名称" dataField="comName" draggable="false" textAlign="center" editable="false"  itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="开发者" dataField="comDev" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="所属组织" dataField="comOrg" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="home" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="" dataField="provider" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="" dataField="business" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="" dataField="center" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="构件说明" dataField="cominfo" draggable="false" textAlign="center" itemRenderer="mx.controls.Label" editable="false"/>
+					<mx:DataGridColumn headerText="注册日期" dataField="comDate" draggable="false" textAlign="center" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="comMaker" draggable="false" textAlign="center" visible="false" editable="false"/>
+					<mx:DataGridColumn headerText="" dataField="comURL" draggable="false" textAlign="center" visible="false" editable="false"/>
+					
+				</util:mygridcolumns>
+				</util:CustomDataGridUnscroll>
+			<s:Button x="558" y="514" label="确定关联" click="button1_clickHandler(event)"/>
+			<util:littleCustomDataGridUnscroll x="324" y="40" height="238" width="304"   enabled="true" id="grid1">
+				<util:mygridcolumns>
+					
+					
+					<mx:DataGridColumn dataField="selected" sortable="false" itemRenderer="mx.controls.RadioButton" rendererIsEditor="true" editorDataField="selected" headerText="选择" width="40" textAlign="center"/>
+					<mx:DataGridColumn headerText="主题编号" dataField="servicethemeID" editable="false"/>
+					<mx:DataGridColumn headerText="主题名称" dataField="servicethemeName" textAlign="center" editable="false" draggable="false" itemRenderer="mx.controls.Label"/>
+					
+					
+				</util:mygridcolumns>
+				</util:littleCustomDataGridUnscroll>
+			
+		
+		
+			
+			
+		</s:NavigatorContent>
+		<s:NavigatorContent label="关联查询" width="100%" height="100%">
+			<s:BorderContainer x="10" y="10" width="618" height="200">
+				<s:BorderContainer x="0" y="0" width="616" height="30">
+				<mx:Image x="0" y="0" height="28" width="614" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="8" text="查询条件：" fontSize="14"/>
+				
+				</s:BorderContainer>
+				<s:Label x="41" y="50" text="家庭：" fontSize="13"/>
+				<s:TextInput x="89" y="43" width="206" height="25" id="homename"/>
+				<s:Label x="41" y="88" text="服务：" fontSize="13"/>
+				<s:TextInput x="89" y="80" width="206" height="25" id="service"/>
+				<s:TextInput x="89" y="120" width="206" height="25" id="servicetheme"/>
+				<s:Label x="16" y="132" text="服务主题：" fontSize="13"/>
+				<s:Button x="513" y="166" label="查询" click="button2_clickHandler(event)"/>
+				
+			</s:BorderContainer>
+			<s:BorderContainer x="10" y="225" width="618" height="310">
+			<util:CustomDataGridUnscroll x="1" y="33" width="614" height="274"   id="grid3">
+				<util:mygridcolumns>
+					
+					
+					<mx:DataGridColumn headerText="序号" dataField="num" width="35" editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="" dataField="ID" visible="false"/>
+					<mx:DataGridColumn headerText="家庭编号" dataField="homeID" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="家庭名称" dataField="homeName" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="主题编号" dataField="servicethemeID" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="主题名称" dataField="servicethemeName" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="服务编号" dataField="serviceID" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="服务名称" dataField="serviceName" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="权限" dataField="permission" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+					<mx:DataGridColumn headerText="删除"  textAlign="center" editable="false" draggable="false">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Button label="删除" click="outerDocument.button3_clickHandler(event)">
+								
+								</mx:Button>
+								
+							</fx:Component>
+						</mx:itemRenderer>
+						
+					</mx:DataGridColumn>
+				</util:mygridcolumns>
+				</util:CustomDataGridUnscroll>
+			
+			</s:BorderContainer>
+			<s:BorderContainer x="10" y="226" width="618" height="30">
+				<mx:Image x="0" y="0" width="616" height="28" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="10" text="查询结果：" fontSize="14"/>
+			</s:BorderContainer>
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+</s:Application>

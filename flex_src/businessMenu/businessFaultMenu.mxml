@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute" creationComplete="application1_creationCompleteHandler(event)"  backgroundColor="#FDFEFE" width="660" height="599">
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]
+			private var company:XML=<list>
+			<menu name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</menu>
+			</list>;
+			[Bindable]
+			private var companyData:XMLListCollection=new XMLListCollection(company.menu);
+			
+			private var Login_user:String="liu";
+			private var Login_role:String="superadmin";
+			private var user:String="";
+			
+			private function addNode():void
+			{
+				// 新建节点
+				var newNode:XML=<order/>;
+				newNode.@name=empName.text;
+				// 添加节点
+				var xml:XML=XML(tree.selectedItem);
+				if (xml.length() > 0)
+				{
+					xml[0].appendChild(newNode);
+				}
+			}
+			
+			private function removeNode():void
+			{
+				if (tree.selectedItem != null)
+				{
+					var node:XML=XML(tree.selectedItem);
+					// 不能删除空节点和部门A，B
+					if (node == null || node.localName() == "menu")
+					{
+						Alert.show("不能删除空节点和部门A，B！");
+						return;
+					}
+					// 获取当前节点的父节点下的所有子节点
+					var children:XMLList=XMLList(node.parent()).children();
+					// 将其转换为 XMLListCollection
+					var childrenCol:XMLListCollection=new XMLListCollection(children);
+					// 获取选中节点索引，并删除该节点
+					var i:Number=childrenCol.getItemIndex(node);
+					childrenCol.removeItemAt(i);
+				}else{
+					Alert.show("请选中一个节点再进行删除！");
+				}
+			}
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var re:String=tree.dataProvider.toString();
+				Alert.show(re);
+			}
+			
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var node:XML=(XML)(tree.selectedItem);
+				node.@name=newname.text;
+			}
+			
+			
+			protected function textinput1_focusInHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				myname.text="";
+			}
+			
+			
+			protected function myname_focusOutHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				if(myname.text=="")
+				{
+					myname.text="我的菜单";
+				}
+			}
+			
+			//保存修改
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub			
+				
+				var name:String=myname.text;
+				var menu:String=tree.dataProvider.toString();
+				
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/businessModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="change";
+				param.menu=menu;
+				
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_handler);
+				
+			}
+			private function success_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+				{
+					Alert.show("操作成功","提示");
+				}
+				else
+					Alert.show("操作失败","提示");
+			}
+			
+			
+			
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			
+			
+			
+			
+			
+			
+			protected function button5_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				/*
+				var editObj:IFlexDisplayObject = 
+				PopUpManager.createPopUp(DisplayObject(Application.application),chooseComp,true);
+				*/
+				var editWin:businessChooseComp = new businessChooseComp();			
+				//	editWin.callBackFunction=this.callFunction;
+				editWin.mainApp = this;	
+				editWin.haveComp=tree.dataProvider.toString();
+				show(editWin,this,true);
+				//editWin.initData();
+				editWin.addEventListener("finish",callFunction);
+				//	PopUpManager.centerPopUp(editWin);	
+				
+			}
+			var cccompname:String="";
+			var cccompid:String="";
+			var cccomurl:String="";
+			private function callFunction(event:Event):void
+			{
+				ccomp.text=cccompname;
+				//	Alert.show(cccompid);
+			}
+			
+			
+			private function success_menu_query_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="wrong")
+					Alert.show("无此用户菜单信息");
+				else
+				{
+					company=new XML("<list>"+re+"</list>");
+					
+				//	Alert.show(company);
+					companyData=new XMLListCollection(company.menu);
+					tree.dataProvider=companyData;
+				}
+			}
+			
+			
+			protected function empName_focusInHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				empName.text="";
+			}
+			
+			
+			protected function newname_focusInHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				newname.text="";
+			}
+			
+			
+			protected function button6_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var newNode:XML=<order/>;
+				newNode.@name=ccomp.text;
+				newNode.@url=cccomurl;
+				newNode.@id=cccompid;
+				// 添加节点
+				var xml:XML=XML(tree.selectedItem);
+				if (xml.length() > 0)
+				{
+					xml[0].appendChild(newNode);
+				}
+			}
+			
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				readCookie();
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/businessModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="service";
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_menu_query_handler);
+			}
+			private function readCookie():void
+			{
+				var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+				if(test2.size)
+				{
+					var name:String=test2.data.name;
+					var org:String=test2.data.org;
+					var role:String=test2.data.role;
+					
+					Login_user=name;
+					Login_role=role;
+					
+					
+				}
+				else 
+				{
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"self");
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.containers.*;
+			import mx.controls.*;
+			import mx.controls.Alert;
+			import mx.events.ItemClickEvent;
+			import mx.collections.ArrayCollection;
+			
+			private var DGArray3:Array = [];
+			public var initDG3:ArrayCollection;
+			public var ziyuan:ArrayCollection = new ArrayCollection();
+			public var ff:ArrayCollection = new ArrayCollection();
+			public var dd:ArrayCollection= new ArrayCollection();
+			public var gridpara:DataGrid;
+			var txt:Text = new Text();
+			var nPage:LinkBar = new LinkBar();
+			var pPage:LinkBar = new LinkBar();
+			var fPage:LinkBar = new LinkBar();
+			var lPage:LinkBar = new LinkBar();
+			var goto:LinkBar = new LinkBar();
+			var hbo:HBox = new HBox();
+			var inputpage:NumericStepper = new NumericStepper();
+			
+			
+			public var pageStartRow:uint = 1; //当前页开始的第一条记录在ff中所处的位置
+			public var pageEndRow:uint = 0;//当前页最后一条记录在ff中所处的位置
+			public  var  pagecount:int=10; //表示每页记录的条数,默认10条,可以由用户自行定义
+			public  var  curpage:int=1; //当前的页码
+			public  var  totalpage:int; //一共的页数
+			public  var  totalcount:int; //一共的记录条数
+			public function initGrid(ff:ArrayCollection):void
+			{
+				totalcount = ff.length; 
+				if(totalcount==0)
+					//		Alert.show("没有查到符合条件的用户！","提示");
+					curpage  =  1;
+				if(ff.length > pagecount){                      
+					
+					var  curNum:int  = 0; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}
+					if((totalcount % pagecount) == 0){ 
+						totalpage = Math.floor(totalcount / pagecount); 
+					}else{ 
+						totalpage = Math.floor(totalcount / pagecount + 1); 
+					} 
+					gridpara.dataProvider = ziyuan;
+					this.pageStartRow = 1; 
+					this.pageEndRow = pagecount; 
+				} else{
+					totalpage=1;
+					//ziyuan=ff;
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					
+					gridpara.dataProvider = ziyuan;
+				}
+				//Alert.show("22"+txt.text);
+				txt.text = "第" + curpage+"页/共"+totalpage+"页"; 
+				//Alert.show("11"+txt.text);	
+				Fresh_nPage_pPage();
+				
+			}
+			public  function  setPager(event:ItemClickEvent):void
+			{
+				var value:int = event.target.valueOf();
+				
+				if(value<=0  ||  value> totalpage){
+					Alert.show("该页不存在！");
+					inputpage.value=1;
+					return;
+				}
+				else{
+					if(totalpage==1){
+						ziyuan.removeAll();
+						for(var i:int=0;i<ff.length;i++)
+						{
+							ziyuan.addItem(ff.getItemAt(i));
+						}
+						gridpara.dataProvider = ziyuan;     
+					}else{
+						curpage  =  value;
+						var  curNum:int  =  (value-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+						ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+						for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+							//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+						{
+							ziyuan.addItem(ff.getItemAt(curNum));
+						}
+						gridpara.dataProvider = ziyuan;   
+					}                            
+					txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+					
+				}
+				Fresh_nPage_pPage();
+			} 
+			
+			public function showPreviousPage(event:ItemClickEvent):void{ 
+				curpage = curpage - 1; 
+				txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+				if (curpage == totalpage) { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = totalcount; 
+				} else { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = curpage * pagecount; 
+				} 
+				var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+				ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+				for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+					//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+				{
+					ziyuan.addItem(ff.getItemAt(curNum));
+				}
+				//   Alert.show("IndList:"+IndList.length);     
+				
+				gridpara.dataProvider = ziyuan;
+				Fresh_nPage_pPage();  
+			} 
+			public function showNextPage(event:ItemClickEvent):void{ 
+				curpage = curpage + 1; 
+				txt.text = " 第 " + curpage+"页/共"+totalpage+"页"; 
+				if (curpage == totalpage) { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = totalcount; 
+				} else { 
+					pageStartRow = (curpage - 1) * pagecount + 1; 
+					pageEndRow = curpage * pagecount; 
+				} 
+				var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+				ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+				for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+					//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+				{
+					ziyuan.addItem(ff.getItemAt(curNum));
+				}
+				//   Alert.show("IndList:"+IndList.length);                           
+				gridpara.dataProvider = ziyuan;      
+				Fresh_nPage_pPage();                 
+			} 
+			
+			public function showFirstPage(event:ItemClickEvent):void{ 
+				if(totalpage==1){
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					gridpara.dataProvider = ziyuan;
+					
+				}else{
+					var  curNum:int  = 0 ; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}
+					
+					gridpara.dataProvider = ziyuan;  
+					
+				}
+				txt.text = " 第 " + 1 +"页/共"+totalpage+"页"; 
+				curpage = 1; 
+				Fresh_nPage_pPage();
+			} 
+			
+			public function showLastPage(event:ItemClickEvent):void{ 
+				if(totalpage==1){
+					curpage = 1; 
+					ziyuan.removeAll();
+					for(var i:int=0;i<ff.length;i++)
+					{
+						ziyuan.addItem(ff.getItemAt(i));
+					}
+					gridpara.dataProvider = ziyuan;
+				}
+				else{
+					curpage = totalpage;                              
+					var  curNum:int  =  (curpage-1)*pagecount; //计算出要跳转到的页面种的第一条记录在所有的记录种是第几条记录
+					ziyuan.removeAll(); //移出变量中的数据,以便插入新数据,页面中显示的是这个变量中的数据
+					for(var  i:int=0; curNum< ff.length&& i< pagecount; i++,curNum++)
+						//循环的次数既要小于所有的记录数,也要小于每个页面能显示的记录数; 并且curNum变量中的值也要增加
+					{
+						ziyuan.addItem(ff.getItemAt(curNum));
+					}     
+					gridpara.dataProvider = ziyuan;                       
+				}
+				txt.text = " 第 " + totalpage+"页/共"+totalpage+"页";  
+				Fresh_nPage_pPage();
+			} 
+			
+			public function Fresh_nPage_pPage():void{
+				if(totalpage==1){
+					nPage.enabled = false;
+					pPage.enabled=false;
+				}
+				else if(curpage==1){
+					pPage.enabled=false;
+					nPage.enabled=true;
+				}
+				else if(curpage==totalpage){
+					pPage.enabled=true;
+					nPage.enabled=false;
+				}
+				else{
+					
+					pPage.enabled=true;
+					nPage.enabled=true;
+				}
+				
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import flash.display.DisplayObject;
+			import mx.events.ListEvent;
+			public function check_menu_clickHandler(event:MouseEvent):void
+			{
+				/*
+				var editObj:IFlexDisplayObject = 
+				PopUpManager.createPopUp(DisplayObject(Application.application),MenuInfo,true);
+				var editWin:MenuInfo = MenuInfo(editObj);			
+				editWin.men=grid2.selectedItem.menu;
+				editWin.menuid.text=grid2.selectedItem.id;
+				editWin.menuname.text=grid2.selectedItem.name;
+				editWin.makeperson.text=grid2.selectedItem.userid;
+				editWin.makedate.text=grid2.selectedItem.makedate;
+				editWin.mainApp = this;	
+				editWin.initData();	
+				//	editWin.addEventListener("finish",ModifyFinish);
+				PopUpManager.centerPopUp(editWin);	
+				//	Alert.show("222222222");
+				*/
+			}
+			public function ModifyFinish():void
+			{
+				
+			}
+			
+			protected function tree_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				var item:Object = Tree(event.currentTarget).selectedItem;
+				if (tree.dataDescriptor.isBranch(item)) {
+					tree.expandItem(item, !tree.isItemOpen(item), true);
+					//var item:String=tree.selectedNode.@label;
+					//Alert.show("item","tishi");
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<mx:TabNavigator x="0" y="10" width="658" height="588" fontFamily="微软雅黑">
+		<s:NavigatorContent label="业务中心默认基础功能菜单配置" width="100%" height="100%" fontFamily="微软雅黑">
+			<mx:Tree id="tree"
+					 dataProvider="{companyData}"
+					 labelField="@name"
+					 height="516"
+					 width="252" x="20" y="10" itemClick="tree_itemClickHandler(event)"/>
+			<s:BorderContainer x="290" y="51" width="343" height="152">
+				<s:Label x="10" y="10" text="说明："/>
+				<s:Label x="23" y="41" text="1、在添加菜单前，需要选中其父菜单"/>
+				<s:Label x="24" y="80" text="2、在删除菜单时，需要选中要删除的菜单"/>
+				<s:Label x="23" y="119" text="3、删除某菜单时，其所有子菜单均会被删除"/>
+			</s:BorderContainer>
+			<s:BorderContainer x="290" y="220" width="344" height="156">
+				<mx:TextInput id="empName"
+							  width="117"
+							  text="菜单名" x="19" y="42" focusIn="empName_focusInHandler(event)"/>
+				<mx:Button label="添加菜单"
+						   click="addNode();" x="156" y="42"/>
+				<mx:Button label="删除节点"
+						   click="removeNode();" x="19" y="80"/>
+				<mx:Button label="按钮" click="button1_clickHandler(event)" x="265" y="77"/>
+				<s:Label x="10" y="10" text="添加菜单"/>
+				<s:TextInput x="19" y="112" text="新菜单名" id="newname" focusIn="newname_focusInHandler(event)"/>
+				<s:Button x="161" y="112" label="更改菜单名" click="button2_clickHandler(event)"/>
+			</s:BorderContainer>
+			<s:BorderContainer x="290" y="390" width="343" height="102">
+				<s:Label x="10" y="10" text="添加构件"/>
+				<s:TextInput x="20" y="34" enabled="false" id="ccomp"/>
+				<s:Button x="165" y="36" label="选取构件" click="button5_clickHandler(event)"/>
+				<s:Button x="251" y="36" label="添加" click="button6_clickHandler(event)"/>
+				<s:Label x="149" y="40" text="→"/>
+				<s:Label x="237" y="40" text="→"/>
+			</s:BorderContainer>
+			<s:Button x="424" y="505" label="保存" click="button3_clickHandler(event)"/>
+			<s:Button x="527" y="505" label="放弃"/>
+			<s:Label x="301" y="15" text="菜单名称："/>
+			<s:TextInput x="372" y="10" width="222" text="业务中心菜单" focusIn="textinput1_focusInHandler(event)" id="myname" focusOut="myname_focusOutHandler(event)" enabled="false"/>
+			<s:Label x="10" y="532" text="注：只能对“基础功能”进行配置" color="#FF0000"/>
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+</mx:Application>

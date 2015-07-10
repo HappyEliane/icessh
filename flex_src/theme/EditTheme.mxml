@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" width="383" height="296">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<fx:Declarations>
+			<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		</fx:Declarations>
+		
+		<fx:Script>
+		<![CDATA[
+		private var backWindow:Object;
+		import mx.events.ItemClickEvent;
+		import mx.managers.PopUpManager;
+		
+		import mx.controls.Alert;
+		import mx.core.mx_internal;
+		import mx.events.CloseEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.http.HTTPService;
+		import mx.collections.ArrayCollection;  
+		import mx.core.IFlexDisplayObject;
+		import spark.events.TextOperationEvent;
+		import flash.display.DisplayObject;
+		public var servicethemeID:String="";
+		public var servicethemeName:String="";
+		public var servicethemeDes:String="";
+		
+		protected function save_clickHandler(event:MouseEvent):void
+		{
+		servicethemeID=themeid.text;
+		servicethemeName=themename.text;
+		servicethemeDes=themedes.text;
+		
+		var httpservice:HTTPService=new HTTPService();
+		httpservice.resultFormat="text";
+		
+		httpservice.url="http://localhost:8080/icessh/serviceThemeServlet";
+		httpservice.method="POST";
+		var param:Object=new Object;
+		param.kind="edit";
+		param.servicethemeID=servicethemeID;
+		param.servicethemeName=servicethemeName;
+		param.servicethemeDes=servicethemeDes;
+		httpservice.send(param);
+		httpservice.addEventListener(ResultEvent.RESULT,success_handler);
+		PopUpManager.removePopUp(this);
+		}
+		
+		
+		
+		private function success_handler(event:ResultEvent):void
+		{
+		var result:String=event.result.toString();
+		if(result)
+		{
+		Alert.show("操作成功！","提示");
+		backWindow=PopUpManager.createPopUp(this,ThemeManage,true);
+		PopUpManager.centerPopUp(backWindow as IFlexDisplayObject);	
+		}
+		else
+		Alert.show("操作失败！","提示");
+		}
+		
+		protected function cancel_clickHandler(event:MouseEvent):void
+		{
+		PopUpManager.removePopUp(this);
+		}
+		
+		
+		]]>
+	</fx:Script>
+		
+		<s:Label x="26" y="88" text="主题名称"/>
+		<s:Label x="50" y="128" text="描述"/>
+		<s:TextInput x="107" y="85" id="themename"/>
+		<s:TextArea x="107" y="128" id="themedes" height="97" width="221"/>
+		<s:BorderContainer x="0" y="0" width="383" height="28">
+			<mx:Image x="-1" y="0" width="383" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="8" y="4" text="修改主题" width="111" height="19" fontSize="15" color="#000000"/>
+		</s:BorderContainer>
+		<s:Button x="258" y="245" label="返回" click="cancel_clickHandler(event)" color="#000000"/>
+		<s:Button x="153" y="246" label="保存" click="save_clickHandler(event)" color="#000000"/>
+		<s:TextInput x="106" y="45" id="themeid" editable="false"/>
+		<s:Label x="28" y="50" text="主题编号"/>
+	</s:Application>

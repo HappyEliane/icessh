@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute"    backgroundColor="#FDFEFE" width="660" height="599" creationComplete="application1_creationCompleteHandler(event)" xmlns:util="util.*">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			[Bindable] 
+			private var today:Date = new Date(new Date().setHours(0,0,0,0)); 
+			[Bindable] 
+			private var start:Date = today; 
+			[Bindable] 
+			private var end:Date = start; 
+			
+			//======================================= 
+			//Event Handler 
+			//======================================= 
+			
+			/*DateChange*/ 
+			private function onDateChangeHandler(event:Event):void 
+			{ 
+				//var currentDF:DateField = DateField(event.currentTarget); 
+				
+				
+				if(sd.text == "") 
+				{ 
+					sd.selectedDate = start; 
+				} 
+				else 
+				{ 
+					start = sd.selectedDate;         
+				} 
+				
+				if(ed.text == "") 
+				{ 
+					ed.selectedDate = this.end; 
+				} 
+				else 
+				{ 
+					this.end = ed.selectedDate; 
+				} 
+				
+			} 
+			
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				sd.text="";
+				ed.text="";
+				readCookie();
+			}
+
+			private function readCookie():void
+			{
+				var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+				if(test2.size)
+				{
+					var name:String=test2.data.name;
+					var org:String=test2.data.org;
+					var role:String=test2.data.role;
+					
+					Login_user=name;
+					Login_role=role;
+					
+					
+				}
+				else 
+				{
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"self");
+				}
+				
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			
+			
+			private var Login_user:String="bus";
+			private var Login_role:String="Badmin";
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				sd.text="";
+				ed.text="";
+			}
+			public function check_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+			public function button2_order_clickHandler(event:MouseEvent):void
+			{
+				
+				Alert.show("您确定删除该用户么？","提示",3,this,deleteCallBack);
+			}
+			import mx.events.CloseEvent;
+			private function deleteCallBack(event:CloseEvent):void
+			{
+				if(event.detail==Alert.YES)
+				{
+					delUser();
+				}
+			}
+			private function delUser():void
+			{
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="quitBus";
+				param.orderbusid=grid1.cudg.selectedItem.id;
+				param.loginuser=grid1.cudg.selectedItem.username;
+				param.loginrole=grid1.cudg.selectedItem.rolename;
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_del_user_handler);
+			}
+			private function success_del_user_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+				{
+					Alert.show("删除成功","提示");
+				}
+				else
+				{
+					Alert.show("操作失败！","提示");
+				}
+			}
+			//查询用户
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="queryUser";
+				param.Login_user=Login_user;
+				param.Login_role=Login_role;
+				param.username=username.text;
+				param.userrole=userrole.text;
+				param.sd=sd.text;
+				param.ed=ed.text;
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_query_user_handler);
+			}
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object; 
+			private function success_query_user_handler(event:ResultEvent):void
+			{
+				
+				var re:String=event.result.toString();                        //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+				//	Alert.show(re);
+				var g2:Object=r.getItemAt(0);
+				var g1:ArrayCollection=new ArrayCollection(g2 as Array);
+				if(g1.length==0)
+					Alert.show("没有符合条件的记录","提示");
+
+				grid1.initdata(g1,10);
+			}
+
+			//重置
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				username.text="";
+				userrole.text="";
+				sd.text="";
+				ed.text="";
+				
+			}
+
+		]]>
+	</fx:Script>
+
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:BorderContainer x="10" y="10" width="640" height="240" fontFamily="微软雅黑">
+		<s:BorderContainer x="0" y="0" width="638" height="30">
+			<mx:Image x="0" y="0" width="636" height="28" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" />
+			<s:Label x="10" y="6" text="查询条件" fontSize="14"/>
+			</s:BorderContainer>
+		<s:Label x="32" y="68" text="用户名：" fontSize="13"/>
+		<s:TextInput x="93" y="62" height="25" width="180" id="username"/>
+		<s:Label x="32" y="115" text="角色名：" fontSize="13"/>
+		<s:TextInput x="93" y="109" width="180" height="25" id="userrole"/>
+		<s:Label x="19" y="168" text="定制日期：" fontSize="13"/>
+		<mx:DateField x="93" y="161" width="120" height="25" id="sd" formatString="YYYY-MM-DD"   selectedDate="{start}" selectableRange="{{rangeEnd:end}}" change="onDateChangeHandler(event)"/>
+		<mx:DateField x="255" y="161" width="120" height="25" id="ed" formatString="YYYY-MM-DD"  showToday="true" selectedDate="{end}" selectableRange="{{rangeStart:start,rangeEnd:today}}" change="onDateChangeHandler(event)"/>
+		<s:Label x="217" y="170" text="——"/>
+		<s:Button x="455" y="207" label="重置" click="button2_clickHandler(event)"/>
+		<s:Button x="558" y="207" label="查询" click="button1_clickHandler(event)"/>
+		<mx:LinkButton x="376" y="164" label="清空" click="linkbutton1_clickHandler(event)"/>
+	</s:BorderContainer>
+	<s:BorderContainer x="10" y="258" width="640" height="331" fontFamily="微软雅黑">
+		<s:BorderContainer x="0" y="0" width="638" height="30">
+			<mx:Image x="0" y="0" width="636" height="28" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" />
+			<s:Label x="10" y="6" text="查询结果" fontSize="14"/>
+		</s:BorderContainer>
+		
+		<util:CustomDataGridUnscroll x="0" y="39" width="638" height="290" id="grid1">
+			<util:mygridcolumns>
+				<mx:DataGridColumn headerText="序号" dataField="num" width="35" editable="false" textAlign="center" visible="true" draggable="false"/>
+				<mx:DataGridColumn headerText="" dataField="id" visible="false"/>
+				<mx:DataGridColumn headerText="业务名称" dataField="busname" editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="用户名" dataField="username"  editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="角色名称" dataField="rolename"  editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="定制日期" dataField="orderdate"  editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="当前状态" dataField="state"  editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="用户类型" dataField="cloud"  editable="false" textAlign="center" visible="true" draggable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="详细"  textAlign="center" editable="false" draggable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="查看" click="outerDocument.check_clickHandler(event)">
+							</mx:Button>
+							
+						</fx:Component>
+					</mx:itemRenderer>
+					
+				</mx:DataGridColumn>
+				
+				<mx:DataGridColumn headerText="删除"  textAlign="center" editable="false" draggable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="删除" click="outerDocument.button2_order_clickHandler(event)">
+								
+							</mx:Button>
+							
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+			</util:mygridcolumns>
+			</util:CustomDataGridUnscroll>
+	</s:BorderContainer>
+	
+	
+	
+</mx:Application>

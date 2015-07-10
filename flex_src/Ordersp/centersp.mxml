@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"  layout="absolute" backgroundColor="#FDFEFE" width="660" height="599" creationComplete="application1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				httpservice.url="http://localhost:8080/NewServicePatternDesigner/flexServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="queryspcenter";
+			
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_queryServicePattern_handler);
+			}
+			[Bindable]
+			private var allServicePatterns:ArrayCollection=new ArrayCollection();
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj2:Object; 
+			private function success_queryServicePattern_handler(result:ResultEvent):void
+			{
+				var re:String=result.result.toString();                        //JSON:3
+				//	Alert.show(re);
+				jsonObj2=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj2 as Array);  //JSON:5
+				
+				allServicePatterns=r;
+				
+				
+			}
+			private var chosp:Object=new Object();
+			public function choose_clickHandler(event:MouseEvent):void
+			{
+				chosp=sp.selectedItem;
+				csp.text=chosp.name;
+			}
+
+			protected function linkbutton2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="querybusiness";
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_queryAllBus_handler);
+			}
+			[Bindable]
+			private var allBus:ArrayCollection=new ArrayCollection();
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj1:Object; 
+			private function success_queryAllBus_handler(result:ResultEvent):void
+			{
+				var re:String=result.result.toString();                        //JSON:3
+					Alert.show(re);
+				jsonObj1=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj1 as Array);  //JSON:5
+				allb.dataProvider=r;
+				allBus=r;
+				
+				
+			}
+
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="ordersp";
+				param.spid=chosp.id;
+				param.spname=chosp.name;
+				param.spdes=chosp.des;
+				param.busid=allb.selectedItem.id;
+				
+				if(user.selectedItem.label=="家庭用户")
+				{
+					param.home="1";
+					param.provider="0";
+				}
+				else
+				{
+					param.home="0";
+					param.provider="1";
+				}
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_ordersp_handler);
+				
+			}
+			private function success_ordersp_handler(result:ResultEvent):void
+			{
+				var re:String=result.result.toString();                        //JSON:3
+				if(re=="ok")
+				{
+					Alert.show("定制成功");
+				}
+				else
+				{
+					Alert.show("定制失败！");
+				}
+				
+				
+				
+			}
+
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="haveordersp";
+			
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_haveordersp_handler);
+				
+			}
+			[Bindable]
+			private var allOrderBus:ArrayCollection=new ArrayCollection();
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj3:Object; 
+			private function success_haveordersp_handler(result:ResultEvent):void
+			{
+				var re:String=result.result.toString();                        //JSON:3
+			//	Alert.show(re);
+				jsonObj3=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj3 as Array);  //JSON:5
+				allorderb.dataProvider=r;
+				allOrderBus=r;
+				
+				
+			}
+			public function delete_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+			public function info_clickHandler(event:MouseEvent):void
+			{
+				
+			}
+
+		]]>
+	</fx:Script>
+
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" width="100%" height="100%" borderWeight="2" fontFamily="微软雅黑">
+		<mx:TabNavigator x="0" y="0" width="100%" height="100%">
+			<s:NavigatorContent label="已定制的服务模式" width="100%" height="100%">
+				<mx:DataGrid x="0" y="0" width="654" height="530" id="allorderb" dataProvider="{allOrderBus}">
+					<mx:columns>
+						<mx:DataGridColumn headerText="服务模式名称" dataField="spname" editable="false" draggable="false" textAlign="center"/>
+						
+						<mx:DataGridColumn headerText="服务模式描述" dataField="spdes"  editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="用户" dataField="home" editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="供应商" dataField="provider" editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="所属领域" dataField="busid"  editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="详情" editable="false" draggable="false" textAlign="center">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:LinkButton label="详情" click="outerDocument.info_clickHandler(event)" useHandCursor="true" buttonMode="true">	
+									</mx:LinkButton>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="退订" editable="false" draggable="false" textAlign="center">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:LinkButton label="退订" click="outerDocument.delete_clickHandler(event)" useHandCursor="true" buttonMode="true">	
+									</mx:LinkButton>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+			</s:NavigatorContent>
+			<s:NavigatorContent label="服务模式定制" width="100%" height="100%">
+				<s:Label x="10" y="10" text="服务模式选择"/>
+				<mx:DataGrid x="10" y="71" width="634" height="330" dataProvider="{allServicePatterns}" id="sp">
+					<mx:columns>
+						<mx:DataGridColumn headerText="服务模式名称" dataField="name" editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="所属领域" dataField="field" editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="服务模式描述" dataField="des"  editable="false" draggable="false" textAlign="center"/>
+						<mx:DataGridColumn headerText="详情" editable="false" draggable="false" textAlign="center">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:LinkButton label="详情" click="outerDocument.info_clickHandler(event)" useHandCursor="true" buttonMode="true">	
+									</mx:LinkButton>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="定制" editable="false" draggable="false" textAlign="center">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:LinkButton label="选择" click="outerDocument.choose_clickHandler(event)" useHandCursor="true" buttonMode="true">	
+									</mx:LinkButton>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+				<s:Label x="10" y="498" text="用户选择："/>
+				<s:DropDownList x="72" y="486" width="216" height="30" id="user">
+					<mx:ArrayCollection> 	
+						<fx:Object label="家庭用户" data="2"/> 
+						<fx:Object label="供应商用户" data="3"/> 
+					</mx:ArrayCollection> 
+				</s:DropDownList>
+				<s:Button x="574" y="512" label="保存" click="button1_clickHandler(event)"/>
+				<mx:LinkButton x="564" y="37" label="查询" color="#0000FF" fontWeight="bold" textDecoration="underline" fontSize="14" click="linkbutton1_clickHandler(event)"/>
+				<s:Label x="8" y="431" text="业务选择："/>
+				<s:DropDownList x="70" y="426" height="30" id="allb" width="220" dataProvider="{allBus}" labelField="name"></s:DropDownList>
+				<mx:LinkButton x="300" y="434" label="查询" color="#0000FF" fontWeight="bold" textDecoration="underline" click="linkbutton2_clickHandler(event)"/>
+				<s:Label x="375" y="435" text="已选择的服务模式："/>
+				<s:TextInput x="378" y="460" width="226" height="30" id="csp"/>
+			</s:NavigatorContent>
+		</mx:TabNavigator>
+	</s:BorderContainer>
+</mx:Application>

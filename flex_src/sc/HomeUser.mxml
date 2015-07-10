@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="application1_creationCompleteHandler(event)" minWidth="1000" minHeight="600" width="1000"  height="892" xmlns:google="http://code.google.com/p/flex-iframe/" xmlns:flex_src="flex_src.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			
+			
+			protected function tree_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var item:Object = Tree(event.currentTarget).selectedItem;
+				if (!tree.dataDescriptor.isBranch(item)) {
+					var item1:String=tree.selectedItem.@label;
+					var item2:String=tree.selectedItem.@data;
+					frm.source=item2;
+					//Alert.show(item2,"tishi");
+				}
+			}
+			
+			
+			protected function tree_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				var item:Object = Tree(event.currentTarget).selectedItem;
+				if (tree.dataDescriptor.isBranch(item)) {
+					tree.expandItem(item, !tree.isItemOpen(item), true);
+					//var item:String=tree.selectedNode.@label;
+					//Alert.show("item","tishi");
+				}
+				
+			}
+			
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+				if(test2.size)
+				{
+					var name:String=test2.data.name;
+					var org:String=test2.data.org;
+					var role:String=test2.data.role;
+					
+					username.text=name;
+					orgname.text=org;
+					roleName.text=role;
+				}
+				else 
+				{
+					//	Alert.show("请登录");
+					navigateToURL(new URLRequest("http://localhost:8080/ICESSHSC/ICESSHSC.html"),"self");
+				}
+				
+				/*
+				if (ExternalInterface.available){
+				//	userID = ExternalInterface.call("doflash");
+				//userID="USI0054";
+				//	cloudID = ExternalInterface.call("doflash1");
+				//cloudID="BCYQY1";
+				//	cloudid.text = cloudID;
+				//	h.querycloud(cloudID);
+				}
+				*/
+			}
+			
+			//退出登录
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				Alert.show("退出登录");
+				var cookie:SharedObject=SharedObject.getLocal("userLogin","/");
+				cookie.clear();
+				navigateToURL(new URLRequest("http://localhost:8080/ICESSHSC/ICESSHSC.html"),"_self");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<fx:XML id="treeData">
+			<data>
+				<group label="基础功能">
+					<node label="用户管理" data="http://localhost:8080/userole/icesuser.html"/>
+					<node label="角色功能配置"/>
+					<node label="业务中心定义"/>
+					<node label="业务中心配置"/>
+					<node label="业务中心查询"/>
+					<node label="注册但审核"/>
+					<node label="家庭用户管理"/>
+					<node label="供应商管理"/>
+				</group>
+				<group label="智慧魔盒管理">
+					<node label="魔盒基本信息维护"/>
+					<node label="服务管理"/>
+				</group>
+				<group label="构件库管理">
+					<node label="功能构件管理"/>
+					<node label="WebService管理"/>
+				</group>
+			</data>
+		</fx:XML>
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" width="955" height="194">
+		<mx:SWFLoader x="0" y="0" width="999" height="100%" source="assets/12.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<s:Label x="652" y="25" text="智慧家庭服务中心" fontSize="40" fontFamily="Times New Roman" chromeColor="#2BD4A6" color="#0C0C0C" fontWeight="bold" fontStyle="italic"/>
+		<s:Label x="678" y="70" text="Smart  Home  Service  Center" fontSize="20" fontFamily="Times New Roman" width="277"/>
+		<s:Label x="10" y="170" text="企业与服务智能计算研究中心（ICES）" fontSize="13"/>
+		<mx:Image x="0" y="10" height="36" width="200" source="assets/hit.gif" scaleContent="true" maintainAspectRatio="false"/>
+		
+	</s:BorderContainer>
+	<mx:Image x="0" y="193" height="33" width="1000" source="assets/back07.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	<s:Label x="10" y="202" text="欢迎您：" fontSize="14"/>
+	<s:TextArea x="71" y="198" height="21" width="105" id="username" borderVisible="false" editable="false"/>
+	<mx:HRule x="0" y="224" width="955"/>
+	<s:Label x="195" y="204" text="所属组织：" fontSize="14"/>
+	<s:TextArea x="273" y="198" height="21" width="105" id="orgname" borderVisible="false" editable="false"/>
+	<s:Button x="875" y="198" label="退出登录" click="button1_clickHandler(event)"/>
+	<mx:Tree x="830" y="224" height="610" id="tree" dataProvider="{treeData.group}" labelField="@label" width="171" 
+			 doubleClickEnabled="true" click="tree_clickHandler(event)" itemClick="tree_itemClickHandler(event)"></mx:Tree>
+	<s:TextArea x="650" y="198" height="21" borderVisible="false" editable="false" id="roleName"/>
+	
+	
+	<s:BorderContainer x="160" y="225" width="670" height="610">
+		<google:IFrame id="frm"  source="http://www.baidu.com"  height="100%" width="100%"  />
+	</s:BorderContainer>
+	<s:BorderContainer x="1" y="821" width="954" height="71" borderVisible="false">
+		<s:BorderContainer x="0" y="0" width="1000" height="8" borderVisible="false">
+			<mx:Image x="0" y="0" height="7" width="1000" source="assets/bottom.jpg" scaleContent="true" maintainAspectRatio="false"/>
+		</s:BorderContainer>
+		<mx:Image x="0" y="7" height="62" width="1000" source="assets/bottom01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	</s:BorderContainer>
+	<s:Label x="579" y="202" text="当前角色：" fontSize="14"/>
+	<s:BorderContainer x="4" y="225" width="157" height="610">
+		<s:BorderContainer x="-1" y="-1" width="157" height="29">
+			<mx:Image x="0" y="0" height="28" width="156" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="10" y="6" text="我的业务" fontSize="14" fontWeight="bold" fontFamily="中易黑体"/>
+		</s:BorderContainer>
+	</s:BorderContainer>
+	
+	
+	
+	
+	
+	
+	
+</s:Application>

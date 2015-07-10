@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="658" height="526" minWidth="955" minHeight="600">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+		import mx.events.ItemClickEvent;
+		import mx.managers.PopUpManager;
+		import mx.controls.Alert;
+		import mx.core.mx_internal;
+		import mx.events.CloseEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.http.HTTPService;
+		import mx.collections.ArrayCollection;  
+		import mx.core.IFlexDisplayObject;
+		import spark.events.TextOperationEvent;
+		import flash.display.DisplayObject;
+		private var backWindow:Object;
+		private var chooseUserWindow:Object;
+		public var magicboxaddress:String="";
+		public var homeid:String="";
+		public var homename:String="";
+		public var homesort:String="";
+		public var homeaddress:String="";
+		public var mainperson:String="";
+		public var mainpersonid:String="";
+		public var email:String="";
+		public var phonenumber:String="";
+		public var zipcode:String="";
+		
+		
+		protected function save_clickHandler(event:MouseEvent):void
+		{
+		homeid=homeid1.text;
+		homename=homename1.text;
+		homesort=homesort1.selectedItem.label;
+		homeaddress=homeaddress1.text;
+		mainperson=mainperson1.text;
+		mainpersonid=mainpersonid1.text;
+		magicboxaddress=magicboxaddress1.text;
+		email=email1.text;
+		phonenumber=phonenumber1.text;
+		zipcode=zipcode1.text;
+		//dispatchEvent(new Event("insertHome",false));
+		
+		var httpservice:HTTPService=new HTTPService();
+		httpservice.resultFormat="text";
+		
+		httpservice.url="http://localhost:8080/icessh/homeObjectServlet";
+		httpservice.method="POST";
+		var param:Object=new Object;
+		param.kind="add";
+		param.homeid=homeid;
+		param.homename=homename;
+		param.homesort=homesort; 
+		param.homeaddress=homeaddress;
+		param.phonenumber=phonenumber;
+		param.zipcode=zipcode;
+		param.email=email;
+		param.magicboxaddress=magicboxaddress;
+		param.mainperson=mainperson;
+		param.mainpersonid=mainpersonid;
+		
+		//param.username=Login_userName;
+		httpservice.send(param);
+		httpservice.addEventListener(ResultEvent.RESULT,success_handler);	
+		
+		}
+			
+			private function success_handler(event:ResultEvent):void
+			{
+				var result:String=event.result.toString();
+				if(result)
+				{
+					Alert.show("操作成功！","提示");
+					PopUpManager.removePopUp(this);
+					backWindow=PopUpManager.createPopUp(this,HomeManage,true);
+					PopUpManager.centerPopUp(backWindow as IFlexDisplayObject);	
+				}
+				else
+					Alert.show("操作失败！","提示");
+			}
+		
+		protected function reset_clickHandler(event:MouseEvent):void
+		{
+		homeid1.text="";
+		homename1.text="";
+		
+		homeaddress1.text="";
+		mainperson1.text="";
+		magicboxaddress1.text="";
+		email1.text="";
+		zipcode1.text="";
+		
+		}
+		
+		
+		protected function cancel_clickHandler(event:MouseEvent):void
+		{
+		PopUpManager.removePopUp(this);
+		}
+			protected function chooseMainPersonBtn_clickHandler(event:MouseEvent):void
+			{
+				chooseUserWindow = PopUpManager.createPopUp(this,ChooseMainPerson,true);
+				chooseUserWindow.homeid.text=homeid1.text;
+				
+				chooseUserWindow.addEventListener("chooseUser",chooseUserResponse);
+				PopUpManager.centerPopUp(chooseUserWindow as IFlexDisplayObject);
+			}
+			protected function chooseUserResponse(event:Event):void{
+				mainpersonid1.text = chooseUserWindow.userid;
+				mainperson1.text = chooseUserWindow.username;
+				phonenumber1.text = chooseUserWindow.phonenumber;
+				email1.text = chooseUserWindow.email;
+				PopUpManager.removePopUp(chooseUserWindow as IFlexDisplayObject);
+			}
+		
+		]]>
+	</fx:Script>
+	<mx:Label x="10" y="0" text="家庭信息" color="#000000"/>
+	<mx:Label x="10" y="219" text="联系人资料" color="#000000"/>
+	<mx:HRule x="10" y="26" width="598" height="2"/>
+	<mx:Label x="11" y="39" text="家庭编号" color="#000000"/>
+	<mx:Label x="313" y="38" text="家庭名称" color="#000000"/>
+	<mx:Label x="13" y="131" text="家庭类别" color="#000000"/>
+	<mx:TextInput x="83" y="37" id="homeid1" color="#000000" text="自动生成" editable="false"/>
+	<mx:TextInput x="386" y="36" id="homename1" color="#000000"/>			
+	<mx:HRule x="10" y="237" width="598" height="5"/>
+	<mx:Label x="11" y="85" text="家庭地址" color="#000000"/>
+	<mx:Label x="330" y="307" text="email" color="#000000"/>
+	<mx:TextInput x="83" y="83" id="homeaddress1" color="#000000" width="463"/>
+	<mx:TextInput x="388" y="305" id="email1" color="#000000"/>
+	<mx:Button x="331" y="368" label="保存" id="save" click="save_clickHandler(event)" color="#000000"/>
+	<mx:Button x="404" y="368" label="重置" id="reset" click="reset_clickHandler(event)" color="#000000"/>
+	<mx:Button x="478" y="368" label="取消" id="cancel" click="cancel_clickHandler(event)" color="#000000"/>
+	<mx:Label x="36" y="309" text="手机" color="#000000"/>
+	<mx:TextInput x="80" y="307" id="phonenumber1" color="#000000"/>
+	<mx:Label x="25" y="257" text="联系人" color="#000000"/>
+	
+	<mx:Label x="309" y="129" text="邮政编码" color="#000000"/>
+	<mx:TextInput x="386" y="126" id="zipcode1" color="#000000"/>
+	<mx:Label x="14" y="173" text="魔盒地址" color="#000000"/>
+	<mx:TextInput x="86" y="171" id="magicboxaddress1" color="#000000" width="460"/>
+	<mx:Button label="..." id="chooseMainPersonBtn" click="chooseMainPersonBtn_clickHandler(event)" x="188" y="256" width="52" color="#000000"/>
+	<mx:TextInput x="80" y="257" id="mainperson1" color="#000000" width="100"/>
+	<s:DropDownList x="83" y="131" id ="homesort1">
+		<mx:ArrayCollection> 
+			<fx:Object label="高级" data="0"/> 
+			<fx:Object label="中级" data="1"/> 
+		</mx:ArrayCollection> 
+	</s:DropDownList>
+	<mx:TextInput x="389" y="250" id="mainpersonid1" color="#000000" width="100" editable="false" visible="false"/>
+	
+</s:Application>

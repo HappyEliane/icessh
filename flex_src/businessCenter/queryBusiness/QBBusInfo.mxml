@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute" creationComplete="application1_creationCompleteHandler(event)"   backgroundColor="#FDFEFE" width="660" height="570"  xmlns:CheckBoxColum="Common.controls.CheckBoxColum.*" currentState="State1" >
+	<mx:states>
+		<s:State name="State1"/>
+		<s:State name="state2"/>
+	</mx:states>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import spark.events.TextOperationEvent;
+			public var sm:String="";
+			public var bm:String="";
+			public var hm:String="";
+			public var pm:String="";
+			public var make:String="";
+			public var busid:String="";
+			public var mainApp:checkBus=null;
+			var tree:Tree;
+			[Bindable]
+			private var Data1:XML=<list>
+			<order name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</order>
+			</list>;
+			[Bindable]
+			private var Data2:XML=<list>
+			<order name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</order>
+			</list>;
+			[Bindable]
+			private var Data3:XML=<list>
+			<order name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</order>
+			</list>;
+			[Bindable]
+			private var Data4:XML=<list>
+			<order name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</order>
+			</list>;
+			[Bindable]
+			private var sdata:XMLListCollection=new XMLListCollection(Data1.order);
+			[Bindable]
+			private var bdata:XMLListCollection=new XMLListCollection(Data2.order);
+			[Bindable]
+			private var hdata:XMLListCollection=new XMLListCollection(Data3.order);
+			[Bindable]
+			private var pdata:XMLListCollection=new XMLListCollection(Data4.order);
+			
+			
+			private function addNode():void
+			{
+				// 新建节点
+				var newNode:XML=<order/>;
+				newNode.@name=empName.text;
+				// 添加节点
+				var xml:XML=XML(tree.selectedItem);
+				if (xml.length() > 0)
+				{
+					xml[0].appendChild(newNode);
+				}
+			}
+			
+			private function removeNode():void
+			{
+				if (tree.selectedItem != null)
+				{
+					var node:XML=XML(tree.selectedItem);
+					// 不能删除空节点和部门A，B
+					if (node == null || node.localName() == "menu")
+					{
+						Alert.show("不能删除空节点和部门A，B！");
+						return;
+					}
+					// 获取当前节点的父节点下的所有子节点
+					var children:XMLList=XMLList(node.parent()).children();
+					// 将其转换为 XMLListCollection
+					var childrenCol:XMLListCollection=new XMLListCollection(children);
+					// 获取选中节点索引，并删除该节点
+					var i:Number=childrenCol.getItemIndex(node);
+					childrenCol.removeItemAt(i);
+				}else{
+					Alert.show("请选中一个节点再进行删除！");
+				}
+			}
+			protected function tree_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				var item:Object = Tree(event.currentTarget).selectedItem;
+				if (tree.dataDescriptor.isBranch(item)) {
+					tree.expandItem(item, !tree.isItemOpen(item), true);
+					//var item:String=tree.selectedNode.@label;
+					//Alert.show("item","tishi");
+				}
+			}
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var re:String=tree.dataProvider.toString();
+				Alert.show(re);
+			}
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var node:XML=(XML)(tree.selectedItem);
+				node.@name=newname.text;
+			}
+			
+			
+			
+			protected function accordion1_changeHandler(event:IndexChangedEvent):void
+			{
+				// TODO Auto-generated method stub
+				var ad:Accordion = event.currentTarget as Accordion;  
+				//两种方法  
+				//第一种获得index  
+				var index:int = event.newIndex; 
+				if(index==0)
+				{
+					
+					tree=stree;
+				}
+				if(index==1)
+				{
+					
+					tree=btree;
+				}
+				if(index==2)
+				{
+					
+					tree=htree;
+					tree=htree;
+				}
+				if(index==3)
+				{
+					
+					tree=ptree;
+				}
+				
+				validateNow();
+			}
+			
+			
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				tree=ptree;
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="queryMenu";
+				param.sm=sm;
+				param.bm=bm;
+				param.hm=hm;
+				param.pm=pm;
+				
+				
+				
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_query_handler);
+			}
+			private function success_query_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				//	Alert.show(re);
+				var res:Array=re.split(',');
+				
+				var men:String=res[0];
+				if(men!="")
+				{
+					var company:XML=new XML("<list>"+men+"</list>");
+					var companyData:XMLListCollection=new XMLListCollection(company.order);
+					sdata=companyData;
+				}
+				men=res[1];
+				if(men!="")
+				{
+					var company:XML=new XML("<list>"+men+"</list>");
+					var companyData:XMLListCollection=new XMLListCollection(company.order);
+					bdata=companyData;
+				}
+				men=res[2];
+				if(men!="")
+				{
+					var company:XML=new XML("<list>"+men+"</list>");
+					var companyData:XMLListCollection=new XMLListCollection(company.order);
+					hdata=companyData;
+				}
+				men=res[3];
+				if(men!="")
+				{
+					var company:XML=new XML("<list>"+men+"</list>");
+					var companyData:XMLListCollection=new XMLListCollection(company.order);
+					pdata=companyData;
+				}
+				
+			}
+			
+			
+			
+			protected function button4_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				/*
+				var editObj:IFlexDisplayObject = 
+				PopUpManager.createPopUp(DisplayObject(Application.application),choComp,true);
+				*/
+				var editWin:choComp = new choComp();			
+				//	editWin.callBackFunction=this.callFunction;
+				editWin.mainApp = this;	
+				editWin.haveComp=tree.dataProvider.toString();
+				show(editWin,this,true);
+				//editWin.initData();
+				editWin.addEventListener("finish",callFunction);
+				//	PopUpManager.centerPopUp(editWin);	
+			}
+			var cccompname:String="";
+			var cccompid:String="";
+			var cccomurl:String="";
+			private function callFunction(event:Event)
+			{
+				ccomp.text=cccompname;
+				Alert.show(cccompid);
+			}
+			
+			
+			protected function button5_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var newNode:XML=<order/>;
+				newNode.@name=ccomp.text;
+				newNode.@url=cccomurl;
+				newNode.@id=cccompid;
+				// 添加节点
+				var xml:XML=XML(tree.selectedItem);
+				if (xml.length() > 0)
+				{
+					xml[0].appendChild(newNode);
+				}
+			}
+			
+			//菜单提交
+			protected function button6_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//	Alert.show("111111");
+				
+				if(checkName() && checkInfo())
+				{
+					
+					var smenu:String=stree.dataProvider.toString();
+					var bmenu:String=btree.dataProvider.toString();
+					var hmenu:String=htree.dataProvider.toString();
+					var pmenu:String=ptree.dataProvider.toString();
+					var businessName:String=bname.text;
+					
+					var httpservice:HTTPService=new HTTPService();
+					httpservice.resultFormat="text";
+					
+					httpservice.url="http://localhost:8080/icessh/BCModifyMenuServlet";
+					httpservice.method="POST";
+					var param:Object=new Object;
+					param.kind="change";
+					param.id=busid;
+					param.name=bname.text;
+					param.des=binfo.text;
+					param.smenuid=sm;
+					param.bmenuid=bm;
+					param.hmenuid=hm;
+					param.pmenuid=pm;
+					param.smenu=stree.dataProvider.toString();
+					param.bmenu=btree.dataProvider.toString();
+					param.hmenu=htree.dataProvider.toString();
+					param.pmenu=ptree.dataProvider.toString();
+					param.make=make;
+					
+					httpservice.send(param);
+					httpservice.addEventListener(ResultEvent.RESULT,success_change_handler);
+					
+				}
+			}
+			private function success_change_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+					Alert.show("操作成功","提示");
+				else
+					Alert.show("操作失败","提示");
+				dispatchEvent(new Event("finish",false));
+				//	PopUpManager.removePopUp(this);
+				remove(this);
+			}
+			
+			
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				currentState="state2";
+			}
+			
+			
+			protected function linkbutton2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				currentState="State1";
+			}
+			
+			
+			protected function button7_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//PopUpManager.removePopUp(this);
+				remove(this);
+			}
+			
+			private function checkName():Boolean
+			{
+				var name:String=bname.text;
+				if(name=="")
+				{
+					bname.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					bname.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function bname_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				bname.setStyle("borderColor","black");
+			}
+			
+			private function checkInfo():Boolean
+			{
+				var info:String=binfo.text;
+				if(info=="")
+				{
+					binfo.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					binfo.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function binfo_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				binfo.setStyle("borderColor","black");
+			}
+			
+		]]>
+	</fx:Script>
+	<s:BorderContainer x="0" y="0" width="660" height="570" borderColor="#000000" borderWeight="2" includeIn="State1,state2"  fontFamily.State1="微软雅黑">
+		<s:BorderContainer x="8" y="40" width="342" height="476" includeIn="State1">
+			<s:BorderContainer x="-1" y="-1" width="341" height="31">
+				<mx:Image x="0" y="0" width="340" height="29" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="14" y="7" text="基本信息" fontSize="14" fontFamily="微软雅黑"/>
+			</s:BorderContainer>
+			<s:Label x="10" y="75" text="业务名称：" fontSize="13"/>
+			<s:TextInput x="88" y="68" width="226" height="25" id="bname" change="bname_changeHandler(event)"/>
+			<s:Label x="23" y="112" text="注册人：" fontSize="13"/>
+			<s:TextInput x="87" y="106" width="140" height="25" enabled="false" id="bauthor"/>
+			<s:Label x="10" y="148" text="注册日期：" fontSize="13"/>
+			<s:TextInput x="88" y="143" width="140" height="25" enabled="false" id="bmakedate"/>
+			<s:Label x="10" y="220" text="业务详情：" fontSize="13"/>
+			<s:TextArea x="11" y="241" width="319" height="209" id="binfo" change="binfo_changeHandler(event)" />
+			<s:Label x="23" y="187" text="管理员：" fontSize="13"/>
+			<s:TextInput x="88" y="180" height="25" width="226" enabled="false" id="admin"/>
+		</s:BorderContainer>
+		<s:BorderContainer y="56" height="475" width="254" x="390" x.state2="5" y.state2="50" y.State1="40">
+			<s:BorderContainer x="0" y="0" width="100%" height="31">
+				<mx:Image x="0" y="0" height="29" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" width="250"/>
+				<s:Label x="10" y="7" text="功能信息" fontSize="14"/>
+				<mx:LinkButton label="编辑" x="210" y="5" click.State1="linkbutton1_clickHandler(event)" label.state2="返回" x.state2="200" click.state2="linkbutton2_clickHandler(event)" x.State1="200"/>
+			</s:BorderContainer>
+			<mx:Accordion change="accordion1_changeHandler(event)" selectedIndex="3" width="208" x="25" height="434.65" y="32">
+				<mx:VBox label="服务中心菜单" width="100%" height="100%" >
+					<mx:Tree x="0" y="0" id="stree" dataProvider="{sdata}" labelField="@name" itemClick="tree_itemClickHandler(event)" width="205" height="352"></mx:Tree>
+				</mx:VBox>
+				<mx:VBox label="业务中心菜单" width="100%" height="100%">
+					<mx:Tree x="0" y="0" id="btree" dataProvider="{bdata}" labelField="@name" itemClick="tree_itemClickHandler(event)" width="206" height="351"></mx:Tree>
+				</mx:VBox>
+				<mx:VBox label="家庭用户菜单" width="100%" height="100%">
+					<mx:Tree x="0" y="0" id="htree" dataProvider="{hdata}" labelField="@name" itemClick="tree_itemClickHandler(event)" width="206" height="352"></mx:Tree>
+				</mx:VBox>
+				<mx:VBox label="供应商菜单" width="100%" height="100%">
+					<mx:Tree x="0" y="0" id="ptree" dataProvider="{pdata}" labelField="@name" itemClick="tree_itemClickHandler(event)" borderVisible="true" width="205" height="351"></mx:Tree>
+				</mx:VBox>
+			</mx:Accordion>
+		</s:BorderContainer>
+		<s:BorderContainer x="-2" y="-2" width="658" height="35">
+			<mx:Image x="0" y="0" width="656" height="33" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="10" y="11" text="业务详细信息" fontSize="14" fontFamily.State1="Arial"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="273" y="50" width="373" height="164" includeIn="state2">
+			<s:Label x="10" y="10" text="说明："/>
+			<s:Label x="23" y="41" text="1、在添加菜单前，需要选中其父菜单"/>
+			<s:Label x="23" y="76" text="2、在删除菜单时，需要选中要删除的菜单"/>
+			<s:Label x="23" y="110" text="3、删除某菜单时，其所有子菜单均会被删除"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="273" y="228" width="373" height="156" includeIn="state2">
+			<mx:TextInput id="empName"
+						  width="117"
+						  text="菜单名" x="19" y="42"/>
+			<mx:Button label="添加菜单"
+					   click="addNode();" x="156" y="42"/>
+			<mx:Button label="删除节点"
+					   click="removeNode();" x="19" y="80"/>
+			<mx:Button label="按钮" click="button1_clickHandler(event)" x="265" y="77"/>
+			<s:Label x="10" y="10" text="添加菜单"/>
+			<s:TextInput x="19" y="112" text="新菜单名" id="newname"/>
+			<s:Button x="161" y="112" label="更改菜单名" click="button2_clickHandler(event)"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="273" y="398" width="373" height="102" includeIn="state2">
+			<s:Label x="10" y="10" text="添加构件"/>
+			<s:TextInput x="20" y="34" enabled="false" id="ccomp"/>
+			<s:Button x="165" y="36" label="选取构件" click="button4_clickHandler(event)"/>
+			<s:Button x="251" y="36" label="添加" click="button5_clickHandler(event)"/>
+			<s:Label x="149" y="40" text="→"/>
+			<s:Label x="237" y="40" text="→"/>
+		</s:BorderContainer>
+		<s:BorderContainer includeIn="State1,state2" x="0" y="533" width="656" height="33">
+			<mx:Image x="0" y="-1" width="655" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false" height="33"/>
+			<s:Button x="175" y="5" label="提交" click="button6_clickHandler(event)" fontFamily.State1="微软雅黑"/>
+			<s:Button x="342" y="5" label="放弃" click="button7_clickHandler(event)"/>
+		</s:BorderContainer>
+	</s:BorderContainer>
+</mx:Application>

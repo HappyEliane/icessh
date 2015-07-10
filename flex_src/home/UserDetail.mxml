@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="638" height="478" fontSize="14" backgroundColor="#FFFFFF" borderColor="#869CA7" color="#FFFFFF">
+	
+	<mx:Script>
+		<![CDATA[
+			private var backWindow:Object;
+			import mx.events.ItemClickEvent;
+			import mx.managers.PopUpManager;
+			
+			import mx.controls.Alert;
+			import mx.core.mx_internal;
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;  
+			import mx.core.IFlexDisplayObject;
+			import spark.events.TextOperationEvent;
+			import flash.display.DisplayObject;
+			public var userid:String="";
+			public var homeid:String="";
+			public var username:String="";
+			public var gender:String="";
+			public var birth:String="";
+			public var birthplace:String="";
+			public var education:String="";
+			public var mobile:String="";
+			public var address:String="";
+			public var qqnum:String="";
+			public var msnnum:String="";
+			public var email:String="";
+			public var idcard:String="";
+			public var zipcode:String="";
+			//public var ismainperson:String="";
+			
+			
+			protected function save_clickHandler(event:MouseEvent):void
+			{
+				userid=userid1.text;
+				homeid=homeid1.text;
+				username=username1.text;
+				gender=(String)(gg.selectedValue);
+				birth=birth1.text;
+				birthplace=birthplace1.text;
+				education=(String)(education1.selectedItem);
+				
+				
+				mobile=mobile1.text;
+				address=address1.text;
+				qqnum=qqnum1.text;
+				msnnum=msn1.text;
+				email=email1.text;
+				idcard=idcard1.text;
+				zipcode=zipcode1.text;
+				//ismainperson=(String)(ismainperson1.selectedItem);
+				//dispatchEvent(new Event("insertUser",false));
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeUserObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="add";
+				param.h_id=userid;
+				param.h_name=username;
+				param.birth=birth; 
+				param.birthplace=birthplace;
+				param.gender=gender;
+				param.zipcode=zipcode;
+				param.education=education;
+				param.idcard=idcard;
+				param.mobile=mobile;
+				param.address=address;
+				param.qqnum=qqnum;
+				param.msnnum=msnnum;
+				//param.ismainperson=ismainperson;
+				param.homeid=homeid;
+				param.email=email;
+				
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_handler);
+				PopUpManager.removePopUp(this);
+			}
+				
+				
+			
+			private function success_handler(event:ResultEvent):void
+			{
+				var result:String=event.result.toString();
+				if(result)
+				{
+					Alert.show("操作成功！","提示");
+					backWindow=PopUpManager.createPopUp(this,UserForHome,true);
+					backWindow.homeid.text=homeid1.text;
+					backWindow.homename.text=homename1.text;
+					PopUpManager.centerPopUp(backWindow as IFlexDisplayObject);	
+				}
+				else
+					Alert.show("操作失败！","提示");
+			}
+			
+			protected function reset_clickHandler(event:MouseEvent):void
+			{
+				username1.text="";
+				birth1.text="";
+				birthplace1.text="";
+				education1.text="";
+				idcard=idcard1.text;
+				//ismainperson1.text="";
+				mobile1.text="";
+				address1.text="";
+				qqnum1.text="";
+				msn1.text="";
+				email1.text="";
+				idcard1.text="";
+				zipcode1.text="";
+			}
+			
+			
+			protected function cancel_clickHandler(event:MouseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	<mx:Label x="10" y="22" text="个人信息" color="#000000"/>
+	<mx:Label x="10" y="233" text="联系方式" color="#000000"/>
+	<mx:HRule x="10" y="48" width="598" height="2"/>
+	<mx:Label x="10" y="61" text="家庭编号" color="#000000"/>
+	<mx:Label x="360" y="60" text="姓名" color="#000000"/>
+	<mx:Label x="25" y="111" text="性别" color="#000000"/>
+	<mx:Label x="334" y="111" text="出生日期" color="#000000"/>
+	<mx:Label x="25" y="160" text="学历" color="#000000"/>
+	<mx:TextInput x="88" y="60" id="homeid1" color="#000000"/>
+	<mx:TextInput x="301" y="45" id="userid1" color="#000000" width="36" visible="false"/>
+	<mx:TextInput x="290" y="78" id="homename1" color="#000000" width="36" visible="false"/>
+	<mx:TextInput x="419" y="58" id="username1" color="#000000"/>
+	<mx:DateField x="419" y="109" id="birth1" width="160" color="#000000"/>
+	<mx:RadioButtonGroup id="gg"/>
+	  
+	<mx:RadioButton x="196" y="109" label="女"  groupName="gg" id="female"  value="女"  color="#000000"/>
+	<mx:RadioButton x="91" y="110" label="男"  groupName="gg" id="male"  value="男"  color="#000000"/>
+	
+	<mx:HRule x="10" y="251" width="598" height="5"/>
+	<mx:Label x="25" y="264" text="住址" color="#000000"/>
+	<mx:Label x="31" y="357" text="QQ" color="#000000"/>
+	<mx:Label x="360" y="357" text="MSN" color="#000000"/>
+	<mx:Label x="360" y="307" text="email" color="#000000"/>
+	<mx:TextInput x="89" y="262" id="address1" color="#000000"/>
+	<mx:TextInput x="89" y="355" id="qqnum1" color="#000000"/>
+	<mx:TextInput x="419" y="355" id="msn1" color="#000000"/>
+	<mx:TextInput x="419" y="305" id="email1" color="#000000"/>
+	<mx:Button x="303" y="420" label="保存" id="save" click="save_clickHandler(event)" color="#000000"/>
+	<mx:Button x="376" y="420" label="重置" id="reset" click="reset_clickHandler(event)" color="#000000"/>
+	<mx:Button x="450" y="420" label="取消" id="cancel" click="cancel_clickHandler(event)" color="#000000"/>
+	<mx:Label x="25" y="309" text="手机" color="#000000"/>
+	<mx:TextInput x="90" y="190" id="idcard1" color="#000000" visible="false"/>
+	<mx:TextInput x="89" y="307" id="mobile1" color="#000000"/>
+	<mx:ComboBox x="89" y="157" id="education1" width="160" color="#000000">
+		<mx:Array>
+			<mx:String>  </mx:String>
+			<mx:String>初中</mx:String>
+			<mx:String>高中</mx:String>
+			<mx:String>本科</mx:String>
+			<mx:String>硕士</mx:String>
+			<mx:String>博士</mx:String>
+		</mx:Array>
+	</mx:ComboBox>
+	<mx:Label x="340" y="265" text="邮政编码" color="#000000"/>
+	<mx:TextInput x="419" y="262" id="zipcode1" color="#000000"/>
+	<mx:Label x="360" y="158" text="籍贯" color="#000000"/>
+	<mx:TextInput x="419" y="156" id="birthplace1" color="#000000"/>
+	
+	
+	
+</mx:Application>

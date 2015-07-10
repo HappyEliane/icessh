@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" xmlns:util="util.*" xmlns:homeUser="homeUser.*" xmlns:local="*">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[ 
+			import flash.display.DisplayObject;
+			
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			import mx.events.FlexEvent;
+			
+			private var insertWindow:Object;
+			private var detailWindow:Object;
+			private var modifyWindow:Object;
+			private var editWin:Object;
+			
+			private var Login_userName:String="liu";
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.mx_internal;
+			import mx.events.CloseEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;  
+			import mx.core.IFlexDisplayObject;
+			import spark.events.TextOperationEvent;
+			import flash.display.DisplayObject;
+			private function readCookie():void
+			{
+				var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+				if(test2.size)
+				{
+					var name:String=test2.data.name;
+					var org:String=test2.data.org;
+					var role:String=test2.data.role;
+					
+					Login_userName=name;
+					//	Login_roleid=role;
+					
+					
+				}
+				else 
+				{
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"self");
+				}
+				
+			}
+			
+			protected function con_query_clickHandler(event:MouseEvent):void{
+				query_home();
+			}
+			private function query_home():void
+			{
+				var homeid:String=homeid.text;
+				var homename:String=homename.text;
+				
+				
+				
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;  
+				param.kind="query";
+				param.homeid=homeid;
+				param.homename=homename;
+				
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_query_handler);
+			}
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object; 
+			private function success_query_handler(event:ResultEvent):void
+			{
+				//JSON:2
+				
+				var re:String=event.result.toString();                        //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+				//JSON:7
+				
+				//	Alert.show(re);
+				huserdg.initdata(r,10);
+				if(r.length==0)
+				{
+					Alert.show("没有符合条件的家庭！","提示");
+				}
+				/*
+				ff = r;
+				gridpara = grid1;
+				initGrid(ff);
+				sum.text=ff.length.toString();
+				*/
+			}
+			
+			protected function clear_clickHandler(event:MouseEvent):void
+			{
+				homeid.text = "";
+				homename.text = "";
+			}
+			
+			protected function insert_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				insertWindow=PopUpManager.createPopUp(this,HomeDetail,true);
+				PopUpManager.centerPopUp(insertWindow as IFlexDisplayObject);
+				//insertWindow.addEventListener("insertHome",insertHomeResp);
+			}
+			
+			protected function insertHomeResp(event:Event):void
+			{
+				var homeid:String=insertWindow.homeid;
+				var homename:String=insertWindow.homename;
+				var homesort:String=insertWindow.homesort;
+				var homeaddress:String=insertWindow.homeaddress;
+				var mainperson:String=insertWindow.mainperson;
+				var mainpersonid:String=insertWindow.mainpersonid;
+				var phonenumber:String=insertWindow.phonenumber;
+				var zipcode:String=insertWindow.zipcode;
+				var email:String=insertWindow.email;
+				var magicboxaddress:String=insertWindow.magicboxaddress;
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="add";
+				param.homeid=homeid;
+				param.homename=homename;
+				param.homesort=homesort; 
+				param.homeaddress=homeaddress;
+				param.phonenumber=phonenumber;
+				param.zipcode=zipcode;
+				param.email=email;
+				param.magicboxaddress=magicboxaddress;
+				param.mainperson=mainperson;
+				param.mainpersonid=mainpersonid;
+				
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_handler);	
+			}
+			
+			private function success_handler(event:ResultEvent):void
+			{
+				var result:String=event.result.toString();
+				if(result)
+					Alert.show("操作成功！","提示");
+				else
+					Alert.show("操作失败！","提示");
+			}
+			
+			public function check_clickHandler(event:MouseEvent):void
+			{
+				/*
+				var editObj:IFlexDisplayObject = 
+				PopUpManager.createPopUp(DisplayObject(Application.application),CompInfo,true);
+				*/
+				
+				//var editWin:ModifyHomeUser = new ModifyHomeUser();	
+				editWin=PopUpManager.createPopUp(this,EditHomeInfo,true);
+				editWin.homeid1.text=huserdg.cudg.selectedItem.homeID;
+				editWin.homename1.text=huserdg.cudg.selectedItem.homeName;
+				editWin.homesort1.selectedItem=(Object)(huserdg.cudg.selectedItem.homeSort);
+				editWin.homeaddress1.text=huserdg.cudg.selectedItem.homeAddress;
+				editWin.mainperson1.text=huserdg.cudg.selectedItem.mainPerson;
+				editWin.mainpersonid1.text=huserdg.cudg.selectedItem.mainPersonID;
+				editWin.phonenumber1.text=huserdg.cudg.selectedItem.phoneNumber;
+				editWin.email1.text=huserdg.cudg.selectedItem.email;
+				editWin.zipcode1.text=huserdg.cudg.selectedItem.zipCode;
+				editWin.magicboxaddress1.text=huserdg.cudg.selectedItem.magicboxAddress;
+				
+				//show(editWin,this,true);
+				PopUpManager.centerPopUp(editWin as IFlexDisplayObject);
+				//editWin.addEventListener("editHome",modifySaveResp);
+				
+				editWin.mainApp = this;	
+				//editWin.initData();
+				//	editWin.addEventListener("finish",AddRoleFinish);
+				//	PopUpManager.centerPopUp(editWin);	
+			}
+			
+			protected function modifySaveResp(event:Event):void
+			{
+				var homeid:String=insertWindow.homeID;
+				var homename:String=insertWindow.homeName;
+				var homesort:String=insertWindow.homeSort;
+				var homeaddress:String=insertWindow.homeAddress;
+				var mainperson:String=insertWindow.mainPerson;
+				var mainpersonid:String=insertWindow.mainPersonID;
+				var phonenumber:String=insertWindow.phoneNumber;
+				var zipcode:String=insertWindow.zipCode;
+				var email:String=insertWindow.email;
+				var magicboxaddress:String=insertWindow.magicboxAddress;
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;
+				param.kind="edit";
+				param.homeid=homeid;
+				param.homename=homename;
+				param.homesort=homesort; 
+				param.homeaddress=homeaddress;
+				param.phonenumber=phonenumber;
+				param.zipcode=zipcode;
+				param.email=email;
+				param.magicboxaddress=magicboxaddress;
+				param.mainperson=mainperson;
+				param.mainpersonid=mainpersonid;
+				
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,edit_success_handler);	
+			}
+			
+			private function edit_success_handler(event:ResultEvent):void
+			{
+				var result:String=event.result.toString();
+				if(result)
+					Alert.show("操作成功！","提示");
+				else
+					Alert.show("操作失败！","提示");
+			}
+			
+			public function checkhuser_clickHandler(event:MouseEvent):void
+			{
+				//var homeid:String = huserdg.cudg.selectedItem.homeID;
+
+				detailWindow=PopUpManager.createPopUp(this,UserForHome,true);
+				detailWindow.homeid.text=huserdg.cudg.selectedItem.homeID;
+				detailWindow.homename.text=huserdg.cudg.selectedItem.homeName;
+				PopUpManager.centerPopUp(detailWindow as IFlexDisplayObject);
+				//detailWindow.addEventListener("queryHomeUser",queryHomeUserResp);;
+				
+				
+				//var detailWindow:UserForHome = new UserForHome();
+				//detailWindow.homeid.text=huserdg.cudg.selectedItem.homeID;
+				//detailWindow.homename.text=huserdg.cudg.selectedItem.homeName;
+				
+				//detailWindow.mainApp = this;
+				//show(detailWindow,this,true);
+			}
+			
+			public function del_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				Alert.show("您确定删除该家庭么？","提示",3,this,deleteCallBack);
+			}
+			private function deleteCallBack(event:CloseEvent):void
+			{
+				if(event.detail==Alert.YES)
+				{
+					del_home();
+				}
+			}
+			private function del_home():void
+			{
+				var homeid:String = huserdg.cudg.selectedItem.homeID;
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				
+				httpservice.url="http://localhost:8080/icessh/homeObjectServlet";
+				httpservice.method="POST";
+				var param:Object=new Object;  
+				param.kind="del";
+				param.homeid=homeid;
+				//param.username=Login_userName;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,success_del_handler);
+			}
+			private function success_del_handler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				if(re=="ok")
+				{
+					//Alert.show("操作成功！","提示");
+					query_home();
+				}
+				else
+				{
+					Alert.show("操作失败！","提示");
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<mx:Panel x="0" y="0" width="700" height="100%" layout="absolute" title="家庭信息" fontSize="14"  borderColor="#869CA7" color="#FFFFFF">
+		<util:CustomDataGridUnscroll x="0" y="87" height="100%" id="huserdg" width="100%" color="#000000">
+			<util:mygridcolumns>
+				<mx:DataGridColumn headerText="家庭编号" dataField="homeID" editable="false"/>
+				<mx:DataGridColumn headerText="家庭名称" dataField="homeName" editable="false"/>
+				<mx:DataGridColumn headerText="家庭类别" dataField="homeSort" editable="false"/>
+				<mx:DataGridColumn headerText="家庭住址" dataField="homeAddress" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="联系人" dataField="mainPerson" editable="false"/>
+				<mx:DataGridColumn headerText="联系人电话" dataField="phoneNumber" editable="false"/>
+				<mx:DataGridColumn headerText="家庭邮编" dataField="zipCode" editable="false" visible="false"/>
+				
+				<mx:DataGridColumn headerText="邮件" dataField="email" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="魔盒地址" dataField="magicboxAddress" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="联系人id" dataField="mainPersonID" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="查看" draggable="false" textAlign="center" editable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="查看" click="outerDocument.check_clickHandler(event)">								
+							</mx:Button>				
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="家庭成员" draggable="false" textAlign="center" editable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="家庭成员" click="outerDocument.checkhuser_clickHandler(event)">								
+							</mx:Button>				
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+				<mx:DataGridColumn headerText="删除"  draggable="false" textAlign="center" editable="false">
+					<mx:itemRenderer>
+						<fx:Component>
+							<mx:Button label="删除" click="outerDocument.del_clickHandler(event)">	
+							</mx:Button>
+						</fx:Component>
+					</mx:itemRenderer>
+				</mx:DataGridColumn>
+			</util:mygridcolumns>
+		</util:CustomDataGridUnscroll>
+		<mx:HBox x="0" y="0" width="100%" height="50" verticalAlign="middle" horizontalAlign="center" color="#000000">
+			<mx:HBox horizontalAlign="center" verticalAlign="middle" height="31" width="100%">
+				<mx:Label text="家庭编号"/>
+				<mx:TextInput id="homeid"/>
+				<mx:Label text="名称"/>
+				<mx:TextInput id="homename"/>
+				<mx:Button label="查询" id="query" click="con_query_clickHandler(event)"/>
+				<mx:Button label="清空" id="clear" click="clear_clickHandler(event)"/>
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox verticalAlign="middle" height="30" horizontalAlign="right" width="100%" x="0" y="49" color="#000000">
+			<mx:Button label="新增" id="insert"  click="insert_clickHandler(event)"/>
+			<!--			<mx:Button label="明细" id="detail" click="modify_clickHandler(event)"/>-->
+			<!--			<mx:Button label="删除" id="delet" click="delet_clickHandler(event)"/>-->
+			<mx:Label/>
+		</mx:HBox>
+	</mx:Panel>
+	
+</s:Application>

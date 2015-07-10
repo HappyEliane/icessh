@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" creationComplete="application1_creationCompleteHandler(event)"  backgroundColor="#869CA7" xmlns:util="util.*" fontSize="14">
+	<fx:Script>
+		<![CDATA[
+	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
+	import mx.core.IFlexDisplayObject;
+	import mx.events.FlexEvent;
+	import mx.managers.PopUpManager;
+	import mx.rpc.events.FaultEvent;
+	import mx.rpc.events.ResultEvent;
+	
+	
+	private var insertWindow:Object;
+	private var detailWindow:Object;
+	private var modifyWindow:Object;
+	
+	protected function application1_creationCompleteHandler(event:FlexEvent):void
+	{
+		//Alert.show("GD");
+	ro.queryHomeUser();
+	}
+	
+	
+	protected function ro_query_resultHandler(event:ResultEvent):void
+	{
+	huserdg.initdata(event.result as ArrayCollection,10);
+	}
+	
+	
+	protected function ro_query_faultHandler(event:FaultEvent):void
+	{
+		//ro.queryHomeUser();
+	Alert.show("操作失败！");
+	
+	}
+	
+	
+	protected function insert_clickHandler(event:MouseEvent):void
+	{
+	insertWindow=PopUpManager.createPopUp(this,UserDetail,true);
+	PopUpManager.centerPopUp(insertWindow as IFlexDisplayObject);
+	insertWindow.addEventListener("insertUser",insertUserResp);
+	}
+	
+	protected function insertUserResp(event:Event):void
+	{
+	ro.saveHuser(insertWindow.userid,insertWindow.username,insertWindow.gender,insertWindow.birth,insertWindow.birthplace,insertWindow.education,insertWindow.idcard,insertWindow.mobile,insertWindow.address,insertWindow.qqnum,insertWindow.msnnum,insertWindow.email,insertWindow.zipcode,insertWindow.homeid);
+	}
+	
+	protected function ro_save_resultHandler(event:ResultEvent):void
+	{
+	Alert.show("保存成功");
+	ro.queryHomeUser();
+	
+	}
+	
+	protected function ro_save_faultHandler(event:FaultEvent):void
+	{
+	Alert.show("保存失败！");
+	}
+	
+	
+	protected function modify_clickHandler(event:MouseEvent):void
+	{
+	modifyWindow=PopUpManager.createPopUp(this,ModifyHomeUser,true);
+	modifyWindow.userid1.text=huserdg.cudg.selectedItem.h_id;
+	modifyWindow.homeid1.text=huserdg.cudg.selectedItem.homeid;
+	modifyWindow.username1.text=huserdg.cudg.selectedItem.h_name;
+	modifyWindow.g.selectedValue=(Object)(huserdg.cudg.selectedItem.gender);
+	modifyWindow.birth1.text=huserdg.cudg.selectedItem.birth;
+	modifyWindow.birthplace1.text=huserdg.cudg.selectedItem.birthplace;
+	modifyWindow.education1.selectedItem=(Object)(huserdg.cudg.selectedItem.education);
+	
+	
+	
+	modifyWindow.idcard1.text=huserdg.cudg.selectedItem.tel;
+	modifyWindow.mobile1.text=huserdg.cudg.selectedItem.mobile;
+	modifyWindow.address1.text=huserdg.cudg.selectedItem.address;
+	modifyWindow.qqnum1.text=huserdg.cudg.selectedItem.qqnum;
+	modifyWindow.msnnum1.text=huserdg.cudg.selectedItem.msnnum;
+	modifyWindow.email1.text=huserdg.cudg.selectedItem.email;
+	
+	modifyWindow.zipcode1.text=huserdg.cudg.selectedItem.zipcode;
+	//modifyWindow.ismainperson1.text=huserdg.cudg.selectedItem.iamainperson;
+	PopUpManager.centerPopUp(modifyWindow as IFlexDisplayObject);
+	modifyWindow.addEventListener("modifySave",modifySaveResp);
+	}
+	
+	protected function modifySaveResp(event:Event):void
+	{
+	ro.updateHomeUser(modifyWindow.userid,modifyWindow.username,modifyWindow.gender,modifyWindow.birth,modifyWindow.birthplace,modifyWindow.education,modifyWindow.idcard,modifyWindow.mobile,modifyWindow.address,modifyWindow.qqnum,modifyWindow.msnnum,modifyWindow.email,modifyWindow.zipcode,modifyWindow.homeid);
+	}
+	
+	protected function ro_update_resultHandler(event:ResultEvent):void
+	{
+	ro.queryHomeUser();
+	}
+	protected function ro_update_faultHandler(event:FaultEvent):void
+	{
+	Alert.show("修改失败！");
+	}	
+	
+	
+	
+	protected function delet_clickHandler(event:MouseEvent):void
+	{
+	ro.deletHuser(huserdg.cudg.selectedItem.h_id);
+	}
+	
+	protected function ro_delete_resultHandler(event:ResultEvent):void
+	{
+	ro.queryHomeUser();
+	}
+	
+	
+	protected function ro_delete_faultHandler(event:FaultEvent):void
+	{
+	Alert.show("删除失败！");
+	}
+	
+	
+	
+	protected function con_query_clickHandler(event:Event):void
+	{
+	ro.queryHuser(h_id.text);
+	}
+	
+	protected function ro_find_resultHandler(event:ResultEvent):void
+	{
+	huserdg.initdata(event.result as ArrayCollection,1);
+	}
+	
+	
+	protected function ro_find_faultHandler(event:FaultEvent):void
+	{
+	Alert.show("查询失败！");
+	}
+	
+	
+	
+	protected function clear_clickHandler(event:MouseEvent):void
+	{
+	h_id.text = "";
+	h_name.text = "";
+	}
+	
+	]]>
+	</fx:Script>
+	
+	
+	
+	
+	<fx:Declarations>
+	<mx:RemoteObject id="ro" destination="homeUserObject">
+		<mx:method name="saveHuser" result="ro_save_resultHandler(event)" fault="ro_save_faultHandler(event)"/>
+		<mx:method name="queryHomeUser" result="ro_query_resultHandler(event)"  fault="ro_query_faultHandler(event)"/>
+		<mx:method name="queryHuser" result="ro_find_resultHandler(event)" fault="ro_find_faultHandler(event)"/>
+		<mx:method name="deletHuser" result="ro_delete_resultHandler(event)" fault="ro_delete_faultHandler(event)"/>
+		<mx:method name="updateHomeUser" result="ro_update_resultHandler(event)" fault="ro_update_faultHandler(event)"/>
+	</mx:RemoteObject>
+		</fx:Declarations>
+	<mx:Panel x="0" y="0" width="700" height="100%" layout="absolute" title="家庭用户信息" fontSize="14"  borderColor="#869CA7" color="#FFFFFF">
+		<util:CustomDataGridUnscroll x="0" y="87" height="100%" id="huserdg" width="100%" color="#000000">
+			<util:mygridcolumns>
+				<mx:DataGridColumn dataField="isChecked" headerText=" " width="20" sortable="false"  editable="false"/>
+				<mx:DataGridColumn headerText="用户编号" dataField="h_id" editable="false"/>
+				<mx:DataGridColumn headerText="姓名" dataField="h_name" editable="false"/>
+				<mx:DataGridColumn headerText="性别" dataField="gender" editable="false"/>
+				<mx:DataGridColumn headerText="生日" dataField="birth" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="籍贯" dataField="birthplace" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="学历" dataField="education" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="家庭编号" dataField="homeid" editable="false" visible="false"/>
+				
+				<mx:DataGridColumn headerText="手机" dataField="mobile" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="住址" dataField="address" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="qq" dataField="qqnum" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="msn" dataField="msnnum" editable="false" visible="false"/>
+				<mx:DataGridColumn headerText="email" dataField="email" editable="false" textAlign="center"/>
+				<mx:DataGridColumn headerText="身份证号" dataField="idcard" editable="false"  visible="false"/>
+				<mx:DataGridColumn headerText="邮政编码" dataField="zipcode" editable="false" visible="false"/>
+				<!--<mx:DataGridColumn headerText="是否主要联系人" dataField="ismainperson" editable="false" visible="false"/>-->
+			</util:mygridcolumns>
+		</util:CustomDataGridUnscroll>
+		<mx:HBox x="0" y="0" width="100%" height="50" verticalAlign="middle" horizontalAlign="center" color="#000000">
+			<mx:HBox horizontalAlign="center" verticalAlign="middle" height="31" width="100%">
+				<mx:Label text="用户编号"/>
+				<mx:TextInput id="h_id"/>
+				<mx:Label text="姓名"/>
+				<mx:TextInput id="h_name"/>
+				<mx:Button label="查询" id="query" click="con_query_clickHandler(event)"/>
+				<mx:Button label="清空" id="clear" click="clear_clickHandler(event)"/>
+			</mx:HBox>
+		</mx:HBox>
+		<mx:HBox verticalAlign="middle" height="30" horizontalAlign="right" width="100%" x="0" y="49" color="#000000">
+			<mx:Button label="新增" id="insert"  click="insert_clickHandler(event)"/>
+			<mx:Button label="明细" id="detail" click="modify_clickHandler(event)"/>
+			<mx:Button label="删除" id="delet" click="delet_clickHandler(event)"/>
+			<mx:Label/>
+		</mx:HBox>
+	</mx:Panel>
+</s:Application>

@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" width="955"  height="892" currentState="State1" >
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.controls.Text;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.states.SetStyle;
+			import mx.validators.RegExpValidator;
+			
+			import spark.events.IndexChangeEvent;
+			import spark.events.TextOperationEvent;
+			
+			
+			private var chcode:String=null;//验证码
+			private var userid_check:Boolean=false;
+			private var rname_check:Boolean=false;
+			private function check_name():Boolean
+			{
+				var result:Boolean=true;
+				if(userid.text=="" || userid.text==null || !userid_check)
+				{
+					result=false;
+					
+					userid.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			private function check_realname():Boolean
+			{
+				var result:Boolean=true;
+				if(realName.text=="" || realName.text==null)
+				{
+					result=false;
+					realName.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			//验证密码
+			private function isValidPassword():Boolean  
+			{  
+				var str:String=userPass.text;
+				if(str.length !=6)  
+					return false;  
+				var regexArray:RegExp =/^[a-zA-Z]\w{5,17}$/;  
+				 
+				var result:Object;  
+		
+					result = RegExp(regexArray).exec(str);  
+					if(!result)  
+					{  
+						return false;  
+					}  
+  
+				return true;  
+			}  
+			private function check_pw():Boolean
+			{
+				var result:Boolean=true;
+				if(userPass.text=="" || userPass.text==null)
+				{
+					result=false;
+					userPass.setStyle("borderColor","red");
+				}
+				if(!isValidPassword())
+				{
+					result=false;		
+					userPass.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			private function check_conFirm():Boolean
+			{
+				var result:Boolean=true;
+				if(ConfirmPass.text=="" || ConfirmPass.text==null)
+				{
+					result=false;
+					ConfirmPass.setStyle("borderColor","red");
+				}
+				if(ConfirmPass.text!=userPass.text)
+				{
+					result=false;
+					ConfirmPass.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			//验证邮箱
+			private const email_regex:RegExp=/^[w-]+(.[w-]+)*@[w-]+(.[w-]+)+$/;
+			private function validateEmail():Boolean 
+			{
+				if (!email_regex.test(email.text)) {
+					email.setStyle("borderColor","red");  
+					return false;
+				}
+				return true;
+			}
+			private function check_email():Boolean
+			{
+				var result:Boolean=true;
+				if(email.text=="" || email.text==null)
+				{
+					result=false;
+					email.setStyle("borderColor","red");
+				}
+				/*
+				if(!validateEmail())
+				{
+					result=false;
+					email.setStyle("borderColor","red");
+				}
+				*/
+				return result;
+			}
+			private function check_ConfirmEmail():Boolean
+			{
+				var result:Boolean=true;
+				if(ConEmail.text=="" || ConEmail.text==null)
+				{
+					result=false;
+					ConEmail.setStyle("borderColor","red");
+				}
+				if(ConEmail.text!=email.text)
+				{
+					result=false;
+					ConEmail.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			private const number_regex:RegExp =/^(\(\d{3,4}\)|\d{3,4}-)?\d{7,8}$/; 
+			
+			public function valdators():Boolean {
+				if (!number_regex.test(phone.text)) {
+					 return false; 
+				}
+				return true;
+			}
+			private function check_phone():Boolean
+			{
+				var result:Boolean=true;
+				if(phone.text=="" || phone.text==null)
+				{
+					result=false;
+					phone.setStyle("borderColor","red");
+				}
+				if(!valdators())
+				{
+					result=false;
+					phone.setStyle("borderColor","red");
+				}
+				return result;
+			}
+			protected function ueserkind_changingHandler(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				var state:String=userkind.selectedItem.label;
+				//Alert.show(state,"tishi");
+				if(state=="家庭用户")
+				{	
+					var cname:Boolean=check_name();
+					var crealname:Boolean=check_realname();
+					var cpw:Boolean=check_pw();
+					var cconpw:Boolean=check_conFirm();
+					var cemail:Boolean=check_email();
+					var cconemail:Boolean=check_ConfirmEmail();
+					var cphone:Boolean=check_phone();
+					if(cname && crealname && cpw && cconpw && cemail && cconemail && cphone)
+					{
+						//Alert.show("家庭用户","tishi");
+						this.currentState="homestate";
+						generateCheckCode();
+						code.text=chcode;
+						
+						userid.editable=false;
+						userid.enabled=false;
+						realName.editable=false;
+						realName.enabled=false;
+						userPass.editable=false;
+						userPass.enabled=false;
+						ConfirmPass.editable=false;
+						ConfirmPass.enabled=false;
+						email.editable=false;
+						email.enabled=false;
+						ConEmail.editable=false;
+						ConEmail.enabled=false;
+						phone.editable=false;
+						phone.enabled=false;
+						
+						if(!nationList)
+							nationList = new XMLListCollection();
+						if(!stateList)
+							stateList = new XMLListCollection();
+						if(!cityList)
+							cityList = new XMLListCollection();
+						initData(locationCn);
+					
+					}
+					else
+					{
+						userkind.selectedIndex=0;
+					}
+				}
+				if(state=="请选择注册类型")
+				{
+					this.currentState='State1';
+					
+					userid.editable=true;
+					userid.enabled=true;
+					realName.editable=true;
+					realName.enabled=true;
+					userPass.editable=true;
+					userPass.enabled=true;
+					ConfirmPass.editable=true;
+					ConfirmPass.enabled=true;
+					email.editable=true;
+					email.enabled=true;
+					ConEmail.editable=true;
+					ConEmail.enabled=true;
+					phone.editable=true;
+					phone.enabled=true;
+					
+				}
+				
+				if(state=="供应商")
+				{
+					 cname=check_name();
+					 crealname=check_realname();
+					 cpw=check_pw();
+					 cconpw=check_conFirm();
+					 cemail=check_email();
+					 cconemail=check_ConfirmEmail();
+					 cphone=check_phone();
+					if(cname && crealname && cpw && cconpw && cemail && cconemail && cphone)
+					{
+						this.currentState='state02';
+						
+						
+						generateCheckCode();
+						code.text=chcode;
+						
+						userid.editable=false;
+						userid.enabled=false;
+						realName.editable=false;
+						realName.enabled=false;
+						userPass.editable=false;
+						userPass.enabled=false;
+						ConfirmPass.editable=false;
+						ConfirmPass.enabled=false;
+						email.editable=false;
+						email.enabled=false;
+						ConEmail.editable=false;
+						ConEmail.enabled=false;
+						phone.editable=false;
+						phone.enabled=false;
+						
+					}
+					else
+					{
+						userkind.selectedIndex=0;
+					}
+				}
+				
+				
+			}
+
+
+			private function generateCheckCode():void{  
+				//init  
+				var num:Number;  
+				var code:String;  
+				var checkCode:String="";  
+				
+				for(var i:int=0;i<5;i++){  
+					num=Math.round(Math.random()*100000);  
+					if(num%2==0){  
+						code=String.fromCharCode(48+(num%10));  
+					}else{  
+						code=String.fromCharCode(65+(num%26));  
+					}  
+					checkCode +=code;  
+				}  
+				chcode=checkCode;
+				//return checkCode;  
+			}  
+
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				generateCheckCode();
+				code.text=chcode;
+			}
+
+
+			protected function textinput1_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				var str:String=street.text;
+				if(str=="" || str==null)
+				{
+					tip1.setVisible(true);
+				}
+				else
+				{
+					street.setStyle("borderColor","black");
+					tip1.setVisible(false);
+				}
+			}
+
+			protected function userid_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				userid.setStyle("borderColor","black");
+			}
+
+
+			protected function realName_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				realName.setStyle("borderColor","black");
+			}
+
+
+			protected function userPass_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				userPass.setStyle("borderColor","black");
+			}
+
+
+			protected function ConfirmPass_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ConfirmPass.setStyle("borderColor","black");
+			}
+
+
+			protected function email_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				email.setStyle("borderColor","black");
+			}
+
+
+			protected function ConEmail_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ConEmail.setStyle("borderColor","black");
+			}
+
+
+			protected function phone_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				phone.setStyle("borderColor","black");
+			}
+
+			private function check_code():Boolean
+			{
+				var result:Boolean=true;
+				if(chcode.toLocaleLowerCase()!=ccc.text.toLocaleLowerCase())
+				{
+					ccc.setStyle("borderColor","#FF0000");
+					generateCheckCode();
+					code.text=chcode;
+				}
+				return result;
+				
+			}
+
+			protected function ccc_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ccc.setStyle("borderColor","black");
+			}
+
+
+			private function check_street():Boolean
+			{
+				var str:String=street.text;
+				if(str=="" || str==null)
+				{
+					street.setStyle("borderColor","red");
+					return false;
+				}
+				return true;
+			}
+			private function check_contact():Boolean
+			{
+				var con:String=contact.text;
+				if(con==""||con==null)
+				{
+					contact.setStyle("borderColor","red");
+					return false;
+				}
+				return true;
+			}
+			private const con_regex:RegExp =/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/; 
+			
+			public function valdators_contactid():Boolean {
+				if (!con_regex.test(contactid.text)) {
+					return false; 
+				}
+				return true;
+			}
+			private function check_contactid():Boolean
+			{
+				if(!valdators_contactid() || contactid.text=="")
+				{
+					contactid.setStyle("borderColor","red");
+					return false;
+				}
+				return true;
+			}
+			public function valdators_contactphone():Boolean {
+				if (!number_regex.test(contactphone.text)) {
+					return false; 
+				}
+				return true;
+			}
+			private function check_contactphone():Boolean
+			{
+				if(!valdators_contactphone() || contactphone.text=="")
+				{
+					contactphone.setStyle("borderColor","red");
+					return false;
+				}
+				return true;
+			}
+			private function check_address():Boolean
+			{
+				var pro:String=province.selectedItem.@Name;
+				var sta:String=state.selectedItem.@Name;
+				var ci:String=city.selectedItem.@Name;
+				if(pro==""|| pro==null )
+				{
+					province.setStyle("borderColor","red");
+					state.setStyle("borderColor","red");
+					city.setStyle("borderColor","red");
+					return false;
+				}
+				if(sta=="" || sta==null)
+				{
+					state.setStyle("borderColor","red");
+					city.setStyle("borderColor","red");
+					return false;
+				}
+				if(ci=="" ||ci==null)
+				{
+					city.setStyle("borderColor","red");
+					return false;
+				}
+				return true;
+			} 
+			//提交
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				
+				
+					//提交数据库
+					//Alert.show("11111","tishi");
+					var usertype:String=userkind.selectedItem.label;
+					if(usertype=="家庭用户")
+					{
+					//	Alert.show("here","tishi");
+						var cstreet:Boolean=check_street();
+						var ccontact:Boolean=check_contact();
+						var ccontactphone:Boolean=check_contactphone();
+						var ccontactid:Boolean=check_contactid();
+						var ccode:Boolean=check_code();
+						var caddress:Boolean=check_address();
+						
+						ccc.text="";
+						generateCheckCode();
+						code.text=chcode;
+						
+						if(cstreet && ccontact && ccontactphone && ccontactid && ccode && caddress)
+						{
+						var user_name:String=userid.text;
+						var user_real:String=realName.text;
+						var user_pass:String=userPass.text;
+						var user_email:String=email.text;
+						var user_phone:String=phone.text;
+						var user_contact:String=contact.text;
+						var user_contactid:String=contactid.text;
+						var user_contactphone:String=contactphone.text;
+						var useraddress:String=province.selectedItem.@Name+state.selectedItem.@Name+city.selectedItem.@Name+street.text;
+						//httpservice方式与java通信
+						var httpservice:HTTPService=new HTTPService();
+						httpservice.resultFormat="text";
+						//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+						httpservice.url="http://localhost:8080/icessh/flexServlet";
+						httpservice.method="POST";
+						var param:Object=new Object;
+						param.kind="home";
+						param.id=user_name;
+						param.realname=user_real;
+						param.pass=user_pass;
+						param.email=user_email;
+						param.phone=user_phone;
+						param.contact=user_contact;
+						param.contactid=user_contactid;
+						param.contactphone=user_contactphone;
+						param.address=useraddress;
+						httpservice.send(param);
+						httpservice.addEventListener(ResultEvent.RESULT,successhandler);	
+						}
+						else
+						{
+							Alert.show("请填写完整！！！","提示");
+						}	
+					}
+					
+					if(usertype=="供应商")
+					{
+						//	Alert.show("here","tishi");
+						ccc.text="";
+						generateCheckCode();
+						code.text=chcode;
+						if(checkCompany() && checkLegalPerson() && checkComCode()  && checkComContact() && checkComPhone() && checkComStreet() && checkComNum() && checkAddress())
+						{
+						var user_name:String=userid.text;
+						var user_real:String=realName.text;
+						var user_pass:String=userPass.text;
+						var user_email:String=email.text;
+						var user_phone:String=phone.text;
+					
+						var useraddress:String=province1.selectedItem.@Name+city1.selectedItem.@Name+town1.selectedItem.@Name+ComStreet.text;
+						var companyName:String=company.text;
+						var legalperson:String=legalPerson.text;
+						var comcode:String=ComCode.text;
+						var comnum:String=ComNum.selectedItem.label;
+						var comtact:String=ComContact.text;
+						var comphone:String=ComPhone.text;
+						
+						
+						//httpservice方式与java通信
+						var httpservice:HTTPService=new HTTPService();
+						httpservice.resultFormat="text";
+						//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+						httpservice.url="http://localhost:8080/icessh/flexServlet";
+						httpservice.method="POST";
+						var param:Object=new Object;
+						param.kind="provider";
+						param.id=user_name;
+						param.realname=user_real;
+						param.pass=user_pass;
+						param.email=user_email;
+						param.phone=user_phone;
+						param.address=useraddress;
+						param.company=companyName;
+						param.legalperson=legalperson;
+						param.comcode=comcode;
+						param.comnum=comcode;
+						param.comtact=comtact;
+						param.comphone=comphone;
+						
+						httpservice.send(param);
+						httpservice.addEventListener(ResultEvent.RESULT,successhandler);	
+						}	
+						else
+						{
+							Alert.show("请填写完整！！！","提示");
+						}	
+					}
+					
+				
+			}
+			private function successhandler(event:ResultEvent):void
+			{
+				var response:String=null;
+				response=event.message.body.toString();
+				if(response=="ok")
+				{
+					Alert.show("恭喜您，注册成功！","提示");
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"_self");
+				}
+				else
+				{
+					Alert.show("sorry！注册失败！请稍后再试","提示");
+				}
+			}
+			[Bindable]private var nationList:XMLListCollection; //国家数据提供源
+			[Bindable]private var stateList:XMLListCollection; //省数据提供源
+			[Bindable]private var cityList:XMLListCollection; //市数据提供源
+			//初始化数据
+			private function initData(location:XML):void
+			{
+				nationList.source = location.CountryRegion;
+				onNationChange();
+				onStateChange();
+			}
+			//国家联动事件
+			private function onNationChange():void
+			{
+				var x:XML = province.selectedItem as XML;
+				//转换时由于联动关系，x值可能为空，此时用list的第一个数据填充
+				if(x)
+					stateList.source = x.State;
+				else
+					stateList.source = nationList.source[0].State;
+				
+				//如果没有相关的数据则隐藏该combobox
+				if(stateList.length == 0)
+					state.visible = state.includeInLayout = false;
+				else
+					state.visible = state.includeInLayout = true;
+				onStateChange();
+			}
+			
+			//省联动事件
+			private function onStateChange():void
+			{
+				var x:XML = state.selectedItem as XML;
+				//转换时由于联动关系，x值可能为空，此时用list的第一个数据填充
+				if(x)
+					cityList.source = x.City;
+				else
+					cityList.source = stateList.source[0].City;
+				
+				//如果没有相关的数据则隐藏该combobox
+				if(cityList.length == 0)
+					city.visible = city.includeInLayout = false;
+				else
+					city.visible = city.includeInLayout = true;
+			}
+			
+			//名字过长，截取显示
+			private function shortName(x:XML):String
+			{
+				var name:String = x.@Name;
+				return name.length > 13?name.substr(0,13)+"...":name; 
+			}
+
+
+			protected function contact_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				contact.setStyle("borderColor","black");
+			}
+
+
+			protected function contactid_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				contactid.setStyle("borderColor","black");
+			}
+
+
+			protected function contactphone_changingHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				contactphone.setStyle("borderColor","black");
+			}
+
+
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				street.text="";
+				tip1.setVisible(true);
+				contact.text="";
+				contactid.text="";
+				contactphone.text="";
+				ccc.text="";
+				generateCheckCode();
+				code.text=chcode;
+			}
+
+
+			protected function userid_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				load.visible=true;
+				var uid:String=userid.text;
+				if(uid!="")
+				{
+					var httpservice:HTTPService=new HTTPService();
+					httpservice.resultFormat="text";
+					
+					httpservice.url="http://localhost:8080/icessh/useridCheckServlet";
+					httpservice.method="POST";
+					var param:Object=new Object;
+					param.id=uid;
+					httpservice.send(param);
+					httpservice.addEventListener(ResultEvent.RESULT,success_checkid_handler);
+				}
+				else
+				{
+					load.visible=false;
+					load_true.visible=false;
+					load_false.visible=false;
+					userid_check=false;
+				}
+			}
+
+			private function success_checkid_handler(event:ResultEvent):void
+			{
+				var response:String=null;
+				response=event.message.body.toString();
+				load.visible=false;
+				if(response=="ok")
+				{
+					load_false.visible=false;
+					load_true.visible=true;
+					userid_check=true;
+				}
+				else
+				{
+					load_true.visible=false;
+					load_false.visible=true;
+					userid_check=false;
+				}
+			}
+
+			protected function linkbutton2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.currentState='State1';
+				
+				userid.editable=true;
+				userid.enabled=true;
+				realName.editable=true;
+				realName.enabled=true;
+				userPass.editable=true;
+				userPass.enabled=true;
+				ConfirmPass.editable=true;
+				ConfirmPass.enabled=true;
+				email.editable=true;
+				email.enabled=true;
+				ConEmail.editable=true;
+				ConEmail.enabled=true;
+				phone.editable=true;
+				phone.enabled=true;
+				
+				userkind.selectedIndex=0;
+			}
+
+			
+
+			private function checkCompany():Boolean
+			{
+				var com:String=company.text;
+				if(com=="")
+				{
+					company.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					company.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function company_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				company.setStyle("borderColor","black");
+			}
+
+			private function checkLegalPerson():Boolean
+			{
+				var com:String=legalPerson.text;
+				if(com=="")
+				{
+					legalPerson.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					legalPerson.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function legalPerson_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				legalPerson.setStyle("borderColor","black");
+			}
+
+			private function checkComCode():Boolean
+			{
+				var com:String=ComCode.text;
+				if(com=="")
+				{
+					ComCode.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					ComCode.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function ComCode_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ComCode.setStyle("borderColor","black");
+			}
+
+			private function checkComContact():Boolean
+			{
+				var com:String=ComContact.text;
+				if(com=="")
+				{
+					ComContact.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					ComContact.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function ComContact_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ComContact.setStyle("borderColor","black");
+			}
+
+			private function checkComPhone():Boolean
+			{
+				var com:String=ComPhone.text;
+				if(com=="")
+				{
+					ComPhone.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					ComPhone.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function ComPhone_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ComPhone.setStyle("borderColor","black");
+			}
+
+			private function checkComStreet():Boolean
+			{
+				var com:String=ComStreet.text;
+				if(com=="")
+				{
+					ComStreet.setStyle("borderColor","red");
+					return false;
+				}
+				else
+				{
+					ComStreet.setStyle("borderColor","black");
+					return true;
+				}
+			}
+			protected function ComStreet_changeHandler(event:TextOperationEvent):void
+			{
+				// TODO Auto-generated method stub
+				ComStreet.setStyle("borderColor","black");
+			}
+
+			
+			protected function ComStreet_focusInHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				var str:String=ComStreet.text;
+				if(str=="不需要重复填写省市区！")
+				{
+					ComStreet.text="";
+				}
+			}
+
+
+			protected function ComStreet_focusOutHandler(event:FocusEvent):void
+			{
+				// TODO Auto-generated method stub
+				var str:String=ComStreet.text;
+				if(str=="")
+				{
+					ComStreet.text="不需要重复填写省市区！";
+				}
+			}
+			private function checkComNum():Boolean
+			{
+				var num:String=ComNum.selectedItem.label;
+				if(num=="请选择公司规模")
+				{
+					gui.visible=true;
+					return false;
+				}
+				else
+				{
+					gui.visible=false;
+					return true;
+				}
+			}
+			private function checkAddress():Boolean
+			{
+				Alert.show("11111111");
+				var c:String=province1.selectedItem.@Name;
+				var d:String=city1.selectedItem.@Name;
+				var e:String=town1.selectedItem.@Name;
+				Alert.show(c+"-"+d+"-"+e);
+				if(d=="" || c=="" || e=="")
+				{
+					dizhi.visible=true;
+					return false;
+				}
+				else
+				{
+					dizhi.visible=false;
+					return true;
+				}
+			}
+
+
+			protected function ComNum_changeHandler(event:IndexChangeEvent):void
+			{
+				// TODO Auto-generated method stub
+				var num:String=ComNum.selectedItem.label;
+				if(num=="请选择公司规模")
+				{
+					gui.visible=true;
+					
+				}
+				else
+				{
+					gui.visible=false;
+					
+				}
+			}
+
+
+			protected function linkbutton3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"_self");
+			}
+
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="State1"/>
+		<s:State name="homestate"/>
+		<s:State name="state02"/>
+	</s:states>
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<fx:XML id="address">
+			<data>
+				<province label="黑龙江省">
+				</province>
+				<province label="河北省">
+				</province>
+			</data>
+		</fx:XML>
+		
+		<fx:XML id="locationCn" format="e4x" source="chinese.xml"/>
+	</fx:Declarations>
+	<s:BorderContainer x="0" y="0" width="955" height="194">
+		<mx:SWFLoader x="0" y="0" width="955" height="100%" source="assets/12.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<s:Label x="652" y="25" text="智慧家庭服务中心" fontSize="40" fontFamily="Times New Roman" chromeColor="#2BD4A6" color="#0C0C0C" fontWeight="bold" fontStyle="italic" x.State1="600" fontFamily.State1="微软雅黑" fontStyle.State1="normal" fontWeight.State1="normal"/>
+		<s:Label x="675" y="75" text="SMART HOME SERVICE CENTER" fontSize="18" fontFamily="Times New Roman" width="277" x.State1="620"/>
+		
+		<mx:SWFLoader x="10" y="150" width="300" height="30" source="assets/aaa.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<mx:SWFLoader x="10" y="10" width="270" height="45" source="assets/bbb.swf" scaleContent="true" maintainAspectRatio="false"/>
+		
+	</s:BorderContainer>
+	<mx:Image  x="0" y="229" width="955" height="536" source="assets/back03.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	<!--<mx:Image x="248" y="230" width="465" height="270" id="imageDowd" source="assets/1.jpg"/>-->
+	<s:BorderContainer x="0" y="193" width="955" height="38">
+		<mx:Image width="100%" height="100%" source="assets/back.jpg" scaleContent="true" maintainAspectRatio="false"/>
+		<mx:VRule x="130" y="6" height="27" chromeColor="#E41919"/>
+		<s:Label x="54" y="13" text="首页" fontSize="14" fontWeight="normal" fontFamily="Times New Roman" includeIn="homestate,state02"/>
+		<s:Label x="166" y="12" text="新闻资讯" fontSize="14" fontFamily="Times New Roman" fontFamily.State1="微软雅黑"/>
+		<mx:VRule x="260" y="6" height="27"/>
+		<s:Label x="296" y="13" text="产品中心" fontSize="14" fontFamily="Times New Roman" fontFamily.State1="微软雅黑"/>
+		<mx:VRule x="390" y="6" height="26"/>
+		<s:Label x="431" y="12" text="经典案例" fontFamily="Times New Roman" fontSize="14" fontFamily.State1="微软雅黑"/>
+		<mx:VRule x="520" y="6" height="26"/>
+		<s:Label x="554" y="14" text="解决方案" fontFamily="Times New Roman" fontSize="14" fontFamily.State1="微软雅黑"/>
+		<mx:VRule x="650" y="6" height="26"/>
+		<s:Label x="695" y="11" text="合作加盟" fontFamily="Times New Roman" fontSize="14" fontFamily.State1="微软雅黑"/>
+		<mx:VRule x="780" y="6" height="26"/>
+		<s:Label x="828" y="10" text="联系我们" fontFamily="Times New Roman" fontSize="14" fontFamily.State1="微软雅黑"/>
+		<mx:LinkButton includeIn="State1" x="40" y="6" label="首页" fontSize="14" click="linkbutton3_clickHandler(event)" fontFamily="微软雅黑"/>
+	</s:BorderContainer>
+	<!--<s:Label x="726" y="512" text="常用连接" fontSize="14" fontFamily="Times New Roman"/>-->
+	<s:BorderContainer x="0" y="748" width="955" height="144" borderVisible="false">
+		<mx:Image x="0" y="0" width="954" height="143" source="assets/back03.jpg" scaleContent="true" maintainAspectRatio="false"/>
+		<s:BorderContainer x="31" y="34" width="254" height="83">
+			<mx:Image x="0" y="0" width="93" height="100%" source="assets/phone.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="97" y="10" text="电话" fontFamily.homestate="微软雅黑" fontFamily.state02="微软雅黑"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="346" y="34" width="254" height="83">
+			<mx:Image x="0" y="0" width="93" height="100%" source="assets/address.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="93" y="10" text="地址" fontFamily.homestate="微软雅黑" fontFamily.state02="微软雅黑"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="669" y="34" width="254" height="83">
+			<mx:Image x="0" y="0" width="93" height="100%" source="assets/email.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Label x="95" y="10" text="邮箱" fontFamily.homestate="微软雅黑" fontFamily.state02="微软雅黑"/>
+		</s:BorderContainer>
+		<s:Label x="10" y="10" text="contact us" color="#04BEFB" fontWeight="bold" fontFamily="Times New Roman" fontSize="13" color.homestate="#037094"/>
+		
+	</s:BorderContainer>
+	<s:BorderContainer x="212" y="236" width="496" height="514" x.homestate="19" y.homestate="241" width.homestate="926" width.state02="926" x.state02="19" y.state02="241" fontFamily.State1="微软雅黑" fontFamily.homestate="微软雅黑" fontFamily.state02="微软雅黑">
+		<s:Label x="208" y="10" text="用户注册" fontSize="17" x.homestate="416" y.homestate="9" text.homestate="家庭用户注册" text.state02="供应商用户注册" x.state02="399" y.state02="10" fontFamily.State1="微软雅黑"/>
+		<s:Label x="24" y="115" text="真实姓名：" fontSize="14" width.homestate="70" width.state02="70"/>
+		<s:TextInput x="102" y="110" width="180" id="realName" height="26" width.homestate="131" changing="realName_changingHandler(event)" width.state02="131"/>
+		
+		<s:Label x="45" y="163" text="密码：" fontSize="14" width.homestate="70" x.homestate="24" paddingLeft.homestate="16" text.homestate="密   码："  paddingLeft.state02="16" text.state02="密   码：" width.state02="70" x.state02="24"/>
+		<s:TextInput x="102" y="158" width="180" id="userPass" height="26" width.homestate="146" displayAsPassword="true" changing="userPass_changingHandler(event)" maxChars="16" width.state02="146"/>
+		<s:Label x="24" y="220" text="确认密码：" fontSize="14" width.homestate="70" paddingLeft.homestate="0" paddingLeft.state02="0" width.state02="70"/>
+		<s:TextInput x="102" y="211" width="180" id="ConfirmPass" height="26" width.homestate="147" displayAsPassword="true" changing="ConfirmPass_changingHandler(event)" maxChars="16"  width.state02="147"/>
+		<s:Label x="24" y="275" text="登录邮箱：" fontSize="14" width.homestate="70" width.state02="70"/>
+		<s:TextInput x="102" y="269" width="180" id="email" height="26" changing="email_changingHandler(event)"/>
+		<s:Label x="24" y="325" text="确认邮箱：" fontSize="14" width.homestate="70" width.state02="70"/>
+		<s:TextInput x="102" y="322" width="180" id="ConEmail" height="26" changing="ConEmail_changingHandler(event)"/>
+		<s:Label x="49" y="386" text="电话：" fontSize="14" width.homestate="70" x.homestate="24" text.homestate="电   话：" paddingLeft.homestate="16" paddingLeft.state02="16" text.state02="电   话：" width.state02="70" x.state02="24"/>
+		<s:TextInput x="102" y="381" width="180" id="phone" height="26" changing="phone_changingHandler(event)"/>
+		<s:Label x="28" y="442" text="用户类型：" fontSize="14" width.homestate="70" x.homestate="24" y.homestate="445" width.state02="70" x.state02="24" y.state02="445"/>
+		<s:DropDownList selectedIndex="0" x="102" y="440" width="179" id="userkind" height="26" changing="ueserkind_changingHandler(event)"  width.homestate="130" width.state02="130" chromeColor.homestate="#FFFFFF">
+			<mx:ArrayCollection> 
+				<fx:Object label="请选择注册类型" data="0"/>
+				<fx:Object label="供应商" data="2"/> 
+				<fx:Object label="家庭用户" data="3"/> 
+			</mx:ArrayCollection> 
+		</s:DropDownList>
+		<s:Label x="305" y="114" text="(需要填写注册用户真实姓名！)" color="#FF0000" includeIn="State1"/>
+		<s:Label x="310" y="160" text="(以字母开头，长度在6-18之间，&#xd;只能包含字符、数字和下划线）" color="#FF0000" includeIn="State1" height="42"/>
+		<s:Label x="308" y="278" text="(填写真实有效邮箱)" color="#FF0000" includeIn="State1"/>
+		<s:Label x="31" y="71" text="用户名：" fontSize="14" width.homestate="70" x.homestate="24" paddingLeft.homestate="14" paddingLeft.state02="14" width.state02="70" x.state02="24"/>
+		<s:TextInput x="102" y="62" width="180" id="userid" height="26" width.homestate="132" changing="userid_changingHandler(event)" width.state02="132" change="userid_changeHandler(event)"/>
+		
+		<s:BorderContainer includeIn="homestate" x="333" y="64" width="581" height="296">
+		<s:Label includeIn="homestate" x="6" y="14" text="家庭地址：" fontSize="14"/>
+		<s:DropDownList includeIn="homestate" x="86" y="7" height="26" id="province" dataProvider="{nationList}" labelFunction="{shortName}" change="onNationChange()" enabled="true" width="130" selectedIndex="0" chromeColor="#FFFFFF">		
+		</s:DropDownList>
+		<s:DropDownList includeIn="homestate" x="234" y="7" height="26" id="state" dataProvider="{stateList}" labelFunction="{shortName}" change="onStateChange()" enabled="true" width="130" chromeColor="#FFFFFF" selectedIndex="0"></s:DropDownList>
+		<s:DropDownList includeIn="homestate" x="384" y="7" height="26" id="city" dataProvider="{cityList}" labelFunction="{shortName}" enabled="true" width="130" chromeColor="#FFFFFF" selectedIndex="0"></s:DropDownList>		
+		<s:Label includeIn="homestate" x="6" y="66" text="街道地址：" fontSize="14"/>
+		<s:TextInput includeIn="homestate" x="86" y="60" width="348" height="26" change="textinput1_changingHandler(event)" id="street"/>
+		<s:Label includeIn="homestate" x="94" y="66" text="不需要重复填写省市区！" id="tip1" enabled="false"  color="#C4C1C1"/>
+		<s:Label includeIn="homestate" x="21" y="118" text="联系人：" fontSize="14"/>
+		<s:TextInput includeIn="homestate" x="86" y="110" height="26" id="contact" changing="contact_changingHandler(event)"/>
+		<s:Label includeIn="homestate" x="7" y="163" text="身份证号：" fontSize="14"/>
+		<s:TextInput includeIn="homestate" x="86" y="158" width="204" height="26" id="contactid" changing="contactid_changingHandler(event)"/>
+		<s:Label includeIn="homestate" x="6" y="213" text="联系电话：" fontSize="14"/>	
+		<s:TextInput includeIn="homestate" x="86" y="207" height="26" id="contactphone" changing="contactphone_changingHandler(event)"/>
+		<s:Label x="497" y="276" text="用户详细信息" color="#FF0000"/>
+		</s:BorderContainer>
+		
+		<s:Button includeIn="homestate,state02" x="511" y="431" label="提交" height="26" width="100" click="button1_clickHandler(event)" x.homestate="508" y.homestate="452" x.state02="506" y.state02="431"/>
+		<s:Button includeIn="homestate,state02" x="635" y="430" label="重置" height="26" width="100" click.homestate="button2_clickHandler(event)" x.homestate="632" y.homestate="451" x.state02="630" y.state02="430"/>
+		<s:Label includeIn="homestate,state02" x="362" y="330" text="验证码：" fontSize="14" x.state02="386" y.state02="373" x.homestate="353" y.homestate="417"/>
+		<s:TextInput includeIn="homestate,state02" x="427" y="322" width="66" height="26" x.state02="454" y.state02="365" id="ccc" changing="ccc_changingHandler(event)" maxChars="5" x.homestate="418" y.homestate="409"/>
+		<s:TextArea includeIn="homestate,state02" x="512" y="322" width="60" height="26" borderVisible="false" editable="false" id="code" enabled="false" x.state02="539" y.state02="365" x.homestate="503" y.homestate="409"/>
+		<mx:LinkButton includeIn="homestate,state02" x="575" y="324" label="换一个" click="linkbutton1_clickHandler(event)" x.state02="602" y.state02="367" x.homestate="566" y.homestate="411"/>
+		<mx:VRule includeIn="homestate" x="315" y="95" height="136"/>
+		
+		<s:BorderContainer includeIn="state02" x="352" y="64" width="562" height="277">
+		<s:Label includeIn="state02" x="28" y="14" text="公司全名：" fontSize="14" />
+		<s:TextInput includeIn="state02" x="107" y="10" width="420" height="25" id="company" changing="company_changeHandler(event)"/>
+		<s:Label includeIn="state02" x="28" y="66.85" text="公司法人：" fontSize="14"/>
+		<s:TextInput includeIn="state02" x="107" y="60.85" width="130" height="25" id="legalPerson" changing="legalPerson_changeHandler(event)"/>
+		<s:Label includeIn="state02" x="265" y="66.85" text="组织机构代码号：" fontSize="14"/>
+		<s:TextInput includeIn="state02" x="380" y="60.85" height="25" width="148" id="ComCode" changing="ComCode_changeHandler(event)"/>
+		<s:Label includeIn="state02" x="28" y="193.85" text="公司规模：" fontSize="14"/>
+		<s:DropDownList includeIn="state02" x="107" y="186.85" height="25" id="ComNum" width="130" selectedIndex="0" change="ComNum_changeHandler(event)">
+			<mx:ArrayCollection> 
+				<fx:Object label="请选择公司规模" data="0"/>
+				<fx:Object label="1~100人" data="2"/> 
+				<fx:Object label="100-500人" data="3"/> 
+				<fx:Object label="500-1000人" data="4"/> 
+				<fx:Object label="1000-5000人" data="5"/> 
+				<fx:Object label=">5000人" data="6"/> 
+			</mx:ArrayCollection> 
+		</s:DropDownList>
+		<s:Label includeIn="state02" x="42" y="239.85" text="联系人：" fontSize="14"/>
+		<s:TextInput includeIn="state02" x="107" y="232.85" height="25" id="ComContact" width="130" changing="ComContact_changeHandler(event)"/>
+		<s:Label includeIn="state02" x="325" y="238.85" text="联系方式：" fontSize="14"/>
+		<s:TextInput includeIn="state02" x="400" y="231.85" height="25" id="ComPhone" changing="ComPhone_changeHandler(event)"/>
+		<s:Label includeIn="state02" x="28" y="108.85" text="公司地址：" fontSize="14"/>
+		<s:DropDownList includeIn="state02" x="107" y="104.85" height="25" width="130" id="province1" dataProvider="{nationList}" labelFunction="{shortName}" change="onNationChange()" enabled="true"  selectedIndex="0" chromeColor="#FFFFFF"></s:DropDownList>
+		<s:DropDownList includeIn="state02" x="255.05" y="104.85" height="25" width="130" id="city1" dataProvider="{stateList}" labelFunction="{shortName}" change="onStateChange()" enabled="true" chromeColor="#FFFFFF" selectedIndex="0"></s:DropDownList>
+		<s:DropDownList includeIn="state02" x="397.05" y="104.85" width="130" height="25" id="town1" dataProvider="{cityList}" labelFunction="{shortName}" enabled="true" chromeColor="#FFFFFF" selectedIndex="0"></s:DropDownList>
+		<s:Label includeIn="state02" x="28" y="151.85" text="街道地址：" fontSize="14"/>
+		<s:TextInput includeIn="state02" x="107" y="147.85" height="25" width="420" id="ComStreet" text="不需要重复填写省市区！" changing="ComStreet_changeHandler(event)" focusIn="ComStreet_focusInHandler(event)" focusOut="ComStreet_focusOutHandler(event)"/>
+		<s:Label x="246" y="193" text="（？）" color="#FF0000" id="gui" visible="false"/>
+		<s:Label x="526" y="110" text="（？）" color="#FF0000" id="dizhi" visible="false"/>
+		
+		</s:BorderContainer>
+		<mx:SWFLoader includeIn="State1" x="296" y="65" width="20" height="20" source="assets/loading.swf" visible="false" id="load"/>
+		<s:Label includeIn="State1" x="303" y="67" text="此用户名可用！" color="#05A905" id="load_true" visible="false"/>
+		<s:Label includeIn="State1" x="304" y="66" text="此用户名已被占用！" color="#BB0404" id="load_false" visible="false"/>
+		<mx:VRule includeIn="homestate" x="315" y="288"/>
+		<s:Label includeIn="homestate" x="310" y="231" text="分"/>
+		<s:Label includeIn="homestate" x="310" y="251" text="割"/>
+		<s:Label includeIn="homestate" x="310" y="270" text="线"/>
+		<mx:VRule x="315" y="95" height="136" includeIn="state02"/>
+		<mx:VRule x="315" y="288" includeIn="state02"/>
+		<s:Label x="310" y="231" text="分" includeIn="state02"/>
+		<s:Label x="310" y="251" text="割" includeIn="state02"/>
+		<s:Label x="310" y="270" text="线" includeIn="state02"/>
+		<mx:LinkButton includeIn="homestate,state02" x="790" y="432" label="返回" click="linkbutton2_clickHandler(event)" x.homestate="874" y.homestate="480" x.state02="874" y.state02="481"/>
+		
+	
+		
+		
+	</s:BorderContainer>
+</s:Application>

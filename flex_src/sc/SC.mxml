@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="application1_creationCompleteHandler(event)" minWidth="1000" minHeight="600" width="1000"  height="892" xmlns:google="http://code.google.com/p/flex-iframe/" xmlns:flex_src="flex_src.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.XMLListCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.events.ListEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+
+			public var company:XML;
+			
+			[Bindable]
+			private var Data1:XML=<list>
+			<order name="我的业务">
+			<order name="菜单A" />
+			<order name="菜单B" />
+			</order>
+			</list>;
+			
+			[Bindable]
+			private var sdata:XMLListCollection=new XMLListCollection(Data1.order);
+			
+			
+			protected function tree_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var item:Object = Tree(event.currentTarget).selectedItem;
+				if (!tree.dataDescriptor.isBranch(item)) {
+				var item1:String=tree.selectedItem.@name;
+				var item2:String=tree.selectedItem.@url;
+				frm.source=item2;
+				//Alert.show(item2,"tishi");
+				}
+			}
+
+
+			protected function tree_itemClickHandler(event:ListEvent):void
+			{
+				// TODO Auto-generated method stub
+			
+					var item:Object = Tree(event.currentTarget).selectedItem;
+					if (tree.dataDescriptor.isBranch(item)) {
+						tree.expandItem(item, !tree.isItemOpen(item), true);
+						//var item:String=tree.selectedNode.@label;
+						//Alert.show("item","tishi");
+					}
+				
+			}
+
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+			//	Alert.show("11111111");
+				var test2:SharedObject=SharedObject.getLocal("userLogin","/");
+			//	lg.text=""+test2.size+test2.data.name+test2.data.org+test2.data.role;
+				
+				if(test2.size)
+				{
+				//	Alert.show("用户登录成功");
+					var name:String=test2.data.name;
+					var org:String=test2.data.org;
+					var role:String=test2.data.role;
+				//	Alert.show("用户登录成功");
+					username.text=name;
+					orgname.text=org;
+					roleName.text=role;
+					
+					var httpservice:HTTPService=new HTTPService();
+					httpservice.resultFormat="text";
+					//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+					httpservice.url="http://localhost:8080/icessh/UserLoginServlet";
+					httpservice.method="POST";
+					var param:Object=new Object;
+					param.kind="menu";
+					
+					param.role=role;
+					param.user=name;
+					httpservice.send(param);
+					httpservice.addEventListener(ResultEvent.RESULT,successhandler);	
+				
+				}
+				else 
+				{
+					navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"_self");
+				}
+			}
+			private function successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();
+				//Alert.show(re);
+				
+				
+				var company:XML=new XML("<list>"+re+"</list>");
+				var companyData:XMLListCollection=new XMLListCollection(company.menu);
+				sdata=companyData;
+				tree.dataProvider=companyData;
+				
+				
+			}
+			//退出登录
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				Alert.show("退出登录");
+				var cookie:SharedObject=SharedObject.getLocal("userLogin","/");
+				cookie.clear();
+				navigateToURL(new URLRequest("http://localhost:8080/icessh/ICESSHSC.html"),"_self");
+			}
+
+			private function readLoginUser():void
+			{
+				
+			}
+			
+
+  
+		
+
+
+			
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+		// 引入两个外部图片，并且绑定到一个Class对象上
+		[Bindable]
+		[Embed(source="assets/add.jpg")] 
+		public var iconSymbol1:Class; 
+		[Bindable]
+		[Embed(source="assets/minus.jpg")] 
+		public var iconSymbol2:Class;
+		[Bindable]
+		[Embed(source="assets/comp.png")] 
+		public var iconSymbol3:Class;
+		//创建一个设置icon的方法
+		
+		]]>
+	</fx:Script>
+	<fx:Style> 
+		@namespace s "http://www.adobe.com/2006/mxml";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		mx|Tree { 
+		folderClosedIcon: ClassReference(null); 
+		folderOpenIcon: ClassReference(null); 
+		fontSize:13;
+		
+		fontFamily:"宋体";
+		} 
+	</fx:Style>
+	<fx:Style> 
+		@namespace s "http://www.adobe.com/2006/mxml";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		mx|Tree { 
+		defaultLeafIcon: ClassReference(null); 
+		} 
+	</fx:Style> 
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<fx:XML id="treeData">
+			<data>
+			<group label="基础功能">
+				<node label="用户管理" data="http://localhost:8080/userole/icesuser.html"/>
+				<node label="角色功能配置"/>
+				<node label="业务中心定义"/>
+				<node label="业务中心配置"/>
+				<node label="业务中心查询"/>
+				<node label="注册但审核"/>
+				<node label="家庭用户管理"/>
+				<node label="供应商管理"/>
+			</group>
+			<group label="智慧魔盒管理">
+				<node label="魔盒基本信息维护"/>
+				<node label="服务管理"/>
+			</group>
+			<group label="构件库管理">
+				<node label="功能构件管理"/>
+				<node label="WebService管理"/>
+			</group>
+			</data>
+		</fx:XML>
+		
+		
+	</fx:Declarations>
+	
+	<s:BorderContainer x="0" y="0" width="1000" height="892" borderWeight="2" borderColor="#3F7088">
+		
+	<s:BorderContainer x="0" y="0" width="998" height="194">
+		<mx:SWFLoader x="0" y="0" width="996" height="100%" source="assets/12.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<s:Label x="652" y="25" text="智慧家庭服务中心" fontSize="40" fontFamily="微软雅黑" chromeColor="#2BD4A6" color="#0C0C0C" fontWeight="normal" fontStyle="normal"/>
+		<s:Label x="675" y="75" text="SMART HOME SERVICE CENTER" fontSize="18" fontFamily="Times New Roman" width="277"/>
+		
+		<mx:SWFLoader x="10" y="150" width="300" height="30" source="assets/aaa.swf" scaleContent="true" maintainAspectRatio="false"/>
+		<mx:SWFLoader x="10" y="10" width="270" height="45" source="assets/bbb.swf" scaleContent="true" maintainAspectRatio="false"/>
+		
+		  
+	</s:BorderContainer>
+	<mx:Image x="0" y="193" height="33" width="996" source="assets/back07.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	<s:Label x="10" y="202" text="欢迎您：" fontSize="14" fontFamily="微软雅黑"/>
+	<s:TextArea x="71" y="198" height="21" width="105" id="username" borderVisible="false" editable="false" fontFamily="微软雅黑"/>
+	<mx:HRule x="0" y="224" width="1000"/>
+	<s:Label x="195" y="204" text="所属组织：" fontSize="14" fontFamily="微软雅黑"/>
+	<s:TextArea x="273" y="198" height="21" width="105" id="orgname" borderVisible="false" editable="false" fontFamily="微软雅黑"/>
+	<mx:LinkButton x="920" y="198" label="退出" click="button1_clickHandler(event)" fontFamily="微软雅黑"/>
+	<s:BorderContainer x="0" y="224" width="232" height="611" borderWeight="2" borderColor="#0389FA">
+		<mx:Tree x="0" y="-1" height="608" id="tree"  labelField="@name" width="229"  dataProvider="{sdata}"
+				 doubleClickEnabled="true" click="tree_clickHandler(event)" itemClick="tree_itemClickHandler(event)" borderColor="#0389FA" disclosureClosedIcon="{iconSymbol1}" disclosureOpenIcon="{iconSymbol2}" 
+				 contentBackgroundColor="#DFEBF7" defaultLeafIcon="{iconSymbol3}" useHandCursor="true" buttonMode="true"    depthColors="[#DFEBF7,#b9ddf7,#88cfeb,#DFEBF7,#b9ddf7,#88cfeb,#DFEBF7,#b9ddf7,#88cfeb]" rollOverColor="#FFFFFF" fontFamily="微软雅黑"></mx:Tree>
+	
+	</s:BorderContainer>
+	<s:TextArea x="650" y="198" height="21" borderVisible="false" editable="false" id="roleName" fontFamily="微软雅黑"/>
+	
+	
+	<s:BorderContainer x="230" y="225" width="702" height="610" borderWeight="2" borderColor="#0389FA">
+	<google:IFrame id="frm"  source=""  height="100%" width="100%"  />
+</s:BorderContainer>
+	<s:BorderContainer x="0" y="834" width="999" height="56" borderVisible="true" borderWeight="2" borderColor="#0389FA">
+		<mx:Image x="0" y="0" height="54" width="994" source="assets/bottom01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	</s:BorderContainer>
+	<s:Label x="579" y="202" text="当前角色：" fontSize="14" fontFamily="微软雅黑"/>
+	<mx:Image x="932" y="226" height="608" width="63" source="assets/back03.jpg" scaleContent="true" maintainAspectRatio="false"/>
+	<mx:Image x="960" y="198" height="21" width="20" source="assets/exit.png"/>
+	
+
+	</s:BorderContainer>
+	
+
+	
+	
+	
+	
+</s:Application>

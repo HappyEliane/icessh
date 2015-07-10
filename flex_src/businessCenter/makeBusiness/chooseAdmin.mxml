@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" layout="absolute" creationComplete="application1_creationCompleteHandler(event)"   backgroundColor="#FDFEFE" width="660" height="500"  xmlns:CheckBoxColum="Common.controls.CheckBoxColum.*" xmlns:util="util.*">
+
+	<fx:Script>
+		<![CDATA[
+			import flash.display.DisplayObject;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.Blur;
+			import mx.effects.Parallel;
+			import mx.effects.Zoom;
+			import mx.events.TweenEvent;
+			import mx.managers.PopUpManager;
+			
+			public static function show(control:IFlexDisplayObject,parent:DisplayObject,modal:Boolean):void{
+				var parallel:Parallel=new Parallel();
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=0.2;
+				zoom.zoomWidthFrom=0.2;
+				zoom.zoomHeightTo=1;
+				zoom.zoomWidthTo=1;
+				var mShowEffect:Blur=new Blur();
+				mShowEffect.blurXFrom=255;
+				mShowEffect.blurYFrom=255;
+				mShowEffect.blurXTo=0;
+				mShowEffect.blurYTo=0;
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.addChild(mShowEffect);
+				parallel.addChild(zoom);
+				PopUpManager.addPopUp(control,parent,modal);
+				PopUpManager.centerPopUp(control);
+				parallel.play();
+			}
+			/*关闭隐藏特效  */
+			public static function remove(control:IFlexDisplayObject):void
+			{
+				var parallel:Parallel=new Parallel();
+				var mHideEffect:Blur=new Blur();
+				mHideEffect.blurXFrom=0;
+				mHideEffect.blurYFrom=0;
+				mHideEffect.blurXTo=255;
+				mHideEffect.blurYTo=255;
+				var zoom:Zoom=new  Zoom();
+				zoom.zoomHeightFrom=1;
+				zoom.zoomWidthFrom=1;
+				zoom.zoomHeightTo=0;
+				zoom.zoomWidthTo=0;
+				parallel.addChild(mHideEffect);
+				parallel.addChild(zoom);
+				//PopUpManager.removePopUp(control);
+				mHideEffect.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				zoom.addEventListener(TweenEvent.TWEEN_END,function():void{
+					PopUpManager.removePopUp(control);
+				});
+				parallel.duration=500;
+				parallel.target=control;
+				parallel.play();
+			}
+		]]>
+	</fx:Script>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			
+			var Login_user:String="";//当前登录的用户
+			var Login_role:String="";
+			var mainApp:bcindex=null;
+			[Bindable] 
+			private var today:Date = new Date(new Date().setHours(0,0,0,0)); 
+			[Bindable] 
+			private var start:Date = today; 
+			[Bindable] 
+			private var end:Date = start; 
+			
+			//======================================= 
+			//Event Handler 
+			//======================================= 
+			
+			/*DateChange*/ 
+			private function onDateChangeHandler(event:Event):void 
+			{ 
+				//var currentDF:DateField = DateField(event.currentTarget); 
+				
+				
+				if(usd.text == "") 
+				{ 
+					usd.selectedDate = start; 
+				} 
+				else 
+				{ 
+					start = usd.selectedDate;         
+				} 
+				
+				if(ued.text == "") 
+				{ 
+					ued.selectedDate = this.end; 
+				} 
+				else 
+				{ 
+					this.end = ued.selectedDate; 
+				} 
+				
+			}        
+			//查询用户-角色对
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var name:String=uname.text;
+				var role:String=urole.text;
+				var sd:String=usd.text;
+				var ed:String=ued.text;
+				
+				
+				var httpservice:HTTPService=new HTTPService();
+				httpservice.resultFormat="text";
+				//httpservice.url="http://2.icessh.duapp.com/flexServlet";
+				httpservice.url="http://localhost:8080/icessh/BCUserRoleServlet";
+				httpservice.method="POST";
+				httpservice.resultFormat=HTTPService.RESULT_FORMAT_ARRAY;
+				var param:Object=new Object;
+				param.kind="queryUserRole";
+				param.makeuser=Login_user;
+				param.makerole=Login_role;
+				param.name=name;
+				param.role=role;
+				param.sd=sd;
+				param.ed=ed;
+				httpservice.send(param);
+				httpservice.addEventListener(ResultEvent.RESULT,Query_User_Role_successhandler);	
+				
+			}
+			import com.adobe.serialization.json.JSON;						  //JSON:1
+			[Bindable]
+			private var jsonObj:Object; 	
+			private function Query_User_Role_successhandler(event:ResultEvent):void
+			{
+				var re:String=event.result.toString();                        //JSON:3
+				jsonObj=JSON.decode(re);                                      //JSON:4
+				var r:ArrayCollection=new ArrayCollection(jsonObj as Array);  //JSON:5	
+				//JSON:7
+				var g2:Object=r.getItemAt(0);
+				var g1:ArrayCollection=new ArrayCollection(g2 as Array);
+				
+				//	Alert.show(re);
+				grid1.initdata(g1,10);	
+				
+			}
+
+			var userroleid:String="";
+			var username:String="";
+			var rolename:String="";
+			protected function button2_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+				var initDG1:ArrayCollection=new ArrayCollection();
+					initDG1=grid1.cudg.dataProvider as ArrayCollection;
+				var allRows:int =initDG1.length;
+				//	Alert.show(""+allRows,"tishi");
+				userroleid="";
+				username="";
+				rolename="";
+				for(var i:int=0;i<allRows;i++)
+				{
+					if(initDG1[i].selected==true)
+					{
+					//	Alert.show("111111");
+						userroleid=initDG1.getItemAt(i).id;
+						username=initDG1.getItemAt(i).username;
+						rolename=initDG1.getItemAt(i).rolename;
+						
+					}
+				}
+				if(userroleid!="")
+				{
+					Alert.show(username+"--"+rolename,"您确定选择以下用户-角色么？",3,this,deleteCallBack);
+				}
+				else
+				{
+					Alert.show("请选择一个管理员！","提示");
+				}
+			}
+			import mx.events.CloseEvent;
+			private function deleteCallBack(event:CloseEvent):void
+			{
+				if(event.detail==Alert.YES)
+				{
+					mainApp.userroleid=userroleid;
+					mainApp.username=username;
+					mainApp.rolename=rolename;
+					dispatchEvent(new Event("finish",false));
+				//	PopUpManager.removePopUp(this);
+					remove(this);
+				}
+			}
+
+
+			protected function button3_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				//PopUpManager.removePopUp(this);
+				remove(this);
+			}
+
+
+			protected function linkbutton1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				usd.text="";
+				ued.text="";
+			}
+
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				usd.text="";
+				ued.text="";
+			}
+
+		]]>
+	</fx:Script>
+
+	
+	
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import Common.controls.CheckBoxColum.CheckBoxHeaderRenderer;
+			import Common.controls.CheckBoxColum.CheckBoxItemRenderer;
+		]]>
+	</fx:Script>
+	<s:BorderContainer x="0" y="0" width="660" height="500" borderColor="#000000" borderWeight="2">
+		<s:BorderContainer x="10" y="10" width="636" height="200">
+			<s:BorderContainer x="-1" y="-2" width="635" height="28">
+				<mx:Image x="0" y="0" width="634" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+				<s:Label x="10" y="6" text="查询条件" fontSize="14" fontFamily="微软雅黑"/>
+			</s:BorderContainer>
+			<s:Label x="38" y="55" text="用户名：" fontSize="13" fontFamily="微软雅黑"/>
+			<s:TextInput x="95" y="50" height="25" width="178" id="uname" fontFamily="微软雅黑"/>
+			<s:Label x="38" y="100" text="角色名：" fontSize="13" fontFamily="微软雅黑"/>
+			<s:TextInput x="95" y="95" width="178" height="25" id="urole" fontFamily="微软雅黑"/>
+			<s:Label x="25" y="150" text="注册时间：" fontSize="13" fontFamily="微软雅黑"/>
+			<mx:DateField x="95" y="143" width="122" id="usd" formatString="YYYY-MM-DD"   selectedDate="{start}" selectableRange="{{rangeEnd:end}}" change="onDateChangeHandler(event)" fontFamily="微软雅黑"/>
+			<mx:DateField x="253" y="143" width="122" id="ued" formatString="YYYY-MM-DD"   selectedDate="{end}" selectableRange="{{rangeStart:start,rangeEnd:today}}" change="onDateChangeHandler(event)" fontFamily="微软雅黑"/>
+			<s:Label x="222" y="150" text="——"/>
+			<mx:LinkButton x="380" y="145" label="清空" click="linkbutton1_clickHandler(event)"/>
+			<s:Button x="554" y="167" label="查询" click="button1_clickHandler(event)" fontFamily="微软雅黑"/>
+		</s:BorderContainer>
+		<s:BorderContainer x="10" y="217" width="636" height="237">
+			<s:BorderContainer x="-1" y="-1" width="635" height="28">
+			</s:BorderContainer>
+		</s:BorderContainer>
+		<s:BorderContainer x="0" y="466" width="656" height="30">
+			<mx:Image x="0" y="0" width="655" height="29" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+			<s:Button x="229" y="4" label="确定" click="button2_clickHandler(event)" fontFamily="微软雅黑"/>
+			<s:Button x="365" y="4" label="取消" click="button3_clickHandler(event)" fontFamily="微软雅黑"/>
+		</s:BorderContainer>
+		<mx:Image x="11" y="218" width="634" height="26" source="assets/back01.jpg" scaleContent="true" maintainAspectRatio="false"/>
+		<s:Label x="25" y="225" text="查询结果" fontSize="14" fontFamily="微软雅黑"/>
+		
+		<util:CustomDataGridUnscroll x="10" y="248" width="636" height="207" id="grid1" fontFamily="微软雅黑">
+			<util:mygridcolumns>		
+				<mx:DataGridColumn dataField="selected" sortable="false"  itemRenderer="mx.controls.CheckBox" rendererIsEditor="true" editorDataField="selected" headerText="选择" width="40"  textAlign="center" draggable="false"/>		
+				<mx:DataGridColumn headerText="序号" dataField="nid" width="40" textAlign="center" visible="true" draggable="false" editable="false"/>
+				<mx:DataGridColumn headerText="" dataField="id" visible="false"/>
+				<mx:DataGridColumn headerText="用户ID" dataField="userid"  textAlign="center" draggable="false" editable="false"/>
+				<mx:DataGridColumn headerText="用户名" dataField="username"  visible="true" textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="角色ID" dataField="roleid"  textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+				<mx:DataGridColumn headerText="角色类型" dataField="roletype"  textAlign="center" draggable="false" editable="false"/>
+				<mx:DataGridColumn headerText="角色名" dataField="rolename"  textAlign="center" draggable="false" editable="false" itemRenderer="mx.controls.Label"/>
+			</util:mygridcolumns>
+			 </util:CustomDataGridUnscroll>
+	</s:BorderContainer>
+</mx:Application>

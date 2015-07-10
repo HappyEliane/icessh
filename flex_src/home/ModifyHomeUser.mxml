@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600" height="472" width="623">
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="gg"/>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+		private var backWindow:Object;
+		import mx.managers.PopUpManager;
+		import mx.controls.Alert;
+		import mx.core.mx_internal;
+		import mx.events.CloseEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.http.HTTPService;
+		import mx.collections.ArrayCollection;  
+		import mx.core.IFlexDisplayObject;
+		import spark.events.TextOperationEvent;
+		import flash.display.DisplayObject;
+		public var mainApp:UserForHome = null;
+		public var userid:String="";
+		public var username:String="";
+		public var gender:String="";
+		public var birth:String="";
+		public var birthplace:String="";
+		public var education:String="";
+		public var bornplace:String="";
+		public var tel:String="";
+		public var mobile:String="";
+		public var address:String="";
+		public var qqnum:String="";
+		public var msnnum:String="";
+		public var email:String="";
+		public var idcard:String="";
+		public var zipcode:String="";
+		//public var ismainperson:String="";
+		public var homeid:String="";
+		
+		
+		protected function save_clickHandler(event:MouseEvent):void
+		{
+		userid=userid1.text;
+		username=username1.text;
+		gender=(String)(gg.selectedValue);
+		birth=birth1.text;
+		birthplace=birthplace1.text;
+		education=(String)(education1.selectedItem);
+		//education1.labelField
+		//education1.se
+		//homeid=homeid1.text;
+		mobile=mobile1.text;
+		address=address1.text;
+		qqnum=qqnum1.text;
+		msnnum=msnnum1.text;
+		email=email1.text;
+		idcard=idcard1.text;
+		zipcode=zipcode1.text;
+		//ismainperson=ismainperson1.selectedItem.label;
+		
+		var httpservice:HTTPService=new HTTPService();
+		httpservice.resultFormat="text";
+		
+		httpservice.url="http://localhost:8080/icessh/homeUserObjectServlet";
+		httpservice.method="POST";
+		var param:Object=new Object;
+		param.kind="edit";
+		param.h_id=userid;
+		param.h_name=username;
+		param.birth=birth; 
+		param.birthplace=birthplace;
+		param.gender=gender;
+		param.zipcode=zipcode;
+		param.education=education;
+		param.idcard=idcard;
+		param.mobile=mobile;
+		param.address=address;
+		param.qqnum=qqnum;
+		param.msnnum=msnnum;
+		//param.ismainperson=ismainperson;
+		param.homeid=homeid;
+		param.email=email;
+		
+		//param.username=Login_userName;
+		httpservice.send(param);
+		httpservice.addEventListener(ResultEvent.RESULT,edit_success_handler);	
+		//dispatchEvent(new Event("modifySave",false));
+		PopUpManager.removePopUp(this);
+		}
+			private function edit_success_handler(event:ResultEvent):void
+			{
+				var result:String=event.result.toString();
+				if(result){
+					Alert.show("操作成功！","提示");
+					//backWindow=PopUpManager.createPopUp(this,HomeManage,true);
+					//PopUpManager.centerPopUp(backWindow as IFlexDisplayObject);	
+					backWindow=PopUpManager.createPopUp(this,UserForHome,true);
+					backWindow.homeid.text=homeid1.text;
+					backWindow.homename.text=homename1.text;
+					PopUpManager.centerPopUp(backWindow as IFlexDisplayObject);
+				}
+					
+				else
+					Alert.show("操作失败！","提示");
+			}
+		
+		protected function ret_clickHandler(event:MouseEvent):void
+		{
+		PopUpManager.removePopUp(this);
+		}
+		
+		]]>
+	</fx:Script>
+	
+	<mx:Label x="10" y="16" text="个人信息" color="#000000"/>
+	<mx:Label x="10" y="190
+			  " text="联系方式" color="#000000"/>
+	<mx:HRule x="0" y="35" width="604" height="4"/>
+	<mx:HRule x="0" y="209" width="604" height="5"/>
+	<mx:Label x="10" y="59" text="用户编号" color="#000000"/>
+	<mx:Label x="31" y="105" text="性别" color="#000000"/>
+	<mx:Label x="31" y="146" text="学历" color="#000000"/>
+	<mx:Label x="341" y="59" text="姓名" color="#000000"/>
+	<mx:Label x="319" y="103" text="出生日期" color="#000000"/>
+	<mx:Label x="341" y="144" text="籍贯" color="#000000"/>
+	<mx:Label x="22" y="226" text="住址" color="#000000"/>
+	<mx:Label x="22" y="277" text="手机" color="#000000"/>
+	<mx:Label x="22" y="312" text="QQ" color="#000000"/>
+	<mx:Label x="312" y="223" text="邮政编码" color="#000000"/>
+	<mx:Label x="332" y="267" text="email" color="#000000"/>
+	<mx:Label x="338" y="312" text="MSN" color="#000000"/>
+	<mx:TextInput x="89" y="57" id="userid1" editable="false" color="#000000"/>
+	<!--<mx:RadioButtonGroup id="g"/>
+	<mx:RadioButton x="88" y="74" label="男"  groupName="g" id="male"  value="男"  color="#000000"/>
+	<mx:RadioButton x="199" y="74" label="女"  groupName="g" id="female"  value="女"  color="#000000"/>-->
+
+	<mx:TextInput x="398" y="55" id="username1" color="#000000"/>
+	<mx:DateField x="398" y="101" width="160" id="birth1" color="#000000"/>
+	<mx:TextInput x="398" y="142" id="birthplace1" color="#000000"/>
+	<mx:TextInput x="426" y="115" id="idcard1" color="#000000" visible="false"/>
+	<mx:TextInput x="77" y="222" id="address1" color="#000000"/>
+	<mx:TextInput x="77" y="273" id="mobile1" color="#000000"/>
+	<mx:TextInput x="77" y="312" id="qqnum1" color="#000000"/>
+	<mx:TextInput x="397" y="221" id="zipcode1" color="#000000"/>
+	<mx:TextInput x="398" y="263" id="email1" color="#000000"/>
+	<mx:TextInput x="398" y="308" id="msnnum1" color="#000000"/>
+	<mx:Button x="391" y="371" label="保存" id="save" click="save_clickHandler(event)" color="#000000"/>
+	<mx:Button x="508" y="371" label="返回" id="ret" click="ret_clickHandler(event)" color="#000000"/>
+
+	<mx:TextInput x="79" y="42" id="homeid1" editable="false" color="#000000" visible="false"/>
+	<s:DropDownList x="89" y="146" width="160" id="education1" color="#000000">
+		<mx:ArrayCollection> 
+			<fx:String>初中</fx:String>
+			<fx:String>高中</fx:String>
+			<fx:String>本科</fx:String>
+			<fx:String>硕士</fx:String>
+			<fx:String>博士</fx:String>
+		</mx:ArrayCollection> 
+	</s:DropDownList>
+	<s:RadioButton x="95" y="107" label="男" groupName="gg"/>
+	<s:RadioButton x="183" y="107" label="女" groupName="gg"/>
+	<s:TextInput x="89" y="77" id="homename1" visible="false"/>
+
+	
+	
+</s:Application>

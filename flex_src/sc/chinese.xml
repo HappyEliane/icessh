@@ -1,0 +1,3603 @@
+<?xml version="1.0" encoding="gb2312"?>
+
+<Location>
+  <CountryRegion Name="北京市">
+    <State Name="北京市">
+      <City Name="东城区" />
+      <City Name="西城区" />
+      <City Name="崇文区" />
+      <City Name="宣武区" />
+      <City Name="朝阳区" />
+      <City Name="丰台区" />
+      <City Name="石景山区" />
+      <City Name="海淀区" />
+      <City Name="门头沟区" />
+      <City Name="房山区" />
+      <City Name="通州区" />
+      <City Name="顺义区" />
+      <City Name="昌平区" />
+      <City Name="大兴区" />
+      <City Name="平谷区" />
+      <City Name="怀柔区" />
+      <City Name="密云县" />
+      <City Name="延庆县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="天津市">
+    <State Name="天津市">
+      <City Name="和平区" />
+      <City Name="河东区" />
+      <City Name="河西区" />
+      <City Name="南开区" />
+      <City Name="河北区" />
+      <City Name="红桥区" />
+      <City Name="塘沽区" />
+      <City Name="汉沽区" />
+      <City Name="大港区" />
+      <City Name="东丽区" />
+      <City Name="西青区" />
+      <City Name="津南区" />
+      <City Name="北辰区" />
+      <City Name="武清区" />
+      <City Name="宝坻区" />
+      <City Name="宁河县" />
+      <City Name="静海县" />
+      <City Name="蓟县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="河北省">
+    <State Name="石家庄市">
+      <City Name="长安区" />
+      <City Name="桥东区" />
+      <City Name="桥西区" />
+      <City Name="新华区" />
+      <City Name="郊区" />
+      <City Name="井陉矿区" />
+      <City Name="井陉县" />
+      <City Name="正定县" />
+      <City Name="栾城县" />
+      <City Name="行唐县" />
+      <City Name="灵寿县" />
+      <City Name="高邑县" />
+      <City Name="深泽县" />
+      <City Name="赞皇县" />
+      <City Name="无极县" />
+      <City Name="平山县" />
+      <City Name="元氏县" />
+      <City Name="赵县" />
+      <City Name="辛集市" />
+      <City Name="藁城市" />
+      <City Name="晋州市" />
+      <City Name="新乐市" />
+      <City Name="鹿泉市" />
+    </State>
+    <State Name="唐山市">
+      <City Name="路南区" />
+      <City Name="路北区" />
+      <City Name="古冶区" />
+      <City Name="开平区" />
+      <City Name="新区" />
+      <City Name="丰润县" />
+      <City Name="滦县" />
+      <City Name="滦南县" />
+      <City Name="乐亭县" />
+      <City Name="迁西县" />
+      <City Name="玉田县" />
+      <City Name="唐海县" />
+      <City Name="遵化市" />
+      <City Name="丰南市" />
+      <City Name="迁安市" />
+    </State>
+    <State Name="秦皇岛市">
+      <City Name="海港区" />
+      <City Name="山海关区" />
+      <City Name="北戴河区" />
+      <City Name="青龙满族自治县" />
+      <City Name="昌黎县" />
+      <City Name="抚宁县" />
+      <City Name="卢龙县" />
+    </State>
+    <State Name="邯郸市">
+      <City Name="邯山区" />
+      <City Name="丛台区" />
+      <City Name="复兴区" />
+      <City Name="峰峰矿区" />
+      <City Name="邯郸县" />
+      <City Name="临漳县" />
+      <City Name="成安县" />
+      <City Name="大名县" />
+      <City Name="涉县" />
+      <City Name="磁县" />
+      <City Name="肥乡县" />
+      <City Name="永年县" />
+      <City Name="邱县" />
+      <City Name="鸡泽县" />
+      <City Name="广平县" />
+      <City Name="馆陶县" />
+      <City Name="魏县" />
+      <City Name="曲周县" />
+      <City Name="武安市" />
+    </State>
+    <State Name="邢台市">
+      <City Name="桥东区" />
+      <City Name="桥西区" />
+      <City Name="邢台县" />
+      <City Name="临城县" />
+      <City Name="内丘县" />
+      <City Name="柏乡县" />
+      <City Name="隆尧县" />
+      <City Name="任县" />
+      <City Name="南和县" />
+      <City Name="宁晋县" />
+      <City Name="巨鹿县" />
+      <City Name="新河县" />
+      <City Name="广宗县" />
+      <City Name="平乡县" />
+      <City Name="威县" />
+      <City Name="清河县" />
+      <City Name="临西县" />
+      <City Name="南宫市" />
+      <City Name="沙河市" />
+    </State>
+    <State Name="保定市">
+      <City Name="新市区" />
+      <City Name="北市区" />
+      <City Name="南市区" />
+      <City Name="满城县" />
+      <City Name="清苑县" />
+      <City Name="涞水县" />
+      <City Name="阜平县" />
+      <City Name="徐水县" />
+      <City Name="定兴县" />
+      <City Name="唐县" />
+      <City Name="高阳县" />
+      <City Name="容城县" />
+      <City Name="涞源县" />
+      <City Name="望都县" />
+      <City Name="安新县" />
+      <City Name="易县" />
+      <City Name="曲阳县" />
+      <City Name="蠡县" />
+      <City Name="顺平县" />
+      <City Name="博野县" />
+      <City Name="雄县" />
+      <City Name="涿州市" />
+      <City Name="定州市" />
+      <City Name="安国市" />
+      <City Name="高碑店市" />
+    </State>
+    <State Name="张家口市">
+      <City Name="桥东区" />
+      <City Name="桥西区" />
+      <City Name="宣化区" />
+      <City Name="下花园区" />
+      <City Name="宣化县" />
+      <City Name="张北县" />
+      <City Name="康保县" />
+      <City Name="沽源县" />
+      <City Name="尚义县" />
+      <City Name="蔚县" />
+      <City Name="阳原县" />
+      <City Name="怀安县" />
+      <City Name="万全县" />
+      <City Name="怀来县" />
+      <City Name="涿鹿县" />
+      <City Name="赤城县" />
+      <City Name="崇礼县" />
+    </State>
+    <State Name="承德市">
+      <City Name="双桥区" />
+      <City Name="双滦区" />
+      <City Name="鹰手营子矿区" />
+      <City Name="承德县" />
+      <City Name="兴隆县" />
+      <City Name="平泉县" />
+      <City Name="滦平县" />
+      <City Name="隆化县" />
+      <City Name="丰宁满族自治县" />
+      <City Name="宽城满族自治县" />
+      <City Name="围场满族蒙古族自治县" />
+    </State>
+    <State Name="沧州市">
+      <City Name="新华区" />
+      <City Name="运河区" />
+      <City Name="沧县" />
+      <City Name="青县" />
+      <City Name="东光县" />
+      <City Name="海兴县" />
+      <City Name="盐山县" />
+      <City Name="肃宁县" />
+      <City Name="南皮县" />
+      <City Name="吴桥县" />
+      <City Name="献县" />
+      <City Name="孟村回族自治县" />
+      <City Name="泊头市" />
+      <City Name="任丘市" />
+      <City Name="黄骅市" />
+      <City Name="河间市" />
+    </State>
+    <State Name="廊坊市">
+      <City Name="安次区" />
+      <City Name="固安县" />
+      <City Name="永清县" />
+      <City Name="香河县" />
+      <City Name="大城县" />
+      <City Name="文安县" />
+      <City Name="大厂回族自治县" />
+      <City Name="霸州市" />
+      <City Name="三河市" />
+    </State>
+    <State Name="衡水市">
+      <City Name="桃城区" />
+      <City Name="枣强县" />
+      <City Name="武邑县" />
+      <City Name="武强县" />
+      <City Name="饶阳县" />
+      <City Name="安平县" />
+      <City Name="故城县" />
+      <City Name="景县" />
+      <City Name="阜城县" />
+      <City Name="冀州市" />
+      <City Name="深州市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="山西省">
+    <State Name="太原市">
+      <City Name="小店区" />
+      <City Name="迎泽区" />
+      <City Name="杏花岭区" />
+      <City Name="尖草坪区" />
+      <City Name="万柏林区" />
+      <City Name="晋源区" />
+      <City Name="清徐县" />
+      <City Name="阳曲县" />
+      <City Name="娄烦县" />
+      <City Name="古交市" />
+    </State>
+    <State Name="大同市">
+      <City Name="城区" />
+      <City Name="矿区" />
+      <City Name="南郊区" />
+      <City Name="新荣区" />
+      <City Name="阳高县" />
+      <City Name="天镇县" />
+      <City Name="广灵县" />
+      <City Name="灵丘县" />
+      <City Name="浑源县" />
+      <City Name="左云县" />
+      <City Name="大同县" />
+    </State>
+    <State Name="阳泉市">
+      <City Name="城区" />
+      <City Name="矿区" />
+      <City Name="郊区" />
+      <City Name="平定县" />
+      <City Name="盂县" />
+    </State>
+    <State Name="长治市">
+      <City Name="城区" />
+      <City Name="郊区" />
+      <City Name="长治县" />
+      <City Name="襄垣县" />
+      <City Name="屯留县" />
+      <City Name="平顺县" />
+      <City Name="黎城县" />
+      <City Name="壶关县" />
+      <City Name="长子县" />
+      <City Name="武乡县" />
+      <City Name="沁县" />
+      <City Name="沁源县" />
+      <City Name="潞城市" />
+    </State>
+    <State Name="晋城市">
+      <City Name="城区" />
+      <City Name="沁水县" />
+      <City Name="阳城县" />
+      <City Name="陵川县" />
+      <City Name="泽州县" />
+      <City Name="高平市" />
+    </State>
+    <State Name="朔州市">
+      <City Name="朔城区" />
+      <City Name="平鲁区" />
+      <City Name="山阴县" />
+      <City Name="应县" />
+      <City Name="右玉县" />
+      <City Name="怀仁县" />
+    </State>
+    <State Name="忻州市">
+      <City Name="忻府区" />
+      <City Name="原平市" />
+      <City Name="定襄县" />
+      <City Name="五台县" />
+      <City Name="代县" />
+      <City Name="繁峙县" />
+      <City Name="宁武县" />
+      <City Name="静乐县" />
+      <City Name="神池县" />
+      <City Name="五寨县" />
+      <City Name="岢岚县" />
+      <City Name="河曲县" />
+      <City Name="保德县" />
+      <City Name="偏关县" />
+    </State>
+    <State Name="吕梁市">
+      <City Name="离石区" />
+      <City Name="孝义市" />
+      <City Name="汾阳市" />
+      <City Name="文水县" />
+      <City Name="交城县" />
+      <City Name="兴县" />
+      <City Name="临县" />
+      <City Name="柳林县" />
+      <City Name="石楼县" />
+      <City Name="岚县" />
+      <City Name="方山县" />
+      <City Name="中阳县" />
+      <City Name="交口县" />
+    </State>
+    <State Name="晋中市">
+      <City Name="榆次市" />
+      <City Name="介休市" />
+      <City Name="榆社县" />
+      <City Name="左权县" />
+      <City Name="和顺县" />
+      <City Name="昔阳县" />
+      <City Name="寿阳县" />
+      <City Name="太谷县" />
+      <City Name="祁县" />
+      <City Name="平遥县" />
+      <City Name="灵石县" />
+    </State>
+    <State Name="临汾市">
+      <City Name="临汾市" />
+      <City Name="侯马市" />
+      <City Name="霍州市" />
+      <City Name="曲沃县" />
+      <City Name="翼城县" />
+      <City Name="襄汾县" />
+      <City Name="洪洞县" />
+      <City Name="古县" />
+      <City Name="安泽县" />
+      <City Name="浮山县" />
+      <City Name="吉县" />
+      <City Name="乡宁县" />
+      <City Name="蒲县" />
+      <City Name="大宁县" />
+      <City Name="永和县" />
+      <City Name="隰县" />
+      <City Name="汾西县" />
+    </State>
+    <State Name="运城市">
+      <City Name="运城市" />
+      <City Name="永济市" />
+      <City Name="河津市" />
+      <City Name="芮城县" />
+      <City Name="临猗县" />
+      <City Name="万荣县" />
+      <City Name="新绛县" />
+      <City Name="稷山县" />
+      <City Name="闻喜县" />
+      <City Name="夏县" />
+      <City Name="绛县" />
+      <City Name="平陆县" />
+      <City Name="垣曲县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="内蒙古">
+    <State Name="呼和浩特市">
+      <City Name="新城区" />
+      <City Name="回民区" />
+      <City Name="玉泉区" />
+      <City Name="郊区" />
+      <City Name="土默特左旗" />
+      <City Name="托克托县" />
+      <City Name="和林格尔县" />
+      <City Name="清水河县" />
+      <City Name="武川县" />
+    </State>
+    <State Name="包头市">
+      <City Name="东河区" />
+      <City Name="昆都伦区" />
+      <City Name="青山区" />
+      <City Name="石拐矿区" />
+      <City Name="白云矿区" />
+      <City Name="郊区" />
+      <City Name="土默特右旗" />
+      <City Name="固阳县" />
+      <City Name="达尔罕茂明安联合旗" />
+    </State>
+    <State Name="乌海市">
+      <City Name="海勃湾区" />
+      <City Name="海南区" />
+      <City Name="乌达区" />
+    </State>
+    <State Name="赤峰市">
+      <City Name="红山区" />
+      <City Name="元宝山区" />
+      <City Name="松山区" />
+      <City Name="阿鲁科尔沁旗" />
+      <City Name="巴林左旗" />
+      <City Name="巴林右旗" />
+      <City Name="林西县" />
+      <City Name="克什克腾旗" />
+      <City Name="翁牛特旗" />
+      <City Name="喀喇沁旗" />
+      <City Name="宁城县" />
+      <City Name="敖汉旗" />
+    </State>
+    <State Name="呼伦贝尔市">
+      <City Name="海拉尔市" />
+      <City Name="满洲里市" />
+      <City Name="扎兰屯市" />
+      <City Name="牙克石市" />
+      <City Name="根河市" />
+      <City Name="额尔古纳市" />
+      <City Name="阿荣旗" />
+      <City Name="莫力达瓦达斡尔族自治旗" />
+      <City Name="鄂伦春自治旗" />
+      <City Name="鄂温克族自治旗" />
+      <City Name="新巴尔虎右旗" />
+      <City Name="新巴尔虎左旗" />
+      <City Name="陈巴尔虎旗" />
+    </State>
+    <State Name="兴安盟">
+      <City Name="乌兰浩特市" />
+      <City Name="阿尔山市" />
+      <City Name="科尔沁右翼前旗" />
+      <City Name="科尔沁右翼中旗" />
+      <City Name="扎赉特旗" />
+      <City Name="突泉县" />
+    </State>
+    <State Name="通辽市">
+      <City Name="科尔沁区" />
+      <City Name="霍林郭勒市" />
+      <City Name="科尔沁左翼中旗" />
+      <City Name="科尔沁左翼后旗" />
+      <City Name="开鲁县" />
+      <City Name="库伦旗" />
+      <City Name="奈曼旗" />
+      <City Name="扎鲁特旗" />
+    </State>
+    <State Name="锡林郭勒盟">
+      <City Name="二连浩特市" />
+      <City Name="锡林浩特市" />
+      <City Name="阿巴嘎旗" />
+      <City Name="苏尼特左旗" />
+      <City Name="苏尼特右旗" />
+      <City Name="东乌珠穆沁旗" />
+      <City Name="西乌珠穆沁旗" />
+      <City Name="太仆寺旗" />
+      <City Name="镶黄旗" />
+      <City Name="正镶白旗" />
+      <City Name="正蓝旗" />
+      <City Name="多伦县" />
+    </State>
+    <State Name="乌兰察布盟">
+      <City Name="集宁市" />
+      <City Name="丰镇市" />
+      <City Name="卓资县" />
+      <City Name="化德县" />
+      <City Name="商都县" />
+      <City Name="兴和县" />
+      <City Name="凉城县" />
+      <City Name="察哈尔右翼前旗" />
+      <City Name="察哈尔右翼中旗" />
+      <City Name="察哈尔右翼后旗" />
+      <City Name="四子王旗" />
+    </State>
+    <State Name="伊克昭盟">
+      <City Name="东胜市" />
+      <City Name="达拉特旗" />
+      <City Name="准格尔旗" />
+      <City Name="鄂托克前旗" />
+      <City Name="鄂托克旗" />
+      <City Name="杭锦旗" />
+      <City Name="乌审旗" />
+      <City Name="伊金霍洛旗" />
+    </State>
+    <State Name="巴彦淖尔盟">
+      <City Name="临河市" />
+      <City Name="五原县" />
+      <City Name="磴口县" />
+      <City Name="乌拉特前旗" />
+      <City Name="乌拉特中旗" />
+      <City Name="乌拉特后旗" />
+      <City Name="杭锦后旗" />
+    </State>
+    <State Name="阿拉善盟">
+      <City Name="阿拉善左旗" />
+      <City Name="阿拉善右旗" />
+      <City Name="额济纳旗" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="辽宁省">
+    <State Name="沈阳市">
+      <City Name="和平区" />
+      <City Name="沈河区" />
+      <City Name="大东区" />
+      <City Name="皇姑区" />
+      <City Name="铁西区" />
+      <City Name="苏家屯区" />
+      <City Name="东陵区" />
+      <City Name="新城子区" />
+      <City Name="于洪区" />
+      <City Name="辽中县" />
+      <City Name="康平县" />
+      <City Name="法库县" />
+      <City Name="新民市" />
+    </State>
+    <State Name="大连市">
+      <City Name="中山区" />
+      <City Name="西岗区" />
+      <City Name="沙河口区" />
+      <City Name="甘井子区" />
+      <City Name="旅顺口区" />
+      <City Name="金州区" />
+      <City Name="长海县" />
+      <City Name="瓦房店市" />
+      <City Name="普兰店市" />
+      <City Name="庄河市" />
+    </State>
+    <State Name="鞍山市">
+      <City Name="铁东区" />
+      <City Name="铁西区" />
+      <City Name="立山区" />
+      <City Name="千山区" />
+      <City Name="台安县" />
+      <City Name="岫岩满族自治县" />
+      <City Name="海城市" />
+    </State>
+    <State Name="抚顺市">
+      <City Name="新抚区" />
+      <City Name="露天区" />
+      <City Name="望花区" />
+      <City Name="顺城区" />
+      <City Name="抚顺县" />
+      <City Name="新宾满族自治县" />
+      <City Name="清原满族自治县" />
+    </State>
+    <State Name="本溪市">
+      <City Name="平山区" />
+      <City Name="溪湖区" />
+      <City Name="明山区" />
+      <City Name="南芬区" />
+      <City Name="本溪满族自治县" />
+      <City Name="桓仁满族自治县" />
+    </State>
+    <State Name="丹东市">
+      <City Name="元宝区" />
+      <City Name="振兴区" />
+      <City Name="振安区" />
+      <City Name="宽甸满族自治县" />
+      <City Name="东港市" />
+      <City Name="凤城市" />
+    </State>
+    <State Name="锦州市">
+      <City Name="古塔区" />
+      <City Name="凌河区" />
+      <City Name="太和区" />
+      <City Name="黑山县" />
+      <City Name="义县" />
+      <City Name="凌海市" />
+      <City Name="北宁市" />
+    </State>
+    <State Name="营口市">
+      <City Name="站前区" />
+      <City Name="西市区" />
+      <City Name="鲅鱼圈区" />
+      <City Name="老边区" />
+      <City Name="盖州市" />
+      <City Name="大石桥市" />
+    </State>
+    <State Name="阜新市">
+      <City Name="海州区" />
+      <City Name="新邱区" />
+      <City Name="太平区" />
+      <City Name="清河门区" />
+      <City Name="细河区" />
+      <City Name="阜新蒙古族自治县" />
+      <City Name="彰武县" />
+    </State>
+    <State Name="辽阳市">
+      <City Name="白塔区" />
+      <City Name="文圣区" />
+      <City Name="宏伟区" />
+      <City Name="弓长岭区" />
+      <City Name="太子河区" />
+      <City Name="辽阳县" />
+      <City Name="灯塔市" />
+    </State>
+    <State Name="盘锦市">
+      <City Name="双台子区" />
+      <City Name="兴隆台区" />
+      <City Name="大洼县" />
+      <City Name="盘山县" />
+    </State>
+    <State Name="铁岭市">
+      <City Name="银州区" />
+      <City Name="清河区" />
+      <City Name="铁岭县" />
+      <City Name="西丰县" />
+      <City Name="昌图县" />
+      <City Name="铁法市" />
+      <City Name="开原市" />
+    </State>
+    <State Name="朝阳市">
+      <City Name="双塔区" />
+      <City Name="龙城区" />
+      <City Name="朝阳县" />
+      <City Name="建平县" />
+      <City Name="喀喇沁左翼蒙古族自治县" />
+      <City Name="北票市" />
+      <City Name="凌源市" />
+    </State>
+    <State Name="葫芦岛市">
+      <City Name="连山区" />
+      <City Name="龙港区" />
+      <City Name="南票区" />
+      <City Name="绥中县" />
+      <City Name="建昌县" />
+      <City Name="兴城市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="吉林省">
+    <State Name="长春市">
+      <City Name="南关区" />
+      <City Name="宽城区" />
+      <City Name="朝阳区" />
+      <City Name="二道区" />
+      <City Name="绿园区" />
+      <City Name="双阳区" />
+      <City Name="农安县" />
+      <City Name="九台市" />
+      <City Name="榆树市" />
+      <City Name="德惠市" />
+    </State>
+    <State Name="吉林市">
+      <City Name="昌邑区" />
+      <City Name="龙潭区" />
+      <City Name="船营区" />
+      <City Name="丰满区" />
+      <City Name="永吉县" />
+      <City Name="蛟河市" />
+      <City Name="桦甸市" />
+      <City Name="舒兰市" />
+      <City Name="磐石市" />
+    </State>
+    <State Name="四平市">
+      <City Name="铁西区" />
+      <City Name="铁东区" />
+      <City Name="梨树县" />
+      <City Name="伊通满族自治县" />
+      <City Name="公主岭市" />
+      <City Name="双辽市" />
+    </State>
+    <State Name="辽源市">
+      <City Name="龙山区" />
+      <City Name="西安区" />
+      <City Name="东丰县" />
+      <City Name="东辽县" />
+    </State>
+    <State Name="通化市">
+      <City Name="东昌区" />
+      <City Name="二道江区" />
+      <City Name="通化县" />
+      <City Name="辉南县" />
+      <City Name="柳河县" />
+      <City Name="梅河口市" />
+      <City Name="集安市" />
+    </State>
+    <State Name="白山市">
+      <City Name="八道江区" />
+      <City Name="抚松县" />
+      <City Name="靖宇县" />
+      <City Name="长白朝鲜族自治县" />
+      <City Name="江源县" />
+      <City Name="临江市" />
+    </State>
+    <State Name="松原市">
+      <City Name="宁江区" />
+      <City Name="前郭尔罗斯蒙古族自治县" />
+      <City Name="长岭县" />
+      <City Name="乾安县" />
+      <City Name="扶余县" />
+    </State>
+    <State Name="白城市">
+      <City Name="洮北区" />
+      <City Name="镇赉县" />
+      <City Name="通榆县" />
+      <City Name="洮南市" />
+      <City Name="大安市" />
+    </State>
+    <State Name="延边朝鲜族自治州">
+      <City Name="延吉市" />
+      <City Name="图们市" />
+      <City Name="敦化市" />
+      <City Name="珲春市" />
+      <City Name="龙井市" />
+      <City Name="和龙市" />
+      <City Name="汪清县" />
+      <City Name="安图县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="黑龙江省">
+    <State Name="哈尔滨市">
+      <City Name="道里区" />
+      <City Name="南岗区" />
+      <City Name="道外区" />
+      <City Name="松北区" />
+      <City Name="香坊区" />
+      <City Name="阿成区" />
+      <City Name="平房区" />
+      <City Name="呼兰区" />
+      <City Name="依兰县" />
+      <City Name="方正县" />
+      <City Name="宾县" />
+      <City Name="巴彦县" />
+      <City Name="木兰县" />
+      <City Name="通河县" />
+      <City Name="延寿县" />
+      <City Name="双城市" />
+      <City Name="尚志市" />
+      <City Name="五常市" />
+    </State>
+    <State Name="齐齐哈尔市">
+      <City Name="龙沙区" />
+      <City Name="建华区" />
+      <City Name="铁锋区" />
+      <City Name="昂昂溪区" />
+      <City Name="富拉尔基区" />
+      <City Name="碾子山区" />
+      <City Name="梅里斯达斡尔族区" />
+      <City Name="龙江县" />
+      <City Name="依安县" />
+      <City Name="泰来县" />
+      <City Name="甘南县" />
+      <City Name="富裕县" />
+      <City Name="克山县" />
+      <City Name="克东县" />
+      <City Name="拜泉县" />
+      <City Name="讷河市" />
+    </State>
+    <State Name="鸡西市">
+      <City Name="鸡冠区" />
+      <City Name="恒山区" />
+      <City Name="滴道区" />
+      <City Name="梨树区" />
+      <City Name="城子河区" />
+      <City Name="麻山区" />
+      <City Name="鸡东县" />
+      <City Name="虎林市" />
+      <City Name="密山市" />
+    </State>
+    <State Name="鹤岗市">
+      <City Name="向阳区" />
+      <City Name="工农区" />
+      <City Name="南山区" />
+      <City Name="兴安区" />
+      <City Name="东山区" />
+      <City Name="兴山区" />
+      <City Name="萝北县" />
+      <City Name="绥滨县" />
+    </State>
+    <State Name="双鸭山市">
+      <City Name="尖山区" />
+      <City Name="岭东区" />
+      <City Name="四方台区" />
+      <City Name="宝山区" />
+      <City Name="集贤县" />
+      <City Name="友谊县" />
+      <City Name="宝清县" />
+      <City Name="饶河县" />
+    </State>
+    <State Name="大庆市">
+      <City Name="萨尔图区" />
+      <City Name="龙凤区" />
+      <City Name="让胡路区" />
+      <City Name="红岗区" />
+      <City Name="大同区" />
+      <City Name="肇州县" />
+      <City Name="肇源县" />
+      <City Name="林甸县" />
+      <City Name="杜尔伯特蒙古族自治县" />
+    </State>
+    <State Name="伊春市">
+      <City Name="伊春区" />
+      <City Name="南岔区" />
+      <City Name="友好区" />
+      <City Name="西林区" />
+      <City Name="翠峦区" />
+      <City Name="新青区" />
+      <City Name="美溪区" />
+      <City Name="金山屯区" />
+      <City Name="五营区" />
+      <City Name="乌马河区" />
+      <City Name="汤旺河区" />
+      <City Name="带岭区" />
+      <City Name="乌伊岭区" />
+      <City Name="红星区" />
+      <City Name="上甘岭区" />
+      <City Name="嘉荫县" />
+      <City Name="铁力市" />
+      <City Name="向阳区" />
+      <City Name="前进区" />
+      <City Name="东风区" />
+      <City Name="郊区" />
+      <City Name="桦南县" />
+      <City Name="桦川县" />
+      <City Name="汤原县" />
+      <City Name="抚远县" />
+      <City Name="同江市" />
+      <City Name="富锦市" />
+    </State>
+    <State Name="七台河市">
+      <City Name="新兴区" />
+      <City Name="桃山区" />
+      <City Name="茄子河区" />
+      <City Name="勃利县" />
+    </State>
+    <State Name="牡丹江市">
+      <City Name="东安区" />
+      <City Name="阳明区" />
+      <City Name="爱民区" />
+      <City Name="西安区" />
+      <City Name="东宁县" />
+      <City Name="林口县" />
+      <City Name="绥芬河市" />
+      <City Name="海林市" />
+      <City Name="宁安市" />
+      <City Name="穆棱市" />
+    </State>
+    <State Name="黑河市">
+      <City Name="爱辉区" />
+      <City Name="嫩江县" />
+      <City Name="逊克县" />
+      <City Name="孙吴县" />
+      <City Name="北安市" />
+      <City Name="五大连池市" />
+    </State>
+    <State Name="绥化市">
+      <City Name="绥化市" />
+      <City Name="安达市" />
+      <City Name="肇东市" />
+      <City Name="海伦市" />
+      <City Name="望奎县" />
+      <City Name="兰西县" />
+      <City Name="青冈县" />
+      <City Name="庆安县" />
+      <City Name="明水县" />
+      <City Name="绥棱县" />
+    </State>
+    <State Name="大兴安岭地区">
+      <City Name="呼玛县" />
+      <City Name="塔河县" />
+      <City Name="漠河县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="上海市">
+    <State Name="上海市">
+      <City Name="浦东新区" />
+      <City Name="徐汇区" />
+      <City Name="黄浦区" />
+      <City Name="杨浦区" />
+      <City Name="虹口区" />
+      <City Name="闵行区" />
+      <City Name="长宁区" />
+      <City Name="普陀区" />
+      <City Name="宝山区" />
+      <City Name="静安区" />
+      <City Name="闸北区" />
+      <City Name="卢湾区" />
+      <City Name="松江区" />
+      <City Name="嘉定区" />
+      <City Name="南汇区" />
+      <City Name="金山区" />
+      <City Name="青浦区" />
+      <City Name="奉贤区" />
+      <City Name="崇明县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="江苏省">
+    <State Name="南京市">
+      <City Name="玄武区" />
+      <City Name="白下区" />
+      <City Name="秦淮区" />
+      <City Name="建邺区" />
+      <City Name="鼓楼区" />
+      <City Name="下关区" />
+      <City Name="浦口区" />
+      <City Name="栖霞区" />
+      <City Name="雨花台区" />
+      <City Name="江宁区" />
+      <City Name="六合区" />
+      <City Name="溧水县" />
+      <City Name="高淳县" />
+    </State>
+    <State Name="无锡市">
+      <City Name="崇安区" />
+      <City Name="南长区" />
+      <City Name="北塘区" />
+      <City Name="郊区" />
+      <City Name="马山区" />
+      <City Name="江阴市" />
+      <City Name="宜兴市" />
+      <City Name="锡山市" />
+    </State>
+    <State Name="徐州市">
+      <City Name="鼓楼区" />
+      <City Name="云龙区" />
+      <City Name="九里区" />
+      <City Name="贾汪区" />
+      <City Name="泉山区" />
+      <City Name="丰县" />
+      <City Name="沛县" />
+      <City Name="铜山县" />
+      <City Name="睢宁县" />
+      <City Name="新沂市" />
+      <City Name="邳州市" />
+    </State>
+    <State Name="常州市">
+      <City Name="天宁区" />
+      <City Name="钟楼区" />
+      <City Name="戚墅堰区" />
+      <City Name="郊区" />
+      <City Name="溧阳市" />
+      <City Name="金坛市" />
+      <City Name="武进市" />
+    </State>
+    <State Name="苏州市">
+      <City Name="沧浪区" />
+      <City Name="平江区" />
+      <City Name="金阊区" />
+      <City Name="郊区" />
+      <City Name="常熟市" />
+      <City Name="张家港市" />
+      <City Name="昆山市" />
+      <City Name="吴江市" />
+      <City Name="太仓市" />
+      <City Name="吴县市" />
+    </State>
+    <State Name="南通市">
+      <City Name="崇川区" />
+      <City Name="港闸区" />
+      <City Name="海安县" />
+      <City Name="如东县" />
+      <City Name="启东市" />
+      <City Name="如皋市" />
+      <City Name="通州市" />
+      <City Name="海门市" />
+    </State>
+    <State Name="连云港市">
+      <City Name="连云区" />
+      <City Name="云台区" />
+      <City Name="新浦区" />
+      <City Name="海州区" />
+      <City Name="赣榆县" />
+      <City Name="东海县" />
+      <City Name="灌云县" />
+      <City Name="灌南县" />
+    </State>
+    <State Name="淮阴市">
+      <City Name="清河区" />
+      <City Name="清浦区" />
+      <City Name="淮阴县" />
+      <City Name="涟水县" />
+      <City Name="洪泽县" />
+      <City Name="盱眙县" />
+      <City Name="金湖县" />
+      <City Name="淮安市" />
+    </State>
+    <State Name="盐城市">
+      <City Name="城区" />
+      <City Name="响水县" />
+      <City Name="滨海县" />
+      <City Name="阜宁县" />
+      <City Name="射阳县" />
+      <City Name="建湖县" />
+      <City Name="盐都县" />
+      <City Name="东台市" />
+      <City Name="大丰市" />
+    </State>
+    <State Name="扬州市">
+      <City Name="广陵区" />
+      <City Name="郊区" />
+      <City Name="宝应县" />
+      <City Name="邗江县" />
+      <City Name="仪征市" />
+      <City Name="高邮市" />
+      <City Name="江都市" />
+    </State>
+    <State Name="镇江市">
+      <City Name="京口区" />
+      <City Name="润州区" />
+      <City Name="丹徒县" />
+      <City Name="丹阳市" />
+      <City Name="扬中市" />
+      <City Name="句容市" />
+    </State>
+    <State Name="泰州市">
+      <City Name="海陵区" />
+      <City Name="高港区" />
+      <City Name="兴化市" />
+      <City Name="靖江市" />
+      <City Name="泰兴市" />
+      <City Name="姜堰市" />
+    </State>
+    <State Name="宿迁市">
+      <City Name="宿城区" />
+      <City Name="宿豫县" />
+      <City Name="沭阳县" />
+      <City Name="泗阳县" />
+      <City Name="泗洪县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="浙江省">
+    <State Name="杭州市">
+      <City Name="上城区" />
+      <City Name="下城区" />
+      <City Name="江干区" />
+      <City Name="拱墅区" />
+      <City Name="西湖区" />
+      <City Name="滨江区" />
+      <City Name="桐庐县" />
+      <City Name="淳安县" />
+      <City Name="萧山市" />
+      <City Name="建德市" />
+      <City Name="富阳市" />
+      <City Name="余杭市" />
+      <City Name="临安市" />
+    </State>
+    <State Name="宁波市">
+      <City Name="海曙区" />
+      <City Name="江东区" />
+      <City Name="江北区" />
+      <City Name="北仑区" />
+      <City Name="镇海区" />
+      <City Name="象山县" />
+      <City Name="宁海县" />
+      <City Name="鄞县" />
+      <City Name="余姚市" />
+      <City Name="慈溪市" />
+      <City Name="奉化市" />
+    </State>
+    <State Name="温州市">
+      <City Name="鹿城区" />
+      <City Name="龙湾区" />
+      <City Name="瓯海区" />
+      <City Name="洞头县" />
+      <City Name="永嘉县" />
+      <City Name="平阳县" />
+      <City Name="苍南县" />
+      <City Name="文成县" />
+      <City Name="泰顺县" />
+      <City Name="瑞安市" />
+      <City Name="乐清市" />
+    </State>
+    <State Name="嘉兴市">
+      <City Name="秀城区" />
+      <City Name="郊区" />
+      <City Name="嘉善县" />
+      <City Name="海盐县" />
+      <City Name="海宁市" />
+      <City Name="平湖市" />
+      <City Name="桐乡市" />
+    </State>
+    <State Name="湖州市">
+      <City Name="吴兴区" />
+      <City Name="南浔区" />
+      <City Name="德清县" />
+      <City Name="长兴县" />
+      <City Name="安吉县" />
+    </State>
+    <State Name="绍兴市">
+      <City Name="越城区" />
+      <City Name="绍兴县" />
+      <City Name="新昌县" />
+      <City Name="诸暨市" />
+      <City Name="上虞市" />
+      <City Name="嵊州市" />
+    </State>
+    <State Name="金华市">
+      <City Name="婺城区" />
+      <City Name="金华县" />
+      <City Name="武义县" />
+      <City Name="浦江县" />
+      <City Name="磐安县" />
+      <City Name="兰溪市" />
+      <City Name="义乌市" />
+      <City Name="东阳市" />
+      <City Name="永康市" />
+    </State>
+    <State Name="衢州市">
+      <City Name="柯城区" />
+      <City Name="衢县" />
+      <City Name="常山县" />
+      <City Name="开化县" />
+      <City Name="龙游县" />
+      <City Name="江山市" />
+    </State>
+    <State Name="舟山市">
+      <City Name="定海区" />
+      <City Name="普陀区" />
+      <City Name="岱山县" />
+      <City Name="嵊泗县" />
+    </State>
+    <State Name="台州市">
+      <City Name="椒江区" />
+      <City Name="黄岩区" />
+      <City Name="路桥区" />
+      <City Name="玉环县" />
+      <City Name="三门县" />
+      <City Name="天台县" />
+      <City Name="仙居县" />
+      <City Name="温岭市" />
+      <City Name="临海市" />
+    </State>
+    <State Name="丽水市">
+      <City Name="丽水市" />
+      <City Name="龙泉市" />
+      <City Name="青田县" />
+      <City Name="云和县" />
+      <City Name="庆元县" />
+      <City Name="缙云县" />
+      <City Name="遂昌县" />
+      <City Name="松阳县" />
+      <City Name="景宁畲族自治县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="安徽省">
+    <State Name="合肥市">
+      <City Name="东市区" />
+      <City Name="中市区" />
+      <City Name="西市区" />
+      <City Name="郊区" />
+      <City Name="长丰县" />
+      <City Name="肥东县" />
+      <City Name="肥西县" />
+    </State>
+    <State Name="芜湖市">
+      <City Name="镜湖区" />
+      <City Name="马塘区" />
+      <City Name="新芜区" />
+      <City Name="鸠江区" />
+      <City Name="芜湖县" />
+      <City Name="繁昌县" />
+      <City Name="南陵县" />
+    </State>
+    <State Name="蚌埠市">
+      <City Name="东市区" />
+      <City Name="中市区" />
+      <City Name="西市区" />
+      <City Name="郊区" />
+      <City Name="怀远县" />
+      <City Name="五河县" />
+      <City Name="固镇县" />
+    </State>
+    <State Name="淮南市">
+      <City Name="大通区" />
+      <City Name="田家庵区" />
+      <City Name="谢家集区" />
+      <City Name="八公山区" />
+      <City Name="潘集区" />
+      <City Name="凤台县" />
+    </State>
+    <State Name="马鞍山市">
+      <City Name="金家庄区" />
+      <City Name="花山区" />
+      <City Name="雨山区" />
+      <City Name="当涂县" />
+    </State>
+    <State Name="淮北市">
+      <City Name="杜集区" />
+      <City Name="相山区" />
+      <City Name="烈山区" />
+      <City Name="濉溪县" />
+    </State>
+    <State Name="铜陵市">
+      <City Name="铜官山区" />
+      <City Name="狮子山区" />
+      <City Name="郊区" />
+      <City Name="铜陵县" />
+    </State>
+    <State Name="安庆市">
+      <City Name="迎江区" />
+      <City Name="大观区" />
+      <City Name="郊区" />
+      <City Name="怀宁县" />
+      <City Name="枞阳县" />
+      <City Name="潜山县" />
+      <City Name="太湖县" />
+      <City Name="宿松县" />
+      <City Name="望江县" />
+      <City Name="岳西县" />
+      <City Name="桐城市" />
+    </State>
+    <State Name="黄山市">
+      <City Name="屯溪区" />
+      <City Name="黄山区" />
+      <City Name="徽州区" />
+      <City Name="歙县" />
+      <City Name="休宁县" />
+      <City Name="黟县" />
+      <City Name="祁门县" />
+    </State>
+    <State Name="滁州市">
+      <City Name="琅琊区" />
+      <City Name="南谯区" />
+      <City Name="来安县" />
+      <City Name="全椒县" />
+      <City Name="定远县" />
+      <City Name="凤阳县" />
+      <City Name="天长市" />
+      <City Name="明光市" />
+    </State>
+    <State Name="阜阳市">
+      <City Name="颍州区" />
+      <City Name="颍东区" />
+      <City Name="颍泉区" />
+      <City Name="临泉县" />
+      <City Name="太和县" />
+      <City Name="阜南县" />
+      <City Name="颍上县" />
+      <City Name="界首市" />
+    </State>
+    <State Name="宿州市">
+      <City Name="墉桥区" />
+      <City Name="砀山县" />
+      <City Name="萧县" />
+      <City Name="灵璧县" />
+      <City Name="泗县" />
+    </State>
+    <State Name="六安市">
+      <City Name="金安区" />
+      <City Name="裕安区" />
+      <City Name="寿县" />
+      <City Name="霍邱县" />
+      <City Name="舒城县" />
+      <City Name="金寨县" />
+      <City Name="霍山县" />
+    </State>
+    <State Name="宣城市">
+      <City Name="宣州区" />
+      <City Name="宁国市" />
+      <City Name="郎溪县" />
+      <City Name="广德县" />
+      <City Name="泾县" />
+      <City Name="旌德县" />
+      <City Name="绩溪县" />
+    </State>
+    <State Name="巢湖市">
+      <City Name="巢湖区" />
+      <City Name="庐江县" />
+      <City Name="无为县" />
+      <City Name="含山县" />
+      <City Name="和县" />
+    </State>
+    <State Name="池州市">
+      <City Name="贵池区" />
+      <City Name="东至县" />
+      <City Name="石台县" />
+      <City Name="青阳县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="福建省">
+    <State Name="福州市">
+      <City Name="鼓楼区" />
+      <City Name="台江区" />
+      <City Name="仓山区" />
+      <City Name="马尾区" />
+      <City Name="晋安区" />
+      <City Name="闽侯县" />
+      <City Name="连江县" />
+      <City Name="罗源县" />
+      <City Name="闽清县" />
+      <City Name="永泰县" />
+      <City Name="平潭县" />
+      <City Name="福清市" />
+      <City Name="长乐市" />
+    </State>
+    <State Name="厦门市">
+      <City Name="思明区?" />
+      <City Name="海沧区" />
+      <City Name="湖里区" />
+      <City Name="集美区" />
+      <City Name="同安区" />
+      <City Name="翔安区" />
+    </State>
+    <State Name="宁德市">
+      <City Name="蕉城区" />
+      <City Name="霞浦县" />
+      <City Name="古田县" />
+      <City Name="屏南县" />
+      <City Name="寿宁县" />
+      <City Name="周宁县" />
+      <City Name="柘荣县" />
+      <City Name="福安市" />
+      <City Name="福鼎市" />
+    </State>
+    <State Name="莆田市">
+      <City Name="城厢区" />
+      <City Name="涵江区" />
+      <City Name="荔城区" />
+      <City Name="秀屿区" />
+      <City Name="仙游县" />
+    </State>
+    <State Name="泉州市">
+      <City Name="鲤城区" />
+      <City Name="丰泽区" />
+      <City Name="洛江区" />
+      <City Name="泉港区" />
+      <City Name="惠安县" />
+      <City Name="安溪县" />
+      <City Name="永春县" />
+      <City Name="德化县" />
+      <City Name="金门县" />
+      <City Name="石狮市" />
+      <City Name="晋江市" />
+      <City Name="南安市" />
+    </State>
+    <State Name="漳州市">
+      <City Name="芗城区" />
+      <City Name="龙文区" />
+      <City Name="云霄县" />
+      <City Name="漳浦县" />
+      <City Name="诏安县" />
+      <City Name="长泰县" />
+      <City Name="东山县" />
+      <City Name="南靖县" />
+      <City Name="平和县" />
+      <City Name="华安县" />
+      <City Name="龙海市" />
+    </State>
+    <State Name="龙岩">
+      <City Name="新罗区" />
+      <City Name="长汀县" />
+      <City Name="永定县" />
+      <City Name="上杭县" />
+      <City Name="武平县" />
+      <City Name="连城县" />
+      <City Name="漳平市" />
+    </State>
+    <State Name="三明市">
+      <City Name="梅列区" />
+      <City Name="三元区" />
+      <City Name="明溪县" />
+      <City Name="清流县" />
+      <City Name="宁化县" />
+      <City Name="大田县" />
+      <City Name="尤溪县" />
+      <City Name="沙县" />
+      <City Name="将乐县" />
+      <City Name="泰宁县" />
+      <City Name="建宁县" />
+      <City Name="永安市" />
+    </State>
+    <State Name="南平市">
+      <City Name="延平区" />
+      <City Name="顺昌县" />
+      <City Name="浦城县" />
+      <City Name="光泽县" />
+      <City Name="松溪县" />
+      <City Name="政和县" />
+      <City Name="邵武市" />
+      <City Name="武夷山市" />
+      <City Name="建瓯市" />
+      <City Name="建阳市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="江西省">
+    <State Name="南昌市">
+      <City Name="东湖区" />
+      <City Name="西湖区" />
+      <City Name="青云谱区" />
+      <City Name="湾里区" />
+      <City Name="郊区" />
+      <City Name="南昌县" />
+      <City Name="新建县" />
+      <City Name="安义县" />
+      <City Name="进贤县" />
+    </State>
+    <State Name="景德镇市">
+      <City Name="昌江区" />
+      <City Name="珠山区" />
+      <City Name="浮梁县" />
+      <City Name="乐平市" />
+    </State>
+    <State Name="萍乡市">
+      <City Name="安源区" />
+      <City Name="湘东区" />
+      <City Name="莲花县" />
+      <City Name="上栗县" />
+      <City Name="芦溪县" />
+    </State>
+    <State Name="九江市">
+      <City Name="庐山区" />
+      <City Name="浔阳区" />
+      <City Name="九江县" />
+      <City Name="武宁县" />
+      <City Name="修水县" />
+      <City Name="永修县" />
+      <City Name="德安县" />
+      <City Name="星子县" />
+      <City Name="都昌县" />
+      <City Name="湖口县" />
+      <City Name="彭泽县" />
+      <City Name="瑞昌市" />
+    </State>
+    <State Name="新余市">
+      <City Name="渝水区" />
+      <City Name="分宜县" />
+    </State>
+    <State Name="鹰潭市">
+      <City Name="月湖区" />
+      <City Name="余江县" />
+      <City Name="贵溪市" />
+    </State>
+    <State Name="赣州市">
+      <City Name="章贡区" />
+      <City Name="赣县" />
+      <City Name="信丰县" />
+      <City Name="大余县" />
+      <City Name="上犹县" />
+      <City Name="崇义县" />
+      <City Name="安远县" />
+      <City Name="龙南县" />
+      <City Name="定南县" />
+      <City Name="全南县" />
+      <City Name="宁都县" />
+      <City Name="于都县" />
+      <City Name="兴国县" />
+      <City Name="会昌县" />
+      <City Name="寻乌县" />
+      <City Name="石城县" />
+      <City Name="瑞金市" />
+      <City Name="南康市" />
+    </State>
+    <State Name="宜春市">
+      <City Name="宜春市" />
+      <City Name="丰城市" />
+      <City Name="樟树市" />
+      <City Name="高安市" />
+      <City Name="奉新县" />
+      <City Name="万载县" />
+      <City Name="上高县" />
+      <City Name="宜丰县" />
+      <City Name="靖安县" />
+      <City Name="铜鼓县" />
+    </State>
+    <State Name="上饶市">
+      <City Name="上饶市" />
+      <City Name="德兴市" />
+      <City Name="上饶县" />
+      <City Name="广丰县" />
+      <City Name="玉山县" />
+      <City Name="铅山县" />
+      <City Name="横峰县" />
+      <City Name="弋阳县" />
+      <City Name="余干县" />
+      <City Name="波阳县" />
+      <City Name="万年县" />
+      <City Name="婺源县" />
+    </State>
+    <State Name="吉安市">
+      <City Name="吉安市" />
+      <City Name="井冈山市" />
+      <City Name="吉安县" />
+      <City Name="吉水县" />
+      <City Name="峡江县" />
+      <City Name="新干县" />
+      <City Name="永丰县" />
+      <City Name="泰和县" />
+      <City Name="遂川县" />
+      <City Name="万安县" />
+      <City Name="安福县" />
+      <City Name="永新县" />
+      <City Name="宁冈县" />
+    </State>
+    <State Name="抚州市">
+      <City Name="临川市" />
+      <City Name="南城县" />
+      <City Name="黎川县" />
+      <City Name="南丰县" />
+      <City Name="崇仁县" />
+      <City Name="乐安县" />
+      <City Name="宜黄县" />
+      <City Name="金溪县" />
+      <City Name="资溪县" />
+      <City Name="东乡县" />
+      <City Name="广昌县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="山东省">
+    <State Name="济南市">
+      <City Name="历下区" />
+      <City Name="市中区" />
+      <City Name="槐荫区" />
+      <City Name="天桥区" />
+      <City Name="历城区" />
+      <City Name="长清县" />
+      <City Name="平阴县" />
+      <City Name="济阳县" />
+      <City Name="商河县" />
+      <City Name="章丘市" />
+    </State>
+    <State Name="青岛市">
+      <City Name="市南区" />
+      <City Name="市北区" />
+      <City Name="四方区" />
+      <City Name="黄岛区" />
+      <City Name="崂山区" />
+      <City Name="李沧区" />
+      <City Name="城阳区" />
+      <City Name="胶州市" />
+      <City Name="即墨市" />
+      <City Name="平度市" />
+      <City Name="胶南市" />
+      <City Name="莱西市" />
+    </State>
+    <State Name="淄博市">
+      <City Name="淄川区" />
+      <City Name="张店区" />
+      <City Name="博山区" />
+      <City Name="临淄区" />
+      <City Name="周村区" />
+      <City Name="桓台县" />
+      <City Name="高青县" />
+      <City Name="沂源县" />
+    </State>
+    <State Name="枣庄市">
+      <City Name="市中区" />
+      <City Name="薛城区" />
+      <City Name="峄城区" />
+      <City Name="台儿庄区" />
+      <City Name="山亭区" />
+      <City Name="滕州市" />
+    </State>
+    <State Name="东营市">
+      <City Name="东营区" />
+      <City Name="河口区" />
+      <City Name="垦利县" />
+      <City Name="利津县" />
+      <City Name="广饶县" />
+    </State>
+    <State Name="烟台市">
+      <City Name="芝罘区" />
+      <City Name="福山区" />
+      <City Name="牟平区" />
+      <City Name="莱山区" />
+      <City Name="长岛县" />
+      <City Name="龙口市" />
+      <City Name="莱阳市" />
+      <City Name="莱州市" />
+      <City Name="蓬莱市" />
+      <City Name="招远市" />
+      <City Name="栖霞市" />
+      <City Name="海阳市" />
+    </State>
+    <State Name="潍坊市">
+      <City Name="潍城区" />
+      <City Name="寒亭区" />
+      <City Name="坊子区" />
+      <City Name="奎文区" />
+      <City Name="临朐县" />
+      <City Name="昌乐县" />
+      <City Name="青州市" />
+      <City Name="诸城市" />
+      <City Name="寿光市" />
+      <City Name="安丘市" />
+      <City Name="高密市" />
+      <City Name="昌邑市" />
+    </State>
+    <State Name="济宁市">
+      <City Name="市中区" />
+      <City Name="任城区" />
+      <City Name="微山县" />
+      <City Name="鱼台县" />
+      <City Name="金乡县" />
+      <City Name="嘉祥县" />
+      <City Name="汶上县" />
+      <City Name="泗水县" />
+      <City Name="梁山县" />
+      <City Name="曲阜市" />
+      <City Name="兖州市" />
+      <City Name="邹城市" />
+    </State>
+    <State Name="泰安市">
+      <City Name="泰山区" />
+      <City Name="郊区" />
+      <City Name="宁阳县" />
+      <City Name="东平县" />
+      <City Name="新泰市" />
+      <City Name="肥城市" />
+    </State>
+    <State Name="威海市">
+      <City Name="环翠区" />
+      <City Name="文登市" />
+      <City Name="荣成市" />
+      <City Name="乳山市" />
+    </State>
+    <State Name="日照市">
+      <City Name="东港区" />
+      <City Name="岚山区" />
+      <City Name="五莲县" />
+      <City Name="莒县" />
+    </State>
+    <State Name="莱芜市">
+      <City Name="莱城区" />
+      <City Name="钢城区" />
+    </State>
+    <State Name="临沂市">
+      <City Name="兰山区" />
+      <City Name="罗庄区" />
+      <City Name="河东区" />
+      <City Name="沂南县" />
+      <City Name="郯城县" />
+      <City Name="沂水县" />
+      <City Name="苍山县" />
+      <City Name="费县" />
+      <City Name="平邑县" />
+      <City Name="莒南县" />
+      <City Name="蒙阴县" />
+      <City Name="临沭县" />
+    </State>
+    <State Name="德州市">
+      <City Name="德城区" />
+      <City Name="陵县" />
+      <City Name="宁津县" />
+      <City Name="庆云县" />
+      <City Name="临邑县" />
+      <City Name="齐河县" />
+      <City Name="平原县" />
+      <City Name="夏津县" />
+      <City Name="武城县" />
+      <City Name="乐陵市" />
+      <City Name="禹城市" />
+    </State>
+    <State Name="聊城市">
+      <City Name="东昌府区" />
+      <City Name="阳谷县" />
+      <City Name="莘县" />
+      <City Name="茌平县" />
+      <City Name="东阿县" />
+      <City Name="冠县" />
+      <City Name="高唐县" />
+      <City Name="临清市" />
+    </State>
+    <State Name="滨州地区">
+      <City Name="滨州市" />
+      <City Name="惠民县" />
+      <City Name="阳信县" />
+      <City Name="无棣县" />
+      <City Name="沾化县" />
+      <City Name="博兴县" />
+      <City Name="邹平县" />
+    </State>
+    <State Name="菏泽地区">
+      <City Name="菏泽市" />
+      <City Name="曹县" />
+      <City Name="定陶县" />
+      <City Name="成武县" />
+      <City Name="单县" />
+      <City Name="巨野县" />
+      <City Name="郓城县" />
+      <City Name="鄄城县" />
+      <City Name="东明县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="河南省">
+    <State Name="郑州市">
+      <City Name="中原区" />
+      <City Name="二七区" />
+      <City Name="管城回族区" />
+      <City Name="金水区" />
+      <City Name="上街区" />
+      <City Name="邙山区" />
+      <City Name="中牟县" />
+      <City Name="巩义市" />
+      <City Name="荥阳市" />
+      <City Name="新密市" />
+      <City Name="新郑市" />
+      <City Name="登封市" />
+    </State>
+    <State Name="开封市">
+      <City Name="龙亭区" />
+      <City Name="顺河回族区" />
+      <City Name="鼓楼区" />
+      <City Name="南关区" />
+      <City Name="郊区" />
+      <City Name="杞县" />
+      <City Name="通许县" />
+      <City Name="尉氏县" />
+      <City Name="开封县" />
+      <City Name="兰考县" />
+    </State>
+    <State Name="洛阳市">
+      <City Name="老城区" />
+      <City Name="西工区" />
+      <City Name="廛河回族区" />
+      <City Name="涧西区" />
+      <City Name="吉利区" />
+      <City Name="郊区" />
+      <City Name="孟津县" />
+      <City Name="新安县" />
+      <City Name="栾川县" />
+      <City Name="嵩县" />
+      <City Name="汝阳县" />
+      <City Name="宜阳县" />
+      <City Name="洛宁县" />
+      <City Name="伊川县" />
+      <City Name="偃师市" />
+    </State>
+    <State Name="平顶山市">
+      <City Name="新华区" />
+      <City Name="卫东区" />
+      <City Name="石龙区" />
+      <City Name="湛河区" />
+      <City Name="宝丰县" />
+      <City Name="叶县" />
+      <City Name="鲁山县" />
+      <City Name="郏县" />
+      <City Name="舞钢市" />
+      <City Name="汝州市" />
+    </State>
+    <State Name="安阳市">
+      <City Name="文峰区" />
+      <City Name="北关区" />
+      <City Name="铁西区" />
+      <City Name="郊区" />
+      <City Name="安阳县" />
+      <City Name="汤阴县" />
+      <City Name="滑县" />
+      <City Name="内黄县" />
+      <City Name="林州市" />
+    </State>
+    <State Name="鹤壁市">
+      <City Name="鹤山区" />
+      <City Name="山城区" />
+      <City Name="郊区" />
+      <City Name="浚县" />
+      <City Name="淇县" />
+    </State>
+    <State Name="新乡市">
+      <City Name="红旗区" />
+      <City Name="新华区" />
+      <City Name="北站区" />
+      <City Name="郊区" />
+      <City Name="新乡县" />
+      <City Name="获嘉县" />
+      <City Name="原阳县" />
+      <City Name="延津县" />
+      <City Name="封丘县" />
+      <City Name="长垣县" />
+      <City Name="卫辉市" />
+      <City Name="辉县市" />
+    </State>
+    <State Name="焦作市">
+      <City Name="解放区" />
+      <City Name="中站区" />
+      <City Name="马村区" />
+      <City Name="山阳区" />
+      <City Name="修武县" />
+      <City Name="博爱县" />
+      <City Name="武陟县" />
+      <City Name="温县" />
+      <City Name="沁阳市" />
+      <City Name="孟州市" />
+    </State>
+    <State Name="濮阳市">
+      <City Name="华龙区" />
+      <City Name="清丰县" />
+      <City Name="南乐县" />
+      <City Name="范县" />
+      <City Name="台前县" />
+      <City Name="濮阳县" />
+    </State>
+    <State Name="许昌市">
+      <City Name="魏都区" />
+      <City Name="许昌县" />
+      <City Name="鄢陵县" />
+      <City Name="襄城县" />
+      <City Name="禹州市" />
+      <City Name="长葛市" />
+    </State>
+    <State Name="漯河市">
+      <City Name="源汇区" />
+      <City Name="郾城区" />
+      <City Name="召陵区" />
+      <City Name="舞阳县" />
+      <City Name="临颍县" />
+    </State>
+    <State Name="三门峡市">
+      <City Name="湖滨区" />
+      <City Name="渑池县" />
+      <City Name="陕县" />
+      <City Name="卢氏县" />
+      <City Name="义马市" />
+      <City Name="灵宝市" />
+    </State>
+    <State Name="南阳市">
+      <City Name="宛城区" />
+      <City Name="卧龙区" />
+      <City Name="南召县" />
+      <City Name="方城县" />
+      <City Name="西峡县" />
+      <City Name="镇平县" />
+      <City Name="内乡县" />
+      <City Name="淅川县" />
+      <City Name="社旗县" />
+      <City Name="唐河县" />
+      <City Name="新野县" />
+      <City Name="桐柏县" />
+      <City Name="邓州市" />
+    </State>
+    <State Name="商丘市">
+      <City Name="梁园区" />
+      <City Name="睢阳区" />
+      <City Name="民权县" />
+      <City Name="睢县" />
+      <City Name="宁陵县" />
+      <City Name="柘城县" />
+      <City Name="虞城县" />
+      <City Name="夏邑县" />
+      <City Name="永城市" />
+    </State>
+    <State Name="信阳市">
+      <City Name="浉河区" />
+      <City Name="平桥区" />
+      <City Name="罗山县" />
+      <City Name="光山县" />
+      <City Name="新县" />
+      <City Name="商城县" />
+      <City Name="固始县" />
+      <City Name="潢川县" />
+      <City Name="淮滨县" />
+      <City Name="息县" />
+    </State>
+    <State Name="周口市">
+      <City Name="周口市" />
+      <City Name="项城市" />
+      <City Name="扶沟县" />
+      <City Name="西华县" />
+      <City Name="商水县" />
+      <City Name="太康县" />
+      <City Name="鹿邑县" />
+      <City Name="郸城县" />
+      <City Name="淮阳县" />
+      <City Name="沈丘县" />
+    </State>
+    <State Name="驻马店地区">
+      <City Name="驻马店市" />
+      <City Name="确山县" />
+      <City Name="泌阳县" />
+      <City Name="遂平县" />
+      <City Name="西平县" />
+      <City Name="上蔡县" />
+      <City Name="汝南县" />
+      <City Name="平舆县" />
+      <City Name="新蔡县" />
+      <City Name="正阳县" />
+    </State>
+    <State Name="省直辖行政单位">
+      <City Name="济源市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="湖北省">
+    <State Name="武汉市">
+      <City Name="江岸区" />
+      <City Name="江汉区" />
+      <City Name="乔口区" />
+      <City Name="汉阳区" />
+      <City Name="武昌区" />
+      <City Name="青山区" />
+      <City Name="洪山区" />
+      <City Name="东西湖区" />
+      <City Name="汉南区" />
+      <City Name="蔡甸区" />
+      <City Name="江夏区" />
+      <City Name="黄陂区" />
+      <City Name="新洲区" />
+    </State>
+    <State Name="黄石市">
+      <City Name="黄石港区" />
+      <City Name="石灰窑区" />
+      <City Name="下陆区" />
+      <City Name="铁山区" />
+      <City Name="阳新县" />
+      <City Name="大冶市" />
+    </State>
+    <State Name="十堰市">
+      <City Name="茅箭区" />
+      <City Name="张湾区" />
+      <City Name="郧县" />
+      <City Name="郧西县" />
+      <City Name="竹山县" />
+      <City Name="竹溪县" />
+      <City Name="房县" />
+      <City Name="丹江口市" />
+    </State>
+    <State Name="宜昌市">
+      <City Name="西陵区" />
+      <City Name="伍家岗区" />
+      <City Name="点军区" />
+      <City Name="虎亭区" />
+      <City Name="宜昌县" />
+      <City Name="远安县" />
+      <City Name="兴山县" />
+      <City Name="秭归县" />
+      <City Name="长阳土家族自治县" />
+      <City Name="五峰土家族自治县" />
+      <City Name="宜都市" />
+      <City Name="当阳市" />
+      <City Name="枝江市" />
+    </State>
+    <State Name="襄樊市">
+      <City Name="襄城区" />
+      <City Name="樊城区" />
+      <City Name="襄阳县" />
+      <City Name="南漳县" />
+      <City Name="谷城县" />
+      <City Name="保康县" />
+      <City Name="老河口市" />
+      <City Name="枣阳市" />
+      <City Name="宜城市" />
+    </State>
+    <State Name="鄂州市">
+      <City Name="梁子湖区" />
+      <City Name="华容区" />
+      <City Name="鄂城区" />
+    </State>
+    <State Name="荆门市">
+      <City Name="东宝区" />
+      <City Name="掇刀区" />
+      <City Name="京山县" />
+      <City Name="沙洋县" />
+      <City Name="钟祥市" />
+    </State>
+    <State Name="孝感市">
+      <City Name="孝南区" />
+      <City Name="孝昌县" />
+      <City Name="大悟县" />
+      <City Name="云梦县" />
+      <City Name="应城市" />
+      <City Name="安陆市" />
+      <City Name="汉川市" />
+    </State>
+    <State Name="荆州市">
+      <City Name="沙市区" />
+      <City Name="荆州区" />
+      <City Name="公安县" />
+      <City Name="监利县" />
+      <City Name="江陵县" />
+      <City Name="石首市" />
+      <City Name="洪湖市" />
+      <City Name="松滋市" />
+    </State>
+    <State Name="黄冈市">
+      <City Name="黄州区" />
+      <City Name="团风县" />
+      <City Name="红安县" />
+      <City Name="罗田县" />
+      <City Name="英山县" />
+      <City Name="浠水县" />
+      <City Name="蕲春县" />
+      <City Name="黄梅县" />
+      <City Name="麻城市" />
+      <City Name="武穴市" />
+    </State>
+    <State Name="咸宁市">
+      <City Name="咸安区" />
+      <City Name="嘉鱼县" />
+      <City Name="通城县" />
+      <City Name="崇阳县" />
+      <City Name="通山县" />
+      <City Name="赤壁市" />
+    </State>
+    <State Name="恩施土家族苗族自治州">
+      <City Name="恩施市" />
+      <City Name="利川市" />
+      <City Name="建始县" />
+      <City Name="巴东县" />
+      <City Name="宣恩县" />
+      <City Name="咸丰县" />
+      <City Name="来凤县" />
+      <City Name="鹤峰县" />
+    </State>
+    <State Name="省直辖行政单位">
+      <City Name="仙桃市" />
+      <City Name="潜江市" />
+      <City Name="天门市" />
+      <City Name="神农架林区" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="湖南省">
+    <State Name="长沙市">
+      <City Name="芙蓉区" />
+      <City Name="天心区" />
+      <City Name="岳麓区" />
+      <City Name="开福区" />
+      <City Name="雨花区" />
+      <City Name="长沙县" />
+      <City Name="望城县" />
+      <City Name="宁乡县" />
+      <City Name="浏阳市" />
+    </State>
+    <State Name="株洲市">
+      <City Name="荷塘区" />
+      <City Name="芦淞区" />
+      <City Name="石峰区" />
+      <City Name="天元区" />
+      <City Name="株洲县" />
+      <City Name="攸县" />
+      <City Name="茶陵县" />
+      <City Name="炎陵县" />
+      <City Name="醴陵市" />
+    </State>
+    <State Name="湘潭市">
+      <City Name="雨湖区" />
+      <City Name="岳塘区" />
+      <City Name="湘潭县" />
+      <City Name="湘乡市" />
+      <City Name="韶山市" />
+    </State>
+    <State Name="衡阳市">
+      <City Name="江东区" />
+      <City Name="城南区" />
+      <City Name="城北区" />
+      <City Name="郊区" />
+      <City Name="南岳区" />
+      <City Name="衡阳县" />
+      <City Name="衡南县" />
+      <City Name="衡山县" />
+      <City Name="衡东县" />
+      <City Name="祁东县" />
+      <City Name="耒阳市" />
+      <City Name="常宁市" />
+    </State>
+    <State Name="邵阳市">
+      <City Name="双清区" />
+      <City Name="大祥区" />
+      <City Name="北塔区" />
+      <City Name="邵东县" />
+      <City Name="新邵县" />
+      <City Name="邵阳县" />
+      <City Name="隆回县" />
+      <City Name="洞口县" />
+      <City Name="绥宁县" />
+      <City Name="新宁县" />
+      <City Name="城步苗族自治县" />
+      <City Name="武冈市" />
+    </State>
+    <State Name="岳阳市">
+      <City Name="岳阳楼区" />
+      <City Name="云溪区" />
+      <City Name="君山区" />
+      <City Name="岳阳县" />
+      <City Name="华容县" />
+      <City Name="湘阴县" />
+      <City Name="平江县" />
+      <City Name="汨罗市" />
+      <City Name="临湘市" />
+    </State>
+    <State Name="常德市">
+      <City Name="武陵区" />
+      <City Name="鼎城区" />
+      <City Name="安乡县" />
+      <City Name="汉寿县" />
+      <City Name="澧县" />
+      <City Name="临澧县" />
+      <City Name="桃源县" />
+      <City Name="石门县" />
+      <City Name="津市市" />
+    </State>
+    <State Name="张家界市">
+      <City Name="永定区" />
+      <City Name="武陵源区" />
+      <City Name="慈利县" />
+      <City Name="桑植县" />
+    </State>
+    <State Name="益阳市">
+      <City Name="资阳区" />
+      <City Name="赫山区" />
+      <City Name="南县" />
+      <City Name="桃江县" />
+      <City Name="安化县" />
+      <City Name="沅江市" />
+    </State>
+    <State Name="郴州市">
+      <City Name="北湖区" />
+      <City Name="苏仙区" />
+      <City Name="桂阳县" />
+      <City Name="宜章县" />
+      <City Name="永兴县" />
+      <City Name="嘉禾县" />
+      <City Name="临武县" />
+      <City Name="汝城县" />
+      <City Name="桂东县" />
+      <City Name="安仁县" />
+      <City Name="资兴市" />
+    </State>
+    <State Name="永州市">
+      <City Name="芝山区" />
+      <City Name="冷水滩区" />
+      <City Name="祁阳县" />
+      <City Name="东安县" />
+      <City Name="双牌县" />
+      <City Name="道县" />
+      <City Name="江永县" />
+      <City Name="宁远县" />
+      <City Name="蓝山县" />
+      <City Name="新田县" />
+      <City Name="江华瑶族自治县" />
+    </State>
+    <State Name="怀化市">
+      <City Name="鹤城区" />
+      <City Name="中方县" />
+      <City Name="沅陵县" />
+      <City Name="辰溪县" />
+      <City Name="溆浦县" />
+      <City Name="会同县" />
+      <City Name="麻阳苗族自治县" />
+      <City Name="新晃侗族自治县" />
+      <City Name="芷江侗族自治县" />
+      <City Name="靖州苗族侗族自治县" />
+      <City Name="通道侗族自治县" />
+      <City Name="洪江市" />
+    </State>
+    <State Name="娄底地区">
+      <City Name="娄底市" />
+      <City Name="冷水江市" />
+      <City Name="涟源市" />
+      <City Name="双峰县" />
+      <City Name="新化县" />
+    </State>
+    <State Name="湘西土家族苗族自治州">
+      <City Name="吉首市" />
+      <City Name="泸溪县" />
+      <City Name="凤凰县" />
+      <City Name="花垣县" />
+      <City Name="保靖县" />
+      <City Name="古丈县" />
+      <City Name="永顺县" />
+      <City Name="龙山县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="广东省（多两个）">
+    <State Name="广州市">
+      <City Name="东山区" />
+      <City Name="荔湾区" />
+      <City Name="越秀区" />
+      <City Name="海珠区" />
+      <City Name="天河区" />
+      <City Name="芳村区" />
+      <City Name="白云区" />
+      <City Name="黄埔区" />
+      <City Name="番禺市" />
+      <City Name="花都市" />
+      <City Name="增城市" />
+      <City Name="从化市" />
+    </State>
+    <State Name="韶关市">
+      <City Name="武江区" />
+      <City Name="浈江区" />
+      <City Name="曲江区" />
+      <City Name="始兴县" />
+      <City Name="仁化县" />
+      <City Name="翁源县" />
+      <City Name="乳源瑶族自治县" />
+      <City Name="新丰县" />
+      <City Name="乐昌市" />
+      <City Name="南雄市" />
+    </State>
+    <State Name="深圳市">
+      <City Name="罗湖区" />
+      <City Name="福田区" />
+      <City Name="南山区" />
+      <City Name="宝安区" />
+      <City Name="龙岗区" />
+      <City Name="盐田区" />
+    </State>
+    <State Name="珠海市">
+      <City Name="香洲区" />
+      <City Name="斗门区" />
+      <City Name="金湾区" />
+    </State>
+    <State Name="汕头市">
+      <City Name="濠江区" />
+      <City Name="龙湖区" />
+      <City Name="金平区" />
+      <City Name="潮南区" />
+      <City Name="澄海区" />
+      <City Name="潮阳区" />
+      <City Name="南澳县" />
+    </State>
+    <State Name="佛山市">
+      <City Name="禅城区" />
+      <City Name="顺德区" />
+      <City Name="南海区" />
+      <City Name="三水区" />
+      <City Name="高明区" />
+    </State>
+    <State Name="江门市">
+      <City Name="蓬江区" />
+      <City Name="江海区" />
+      <City Name="台山市" />
+      <City Name="新会市" />
+      <City Name="开平市" />
+      <City Name="鹤山市" />
+      <City Name="恩平市" />
+    </State>
+    <State Name="湛江市">
+      <City Name="赤坎区" />
+      <City Name="霞山区" />
+      <City Name="坡头区" />
+      <City Name="麻章区" />
+      <City Name="遂溪县" />
+      <City Name="徐闻县" />
+      <City Name="廉江市" />
+      <City Name="雷州市" />
+      <City Name="吴川市" />
+    </State>
+    <State Name="茂名市">
+      <City Name="茂南区" />
+      <City Name="茂港区" />
+      <City Name="电白县" />
+      <City Name="高州市" />
+      <City Name="化州市" />
+      <City Name="信宜市" />
+    </State>
+    <State Name="肇庆市">
+      <City Name="端州区" />
+      <City Name="鼎湖区" />
+      <City Name="广宁县" />
+      <City Name="怀集县" />
+      <City Name="封开县" />
+      <City Name="德庆县" />
+      <City Name="高要市" />
+      <City Name="四会市" />
+    </State>
+    <State Name="惠州市">
+      <City Name="惠城区" />
+      <City Name="博罗县" />
+      <City Name="惠东县" />
+      <City Name="龙门县" />
+      <City Name="惠阳市" />
+    </State>
+    <State Name="梅州市">
+      <City Name="梅江区" />
+      <City Name="梅县" />
+      <City Name="大埔县" />
+      <City Name="丰顺县" />
+      <City Name="五华县" />
+      <City Name="平远县" />
+      <City Name="蕉岭县" />
+      <City Name="兴宁市" />
+    </State>
+    <State Name="汕尾市">
+      <City Name="城区" />
+      <City Name="海丰县" />
+      <City Name="陆河县" />
+      <City Name="陆丰市" />
+    </State>
+    <State Name="河源市">
+      <City Name="源城区" />
+      <City Name="紫金县" />
+      <City Name="龙川县" />
+      <City Name="连平县" />
+      <City Name="和平县" />
+      <City Name="东源县" />
+    </State>
+    <State Name="阳江市">
+      <City Name="江城区" />
+      <City Name="阳西县" />
+      <City Name="阳东县" />
+      <City Name="阳春市" />
+    </State>
+    <State Name="清远市">
+      <City Name="清城区" />
+      <City Name="佛冈县" />
+      <City Name="阳山县" />
+      <City Name="连山壮族瑶族自治县" />
+      <City Name="连南瑶族自治县" />
+      <City Name="清新县" />
+      <City Name="英德市" />
+      <City Name="连州市" />
+    </State>
+    <State Name="东莞市">
+      <City Name="东莞市" />
+    </State>
+    <State Name="中山市">
+      <City Name="中山市" />
+    </State>
+    <State Name="潮州市">
+      <City Name="湘桥区" />
+      <City Name="潮安县" />
+      <City Name="饶平县" />
+    </State>
+    <State Name="揭阳市">
+      <City Name="榕城区" />
+      <City Name="揭东县" />
+      <City Name="揭西县" />
+      <City Name="惠来县" />
+      <City Name="普宁市" />
+    </State>
+    <State Name="云浮市">
+      <City Name="云城区" />
+      <City Name="新兴县" />
+      <City Name="郁南县" />
+      <City Name="云安县" />
+      <City Name="罗定市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="广西壮族自治区">
+    <State Name="南宁市">
+      <City Name="兴宁区" />
+      <City Name="青秀区" />
+      <City Name="西乡塘区" />
+      <City Name="江南区" />
+      <City Name="良庆区" />
+      <City Name="邕宁区" />
+      <City Name="武鸣县" />
+      <City Name="隆安县" />
+      <City Name="马山县" />
+      <City Name="上林县" />
+      <City Name="宾阳县" />
+      <City Name="横县" />
+    </State>
+    <State Name="柳州市">
+      <City Name="城中区" />
+      <City Name="鱼峰区" />
+      <City Name="柳南区" />
+      <City Name="柳北区" />
+      <City Name="柳江县" />
+      <City Name="柳城县" />
+      <City Name="鹿寨县" />
+      <City Name="融安县" />
+      <City Name="融水苗族自治县" />
+      <City Name="三江侗族自治县" />
+    </State>
+    <State Name="桂林市">
+      <City Name="秀峰区" />
+      <City Name="叠彩区" />
+      <City Name="象山区" />
+      <City Name="七星区" />
+      <City Name="雁山区" />
+      <City Name="阳朔县" />
+      <City Name="临桂县" />
+      <City Name="灵川县" />
+      <City Name="全州县" />
+      <City Name="兴安县" />
+      <City Name="永福县" />
+      <City Name="灌阳县" />
+      <City Name="龙胜各县自治区" />
+      <City Name="资源县" />
+      <City Name="平乐县" />
+      <City Name="荔蒲县" />
+      <City Name="恭城瑶族自治县" />
+    </State>
+    <State Name="梧州市">
+      <City Name="万秀区" />
+      <City Name="蝶山区" />
+      <City Name="市郊区" />
+      <City Name="苍梧县" />
+      <City Name="藤县" />
+      <City Name="蒙山县" />
+      <City Name="岑溪市" />
+    </State>
+    <State Name="北海市">
+      <City Name="海城区" />
+      <City Name="银海区" />
+      <City Name="铁山港区" />
+      <City Name="合浦县" />
+    </State>
+    <State Name="防城港市">
+      <City Name="港口区" />
+      <City Name="防城区" />
+      <City Name="上思县" />
+      <City Name="东兴市" />
+    </State>
+    <State Name="钦州市">
+      <City Name="钦南区" />
+      <City Name="钦北区" />
+      <City Name="浦北县" />
+      <City Name="灵山县" />
+    </State>
+    <State Name="贵港市">
+      <City Name="港北区" />
+      <City Name="港南区" />
+      <City Name="覃塘区" />
+      <City Name="平南县" />
+      <City Name="桂平市" />
+    </State>
+    <State Name="玉林市">
+      <City Name="玉州区" />
+      <City Name="容县" />
+      <City Name="陆川县" />
+      <City Name="博白县" />
+      <City Name="兴业县" />
+      <City Name="北流市" />
+    </State>
+    <State Name="崇左市">
+      <City Name="江州区" />
+      <City Name="凭祥市" />
+      <City Name="扶绥县" />
+      <City Name="宁明县" />
+      <City Name="龙州县" />
+      <City Name="大新县" />
+      <City Name="天等县" />
+    </State>
+    <State Name="来宾市">
+      <City Name="兴宾区" />
+      <City Name="合山市" />
+      <City Name="忻城县" />
+      <City Name="象州县" />
+      <City Name="武宣县" />
+      <City Name="金秀瑶族自治县" />
+    </State>
+    <State Name="贺州市">
+      <City Name="八步区" />
+      <City Name="昭平县" />
+      <City Name="钟山县" />
+      <City Name="富川瑶族自治县" />
+    </State>
+    <State Name="百色市">
+      <City Name="右江区" />
+      <City Name="田阳县" />
+      <City Name="田东县" />
+      <City Name="平果县" />
+      <City Name="德保县" />
+      <City Name="靖西县" />
+      <City Name="那坡县" />
+      <City Name="凌云县" />
+      <City Name="乐业县" />
+      <City Name="田林县" />
+      <City Name="隆林各族自治县" />
+      <City Name="西林县" />
+    </State>
+    <State Name="河池市">
+      <City Name="金城江区" />
+      <City Name="宜州市" />
+      <City Name="罗城仫佬族自治县" />
+      <City Name="环江毛南族自治县" />
+      <City Name="南丹县" />
+      <City Name="天峨县" />
+      <City Name="凤山县" />
+      <City Name="东兰县" />
+      <City Name="巴马瑶族自治县" />
+      <City Name="都安瑶族自治县" />
+      <City Name="大化瑶族自治县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="海南省">
+    <State Name="省直辖行政单位">
+      <City Name="琼海市" />
+      <City Name="儋州市" />
+      <City Name="五指山市" />
+      <City Name="文昌市" />
+      <City Name="万宁市" />
+      <City Name="东方市" />
+      <City Name="定安县" />
+      <City Name="屯昌县" />
+      <City Name="澄迈县" />
+      <City Name="临高县" />
+      <City Name="白沙黎族自治县" />
+      <City Name="昌江黎族自治县" />
+      <City Name="乐东黎族自治县" />
+      <City Name="陵水黎族自治县" />
+      <City Name="保亭黎族苗族自治县" />
+      <City Name="琼中黎族苗族自治县" />
+      <City Name="西南中沙群岛办事处" />
+    </State>
+    <State Name="海口市">
+      <City Name="龙华区" />
+      <City Name="秀英区" />
+      <City Name="琼山区" />
+      <City Name="美兰区" />
+    </State>
+    <State Name="三亚市">
+      <City Name="市辖区" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="重庆市">
+    <State Name="重庆市">
+      <City Name="万州区" />
+      <City Name="涪陵区" />
+      <City Name="渝中区" />
+      <City Name="大渡口区" />
+      <City Name="江北区" />
+      <City Name="沙坪坝区" />
+      <City Name="九龙坡区" />
+      <City Name="南岸区" />
+      <City Name="北碚区" />
+      <City Name="万盛区" />
+      <City Name="双桥区" />
+      <City Name="渝北区" />
+      <City Name="巴南区" />
+      <City Name="长寿县" />
+      <City Name="綦江县" />
+      <City Name="潼南县" />
+      <City Name="铜梁县" />
+      <City Name="大足县" />
+      <City Name="荣昌县" />
+      <City Name="璧山县" />
+      <City Name="梁平县" />
+      <City Name="城口县" />
+      <City Name="丰都县" />
+      <City Name="垫江县" />
+      <City Name="武隆县" />
+      <City Name="忠县" />
+      <City Name="开县" />
+      <City Name="云阳县" />
+      <City Name="奉节县" />
+      <City Name="巫山县" />
+      <City Name="巫溪县" />
+      <City Name="黔江土家族苗族自治县" />
+      <City Name="石柱土家族自治县" />
+      <City Name="秀山土家族苗族自治县" />
+      <City Name="酉阳土家族苗族自治县" />
+      <City Name="彭水苗族土家族自治县" />
+      <City Name="江津市" />
+      <City Name="合川市" />
+      <City Name="永川市" />
+      <City Name="南川市" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="四川省">
+    <State Name="成都市">
+      <City Name="锦江区" />
+      <City Name="青羊区" />
+      <City Name="金牛区" />
+      <City Name="武侯区" />
+      <City Name="成华区" />
+      <City Name="龙泉驿区" />
+      <City Name="青白江区" />
+      <City Name="金堂县" />
+      <City Name="双流县" />
+      <City Name="温江县" />
+      <City Name="郫县" />
+      <City Name="新都县" />
+      <City Name="大邑县" />
+      <City Name="蒲江县" />
+      <City Name="新津县" />
+      <City Name="都江堰市" />
+      <City Name="彭州市" />
+      <City Name="邛崃市" />
+      <City Name="崇州市" />
+    </State>
+    <State Name="自贡市">
+      <City Name="自流井区" />
+      <City Name="贡井区" />
+      <City Name="大安区" />
+      <City Name="沿滩区" />
+      <City Name="荣县" />
+      <City Name="富顺县" />
+    </State>
+    <State Name="攀枝花市">
+      <City Name="东区" />
+      <City Name="西区" />
+      <City Name="仁和区" />
+      <City Name="米易县" />
+      <City Name="盐边县" />
+    </State>
+    <State Name="泸州市">
+      <City Name="江阳区" />
+      <City Name="纳溪区" />
+      <City Name="龙马潭区" />
+      <City Name="泸县" />
+      <City Name="合江县" />
+      <City Name="叙永县" />
+      <City Name="古蔺县" />
+    </State>
+    <State Name="德阳市">
+      <City Name="旌阳区" />
+      <City Name="中江县" />
+      <City Name="罗江县" />
+      <City Name="广汉市" />
+      <City Name="什邡市" />
+      <City Name="绵竹市" />
+    </State>
+    <State Name="绵阳市">
+      <City Name="涪城区" />
+      <City Name="游仙区" />
+      <City Name="三台县" />
+      <City Name="盐亭县" />
+      <City Name="安县" />
+      <City Name="梓潼县" />
+      <City Name="北川县" />
+      <City Name="平武县" />
+      <City Name="江油市" />
+    </State>
+    <State Name="广元市">
+      <City Name="利州区" />
+      <City Name="元坝区" />
+      <City Name="朝天区" />
+      <City Name="旺苍县" />
+      <City Name="青川县" />
+      <City Name="剑阁县" />
+      <City Name="苍溪县" />
+    </State>
+    <State Name="遂宁市">
+      <City Name="船山区" />
+      <City Name="安居区" />
+      <City Name="蓬溪县" />
+      <City Name="射洪县" />
+      <City Name="大英县" />
+    </State>
+    <State Name="内江市">
+      <City Name="市中区" />
+      <City Name="东兴区" />
+      <City Name="威远县" />
+      <City Name="资中县" />
+      <City Name="隆昌县" />
+    </State>
+    <State Name="乐山市">
+      <City Name="市中区" />
+      <City Name="沙湾区" />
+      <City Name="五通桥区" />
+      <City Name="金口河区" />
+      <City Name="犍为县" />
+      <City Name="井研县" />
+      <City Name="夹江县" />
+      <City Name="沐川县" />
+      <City Name="峨边彝族自治县" />
+      <City Name="马边彝族自治县" />
+      <City Name="峨眉山市" />
+    </State>
+    <State Name="南充市">
+      <City Name="顺庆区" />
+      <City Name="高坪区" />
+      <City Name="嘉陵区" />
+      <City Name="南部县" />
+      <City Name="营山县" />
+      <City Name="蓬安县" />
+      <City Name="仪陇县" />
+      <City Name="西充县" />
+      <City Name="阆中市" />
+    </State>
+    <State Name="宜宾市">
+      <City Name="翠屏区" />
+      <City Name="宜宾县" />
+      <City Name="南溪县" />
+      <City Name="江安县" />
+      <City Name="长宁县" />
+      <City Name="高县" />
+      <City Name="珙县" />
+      <City Name="筠连县" />
+      <City Name="兴文县" />
+      <City Name="屏山县" />
+    </State>
+    <State Name="广安市">
+      <City Name="广安区" />
+      <City Name="岳池县" />
+      <City Name="武胜县" />
+      <City Name="邻水县" />
+      <City Name="华莹市" />
+    </State>
+    <State Name="达川地区">
+      <City Name="达川市" />
+      <City Name="万源市" />
+      <City Name="达县" />
+      <City Name="宣汉县" />
+      <City Name="开江县" />
+      <City Name="大竹县" />
+      <City Name="渠县" />
+    </State>
+    <State Name="雅安地区">
+      <City Name="雅安市" />
+      <City Name="名山县" />
+      <City Name="荥经县" />
+      <City Name="汉源县" />
+      <City Name="石棉县" />
+      <City Name="天全县" />
+      <City Name="芦山县" />
+      <City Name="宝兴县" />
+    </State>
+    <State Name="阿坝藏族羌族自治州">
+      <City Name="汶川县" />
+      <City Name="理县" />
+      <City Name="茂县" />
+      <City Name="松潘县" />
+      <City Name="九寨沟县" />
+      <City Name="金川县" />
+      <City Name="小金县" />
+      <City Name="黑水县" />
+      <City Name="马尔康县" />
+      <City Name="壤塘县" />
+      <City Name="阿坝县" />
+      <City Name="若尔盖县" />
+      <City Name="红原县" />
+    </State>
+    <State Name="甘孜藏族自治州">
+      <City Name="康定县" />
+      <City Name="泸定县" />
+      <City Name="丹巴县" />
+      <City Name="九龙县" />
+      <City Name="雅江县" />
+      <City Name="道孚县" />
+      <City Name="炉霍县" />
+      <City Name="甘孜县" />
+      <City Name="新龙县" />
+      <City Name="德格县" />
+      <City Name="白玉县" />
+      <City Name="石渠县" />
+      <City Name="色达县" />
+      <City Name="理塘县" />
+      <City Name="巴塘县" />
+      <City Name="乡城县" />
+      <City Name="稻城县" />
+      <City Name="得荣县" />
+    </State>
+    <State Name="凉山彝族自治州">
+      <City Name="西昌市" />
+      <City Name="木里藏族自治县" />
+      <City Name="盐源县" />
+      <City Name="德昌县" />
+      <City Name="会理县" />
+      <City Name="会东县" />
+      <City Name="宁南县" />
+      <City Name="普格县" />
+      <City Name="布拖县" />
+      <City Name="金阳县" />
+      <City Name="昭觉县" />
+      <City Name="喜德县" />
+      <City Name="冕宁县" />
+      <City Name="越西县" />
+      <City Name="甘洛县" />
+      <City Name="美姑县" />
+      <City Name="雷波县" />
+    </State>
+    <State Name="巴中地区">
+      <City Name="巴中市" />
+      <City Name="通江县" />
+      <City Name="南江县" />
+      <City Name="平昌县" />
+    </State>
+    <State Name="眉山地区">
+      <City Name="眉山县" />
+      <City Name="仁寿县" />
+      <City Name="彭山县" />
+      <City Name="洪雅县" />
+      <City Name="丹棱县" />
+      <City Name="青神县" />
+    </State>
+    <State Name="资阳地区">
+      <City Name="资阳市" />
+      <City Name="简阳市" />
+      <City Name="安岳县" />
+      <City Name="乐至县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="贵州省">
+    <State Name="贵阳市">
+      <City Name="南明区" />
+      <City Name="云岩区" />
+      <City Name="花溪区" />
+      <City Name="乌当区" />
+      <City Name="白云区" />
+      <City Name="小河区" />
+      <City Name="开阳县" />
+      <City Name="息烽县" />
+      <City Name="修文县" />
+      <City Name="清镇市" />
+    </State>
+    <State Name="六盘水市">
+      <City Name="钟山区" />
+      <City Name="盘县特区" />
+      <City Name="六枝特区" />
+      <City Name="水城县" />
+    </State>
+    <State Name="遵义市">
+      <City Name="红花岗区" />
+      <City Name="汇川区" />
+      <City Name="遵义县" />
+      <City Name="桐梓县" />
+      <City Name="绥阳县" />
+      <City Name="正安县" />
+      <City Name="道真仡佬族苗族自治县" />
+      <City Name="务川仡佬族苗族自治县" />
+      <City Name="凤冈县" />
+      <City Name="湄潭县" />
+      <City Name="余庆县" />
+      <City Name="习水县" />
+      <City Name="赤水市" />
+      <City Name="仁怀市" />
+    </State>
+    <State Name="铜仁地区">
+      <City Name="铜仁市" />
+      <City Name="江口县" />
+      <City Name="玉屏侗族自治县" />
+      <City Name="石阡县" />
+      <City Name="思南县" />
+      <City Name="印江土家族苗族自治县" />
+      <City Name="德江县" />
+      <City Name="沿河土家族自治县" />
+      <City Name="松桃苗族自治县" />
+      <City Name="万山特区" />
+    </State>
+    <State Name="黔西南布依族苗族自治州">
+      <City Name="兴义市" />
+      <City Name="兴仁县" />
+      <City Name="普安县" />
+      <City Name="晴隆县" />
+      <City Name="贞丰县" />
+      <City Name="望谟县" />
+      <City Name="册亨县" />
+      <City Name="安龙县" />
+    </State>
+    <State Name="毕节地区">
+      <City Name="毕节市" />
+      <City Name="大方县" />
+      <City Name="黔西县" />
+      <City Name="金沙县" />
+      <City Name="织金县" />
+      <City Name="纳雍县" />
+      <City Name="威宁彝族回族苗族自治县" />
+      <City Name="赫章县" />
+    </State>
+    <State Name="安顺地区">
+      <City Name="安顺市" />
+      <City Name="平坝县" />
+      <City Name="普定县" />
+      <City Name="关岭布依族苗族自治县" />
+      <City Name="镇宁布依族苗族自治县" />
+      <City Name="紫云苗族布依族自治县" />
+    </State>
+    <State Name="黔东南苗族侗族自治州">
+      <City Name="凯里市" />
+      <City Name="黄平县" />
+      <City Name="施秉县" />
+      <City Name="三穗县" />
+      <City Name="镇远县" />
+      <City Name="岑巩县" />
+      <City Name="天柱县" />
+      <City Name="锦屏县" />
+      <City Name="剑河县" />
+      <City Name="台江县" />
+      <City Name="黎平县" />
+      <City Name="榕江县" />
+      <City Name="从江县" />
+      <City Name="雷山县" />
+      <City Name="麻江县" />
+      <City Name="丹寨县" />
+    </State>
+    <State Name="黔南布依族苗族自治州">
+      <City Name="都匀市" />
+      <City Name="福泉市" />
+      <City Name="荔波县" />
+      <City Name="贵定县" />
+      <City Name="瓮安县" />
+      <City Name="独山县" />
+      <City Name="平塘县" />
+      <City Name="罗甸县" />
+      <City Name="长顺县" />
+      <City Name="龙里县" />
+      <City Name="惠水县" />
+      <City Name="三都水族自治县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="云南省">
+    <State Name="昆明市">
+      <City Name="五华区" />
+      <City Name="盘龙区" />
+      <City Name="官渡区" />
+      <City Name="西山区" />
+      <City Name="东川区" />
+      <City Name="呈贡县" />
+      <City Name="晋宁县" />
+      <City Name="富民县" />
+      <City Name="宜良县" />
+      <City Name="石林彝族自治县" />
+      <City Name="嵩明县" />
+      <City Name="禄劝彝族苗族自治县" />
+      <City Name="寻甸回族彝族自治县" />
+      <City Name="安宁市" />
+    </State>
+    <State Name="曲靖市">
+      <City Name="麒麟区" />
+      <City Name="马龙县" />
+      <City Name="陆良县" />
+      <City Name="师宗县" />
+      <City Name="罗平县" />
+      <City Name="富源县" />
+      <City Name="会泽县" />
+      <City Name="沾益县" />
+      <City Name="宣威市" />
+    </State>
+    <State Name="玉溪市">
+      <City Name="红塔区" />
+      <City Name="江川县" />
+      <City Name="澄江县" />
+      <City Name="通海县" />
+      <City Name="华宁县" />
+      <City Name="易门县" />
+      <City Name="峨山彝族自治县" />
+      <City Name="新平彝族傣族自治县" />
+      <City Name="元江哈尼族彝族傣族自治县" />
+    </State>
+    <State Name="昭通地区">
+      <City Name="昭通市" />
+      <City Name="鲁甸县" />
+      <City Name="巧家县" />
+      <City Name="盐津县" />
+      <City Name="大关县" />
+      <City Name="永善县" />
+      <City Name="绥江县" />
+      <City Name="镇雄县" />
+      <City Name="彝良县" />
+      <City Name="威信县" />
+      <City Name="水富县" />
+    </State>
+    <State Name="楚雄彝族自治州">
+      <City Name="楚雄市" />
+      <City Name="双柏县" />
+      <City Name="牟定县" />
+      <City Name="南华县" />
+      <City Name="姚安县" />
+      <City Name="大姚县" />
+      <City Name="永仁县" />
+      <City Name="元谋县" />
+      <City Name="武定县" />
+      <City Name="禄丰县" />
+    </State>
+    <State Name="红河哈尼族彝族自治州">
+      <City Name="个旧市" />
+      <City Name="开远市" />
+      <City Name="蒙自县" />
+      <City Name="屏边苗族自治县" />
+      <City Name="建水县" />
+      <City Name="石屏县" />
+      <City Name="弥勒县" />
+      <City Name="泸西县" />
+      <City Name="元阳县" />
+      <City Name="红河县" />
+      <City Name="金平苗族瑶族傣族自治县" />
+      <City Name="绿春县" />
+      <City Name="河口瑶族自治县" />
+    </State>
+    <State Name="文山壮族苗族自治州">
+      <City Name="文山县" />
+      <City Name="砚山县" />
+      <City Name="西畴县" />
+      <City Name="麻栗坡县" />
+      <City Name="马关县" />
+      <City Name="丘北县" />
+      <City Name="广南县" />
+      <City Name="富宁县" />
+    </State>
+    <State Name="思茅市">
+      <City Name="思茅市" />
+      <City Name="普洱哈尼族彝族自治县" />
+      <City Name="墨江哈尼族自治县" />
+      <City Name="景东彝族自治县" />
+      <City Name="景谷傣族彝族自治县" />
+      <City Name="镇沅彝族哈尼族拉祜族自治县" />
+      <City Name="江城哈尼族彝族自治县" />
+      <City Name="孟连傣族拉祜族佤族自治县" />
+      <City Name="澜沧拉祜族自治县" />
+      <City Name="西盟佤族自治县" />
+    </State>
+    <State Name="西双版纳傣族自治州">
+      <City Name="景洪市" />
+      <City Name="勐海县" />
+      <City Name="勐腊县" />
+    </State>
+    <State Name="大理白族自治州">
+      <City Name="大理市" />
+      <City Name="漾濞彝族自治县" />
+      <City Name="祥云县" />
+      <City Name="宾川县" />
+      <City Name="弥渡县" />
+      <City Name="南涧彝族自治县" />
+      <City Name="巍山彝族回族自治县" />
+      <City Name="永平县" />
+      <City Name="云龙县" />
+      <City Name="洱源县" />
+      <City Name="剑川县" />
+      <City Name="鹤庆县" />
+    </State>
+    <State Name="保山地区">
+      <City Name="保山市" />
+      <City Name="施甸县" />
+      <City Name="腾冲县" />
+      <City Name="龙陵县" />
+      <City Name="昌宁县" />
+    </State>
+    <State Name="德宏傣族景颇族自治州">
+      <City Name="畹町市" />
+      <City Name="瑞丽市" />
+      <City Name="潞西市" />
+      <City Name="梁河县" />
+      <City Name="盈江县" />
+      <City Name="陇川县" />
+    </State>
+    <State Name="丽江地区">
+      <City Name="丽江纳西族自治县" />
+      <City Name="永胜县" />
+      <City Name="华坪县" />
+      <City Name="宁蒗彝族自治县" />
+    </State>
+    <State Name="怒江傈僳族自治州">
+      <City Name="泸水县" />
+      <City Name="福贡县" />
+      <City Name="贡山独龙族怒族自治县" />
+      <City Name="兰坪白族普米族自治县" />
+    </State>
+    <State Name="迪庆藏族自治州">
+      <City Name="中甸县" />
+      <City Name="德钦县" />
+      <City Name="维西傈僳族自治县" />
+    </State>
+    <State Name="临沧地区">
+      <City Name="临沧县" />
+      <City Name="凤庆县" />
+      <City Name="云县" />
+      <City Name="永德县" />
+      <City Name="镇康县" />
+      <City Name="双江拉祜族佤族布朗族傣族自治县" />
+      <City Name="耿马傣族佤族自治县" />
+      <City Name="沧源佤族自治县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="西藏自治区">
+    <State Name="拉萨市">
+      <City Name="城关区" />
+      <City Name="林周县" />
+      <City Name="当雄县" />
+      <City Name="尼木县" />
+      <City Name="曲水县" />
+      <City Name="堆龙德庆县" />
+      <City Name="达孜县" />
+      <City Name="墨竹工卡县" />
+    </State>
+    <State Name="昌都地区">
+      <City Name="昌都县" />
+      <City Name="江达县" />
+      <City Name="贡觉县" />
+      <City Name="类乌齐县" />
+      <City Name="丁青县" />
+      <City Name="察雅县" />
+      <City Name="八宿县" />
+      <City Name="左贡县" />
+      <City Name="芒康县" />
+      <City Name="洛隆县" />
+      <City Name="边坝县" />
+    </State>
+    <State Name="山南地区">
+      <City Name="乃东县" />
+      <City Name="扎囊县" />
+      <City Name="贡嘎县" />
+      <City Name="桑日县" />
+      <City Name="琼结县" />
+      <City Name="曲松县" />
+      <City Name="措美县" />
+      <City Name="洛扎县" />
+      <City Name="加查县" />
+      <City Name="隆子县" />
+      <City Name="错那县" />
+      <City Name="浪卡子县" />
+    </State>
+    <State Name="日喀则地区">
+      <City Name="日喀则市" />
+      <City Name="南木林县" />
+      <City Name="江孜县" />
+      <City Name="定日县" />
+      <City Name="萨迦县" />
+      <City Name="拉孜县" />
+      <City Name="昂仁县" />
+      <City Name="谢通门县" />
+      <City Name="白朗县" />
+      <City Name="仁布县" />
+      <City Name="康马县" />
+      <City Name="定结县" />
+      <City Name="仲巴县" />
+      <City Name="亚东县" />
+      <City Name="吉隆县" />
+      <City Name="聂拉木县" />
+      <City Name="萨嘎县" />
+      <City Name="岗巴县" />
+    </State>
+    <State Name="那曲地区">
+      <City Name="那曲县" />
+      <City Name="嘉黎县" />
+      <City Name="比如县" />
+      <City Name="聂荣县" />
+      <City Name="安多县" />
+      <City Name="申扎县" />
+      <City Name="索县" />
+      <City Name="班戈县" />
+      <City Name="巴青县" />
+      <City Name="尼玛县" />
+    </State>
+    <State Name="阿里地区">
+      <City Name="普兰县" />
+      <City Name="札达县" />
+      <City Name="噶尔县" />
+      <City Name="日土县" />
+      <City Name="革吉县" />
+      <City Name="改则县" />
+      <City Name="措勤县" />
+    </State>
+    <State Name="林芝地区">
+      <City Name="林芝县" />
+      <City Name="工布江达县" />
+      <City Name="米林县" />
+      <City Name="墨脱县" />
+      <City Name="波密县" />
+      <City Name="察隅县" />
+      <City Name="朗县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="陕西省">
+    <State Name="西安市">
+      <City Name="新城区" />
+      <City Name="碑林区" />
+      <City Name="莲湖区" />
+      <City Name="灞桥区" />
+      <City Name="未央区" />
+      <City Name="雁塔区" />
+      <City Name="阎良区" />
+      <City Name="临潼区" />
+      <City Name="长安县" />
+      <City Name="蓝田县" />
+      <City Name="周至县" />
+      <City Name="户县" />
+      <City Name="高陵县" />
+    </State>
+    <State Name="铜川市">
+      <City Name="城区" />
+      <City Name="郊区" />
+      <City Name="耀县" />
+      <City Name="宜君县" />
+    </State>
+    <State Name="宝鸡市">
+      <City Name="渭滨区" />
+      <City Name="金台区" />
+      <City Name="宝鸡县" />
+      <City Name="凤翔县" />
+      <City Name="岐山县" />
+      <City Name="扶风县" />
+      <City Name="眉县" />
+      <City Name="陇县" />
+      <City Name="千阳县" />
+      <City Name="麟游县" />
+      <City Name="凤县" />
+      <City Name="太白县" />
+    </State>
+    <State Name="咸阳市">
+      <City Name="秦都区" />
+      <City Name="杨陵区" />
+      <City Name="渭城区" />
+      <City Name="三原县" />
+      <City Name="泾阳县" />
+      <City Name="乾县" />
+      <City Name="礼泉县" />
+      <City Name="永寿县" />
+      <City Name="彬县" />
+      <City Name="长武县" />
+      <City Name="旬邑县" />
+      <City Name="淳化县" />
+      <City Name="武功县" />
+      <City Name="兴平市" />
+    </State>
+    <State Name="渭南市">
+      <City Name="临渭区" />
+      <City Name="华县" />
+      <City Name="潼关县" />
+      <City Name="大荔县" />
+      <City Name="合阳县" />
+      <City Name="澄城县" />
+      <City Name="蒲城县" />
+      <City Name="白水县" />
+      <City Name="富平县" />
+      <City Name="韩城市" />
+      <City Name="华阴市" />
+    </State>
+    <State Name="延安市">
+      <City Name="宝塔区" />
+      <City Name="延长县" />
+      <City Name="延川县" />
+      <City Name="子长县" />
+      <City Name="安塞县" />
+      <City Name="志丹县" />
+      <City Name="吴旗县" />
+      <City Name="甘泉县" />
+      <City Name="富县" />
+      <City Name="洛川县" />
+      <City Name="宜川县" />
+      <City Name="黄龙县" />
+      <City Name="黄陵县" />
+    </State>
+    <State Name="汉中市">
+      <City Name="汉台区" />
+      <City Name="南郑县" />
+      <City Name="城固县" />
+      <City Name="洋县" />
+      <City Name="西乡县" />
+      <City Name="勉县" />
+      <City Name="宁强县" />
+      <City Name="略阳县" />
+      <City Name="镇巴县" />
+      <City Name="留坝县" />
+      <City Name="佛坪县" />
+    </State>
+    <State Name="安康地区">
+      <City Name="安康市" />
+      <City Name="汉阴县" />
+      <City Name="石泉县" />
+      <City Name="宁陕县" />
+      <City Name="紫阳县" />
+      <City Name="岚皋县" />
+      <City Name="平利县" />
+      <City Name="镇坪县" />
+      <City Name="旬阳县" />
+      <City Name="白河县" />
+    </State>
+    <State Name="商洛地区">
+      <City Name="商州市" />
+      <City Name="洛南县" />
+      <City Name="丹凤县" />
+      <City Name="商南县" />
+      <City Name="山阳县" />
+      <City Name="镇安县" />
+      <City Name="柞水县" />
+    </State>
+    <State Name="榆林地区">
+      <City Name="榆林市" />
+      <City Name="神木县" />
+      <City Name="府谷县" />
+      <City Name="横山县" />
+      <City Name="靖边县" />
+      <City Name="定边县" />
+      <City Name="绥德县" />
+      <City Name="米脂县" />
+      <City Name="佳县" />
+      <City Name="吴堡县" />
+      <City Name="清涧县" />
+      <City Name="子洲县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="甘肃省">
+    <State Name="兰州市">
+      <City Name="城关区" />
+      <City Name="七里河区" />
+      <City Name="西固区" />
+      <City Name="安宁区" />
+      <City Name="红古区" />
+      <City Name="永登县" />
+      <City Name="皋兰县" />
+      <City Name="榆中县" />
+    </State>
+    <State Name="嘉峪关市">
+      <City Name="市辖区" />
+    </State>
+    <State Name="金昌市">
+      <City Name="金川区" />
+      <City Name="永昌县" />
+    </State>
+    <State Name="白银市">
+      <City Name="白银区" />
+      <City Name="平川区" />
+      <City Name="靖远县" />
+      <City Name="会宁县" />
+      <City Name="景泰县" />
+    </State>
+    <State Name="天水市">
+      <City Name="秦城区" />
+      <City Name="北道区" />
+      <City Name="清水县" />
+      <City Name="秦安县" />
+      <City Name="甘谷县" />
+      <City Name="武山县" />
+      <City Name="张家川回族自治县" />
+    </State>
+    <State Name="酒泉地区">
+      <City Name="玉门市" />
+      <City Name="酒泉市" />
+      <City Name="敦煌市" />
+      <City Name="金塔县" />
+      <City Name="肃北蒙古族自治县" />
+      <City Name="阿克塞哈萨克族自治县" />
+      <City Name="安西县" />
+    </State>
+    <State Name="张掖地区">
+      <City Name="张掖市" />
+      <City Name="肃南裕固族自治县" />
+      <City Name="民乐县" />
+      <City Name="临泽县" />
+      <City Name="高台县" />
+      <City Name="山丹县" />
+    </State>
+    <State Name="武威地区">
+      <City Name="武威市" />
+      <City Name="民勤县" />
+      <City Name="古浪县" />
+      <City Name="天祝藏族自治县" />
+    </State>
+    <State Name="定西地区">
+      <City Name="定西县" />
+      <City Name="通渭县" />
+      <City Name="陇西县" />
+      <City Name="渭源县" />
+      <City Name="临洮县" />
+      <City Name="漳县" />
+      <City Name="岷县" />
+    </State>
+    <State Name="陇南地区">
+      <City Name="武都县" />
+      <City Name="宕昌县" />
+      <City Name="成县" />
+      <City Name="康县" />
+      <City Name="文县" />
+      <City Name="西和县" />
+      <City Name="礼县" />
+      <City Name="两当县" />
+      <City Name="徽县" />
+    </State>
+    <State Name="平凉地区">
+      <City Name="平凉市" />
+      <City Name="泾川县" />
+      <City Name="灵台县" />
+      <City Name="崇信县" />
+      <City Name="华亭县" />
+      <City Name="庄浪县" />
+      <City Name="静宁县" />
+    </State>
+    <State Name="庆阳地区">
+      <City Name="西峰市" />
+      <City Name="庆阳县" />
+      <City Name="环县" />
+      <City Name="华池县" />
+      <City Name="合水县" />
+      <City Name="正宁县" />
+      <City Name="宁县" />
+      <City Name="镇原县" />
+    </State>
+    <State Name="临夏回族自治州">
+      <City Name="临夏市" />
+      <City Name="临夏县" />
+      <City Name="康乐县" />
+      <City Name="永靖县" />
+      <City Name="广河县" />
+      <City Name="和政县" />
+      <City Name="东乡族自治县" />
+      <City Name="积石山保安族东乡族撒拉族自治县" />
+    </State>
+    <State Name="甘南藏族自治州">
+      <City Name="合作市" />
+      <City Name="临潭县" />
+      <City Name="卓尼县" />
+      <City Name="舟曲县" />
+      <City Name="迭部县" />
+      <City Name="玛曲县" />
+      <City Name="碌曲县" />
+      <City Name="夏河县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="青海省">
+    <State Name="西宁市">
+      <City Name="城东区" />
+      <City Name="城中区" />
+      <City Name="城西区" />
+      <City Name="城北区" />
+      <City Name="大通回族土族自治县" />
+    </State>
+    <State Name="海东地区">
+      <City Name="平安县" />
+      <City Name="民和回族土族自治县" />
+      <City Name="乐都县" />
+      <City Name="湟中县" />
+      <City Name="湟源县" />
+      <City Name="互助土族自治县" />
+      <City Name="化隆回族自治县" />
+      <City Name="循化撒拉族自治县" />
+    </State>
+    <State Name="海北藏族自治州">
+      <City Name="门源回族自治县" />
+      <City Name="祁连县" />
+      <City Name="海晏县" />
+      <City Name="刚察县" />
+    </State>
+    <State Name="黄南藏族自治州">
+      <City Name="同仁县" />
+      <City Name="尖扎县" />
+      <City Name="泽库县" />
+      <City Name="河南蒙古族自治县" />
+    </State>
+    <State Name="海南藏族自治州">
+      <City Name="共和县" />
+      <City Name="同德县" />
+      <City Name="贵德县" />
+      <City Name="兴海县" />
+      <City Name="贵南县" />
+    </State>
+    <State Name="果洛藏族自治州">
+      <City Name="玛沁县" />
+      <City Name="班玛县" />
+      <City Name="甘德县" />
+      <City Name="达日县" />
+      <City Name="久治县" />
+      <City Name="玛多县" />
+    </State>
+    <State Name="玉树藏族自治州">
+      <City Name="玉树县" />
+      <City Name="杂多县" />
+      <City Name="称多县" />
+      <City Name="治多县" />
+      <City Name="囊谦县" />
+      <City Name="曲麻莱县" />
+    </State>
+    <State Name="海西蒙古族藏族自治州">
+      <City Name="格尔木市" />
+      <City Name="德令哈市" />
+      <City Name="乌兰县" />
+      <City Name="都兰县" />
+      <City Name="天峻县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="宁夏回族自治区">
+    <State Name="银川市">
+      <City Name="兴庆区" />
+      <City Name="西夏区" />
+      <City Name="金凤区" />
+      <City Name="永宁县" />
+      <City Name="贺兰县" />
+      <City Name="灵武市" />
+    </State>
+    <State Name="石嘴山市">
+      <City Name="大武口区" />
+      <City Name="惠农区" />
+      <City Name="平罗县" />
+    </State>
+    <State Name="吴忠市">
+      <City Name="利通区" />
+      <City Name="红寺堡区" />
+      <City Name="盐池县" />
+      <City Name="同心县" />
+      <City Name="青铜峡市" />
+    </State>
+    <State Name="固原地区">
+      <City Name="原州区" />
+      <City Name="西吉县" />
+      <City Name="隆德县" />
+      <City Name="泾源县" />
+      <City Name="彭阳县" />
+    </State>
+    <State Name="中卫市">
+      <City Name="沙坡头区" />
+      <City Name="中宁县" />
+      <City Name="海原县" />
+    </State>
+  </CountryRegion>
+  <CountryRegion Name="新疆维吾尔族自治区">
+    <State Name="乌鲁木齐市">
+      <City Name="天山区" />
+      <City Name="沙依巴克区" />
+      <City Name="新市区" />
+      <City Name="水磨沟区" />
+      <City Name="头屯河区" />
+      <City Name="南山矿区" />
+      <City Name="东山区" />
+      <City Name="乌鲁木齐县" />
+    </State>
+    <State Name="克拉玛依市">
+      <City Name="独山子区" />
+      <City Name="克拉玛依区" />
+      <City Name="白碱滩区" />
+      <City Name="乌尔禾区" />
+    </State>
+    <State Name="吐鲁番地区">
+      <City Name="吐鲁番市" />
+      <City Name="鄯善县" />
+      <City Name="托克逊县" />
+    </State>
+    <State Name="哈密地区">
+      <City Name="哈密市" />
+      <City Name="巴里坤哈萨克自治县" />
+      <City Name="伊吾县" />
+    </State>
+    <State Name="昌吉回族自治州">
+      <City Name="昌吉市" />
+      <City Name="阜康市" />
+      <City Name="呼图壁县" />
+      <City Name="玛纳斯县" />
+      <City Name="奇台县" />
+      <City Name="吉木萨尔县" />
+      <City Name="木垒哈萨克自治县" />
+    </State>
+    <State Name="博尔塔拉蒙古自治州">
+      <City Name="博乐市" />
+      <City Name="精河县" />
+      <City Name="温泉县" />
+    </State>
+    <State Name="巴音郭楞蒙古自治州">
+      <City Name="库尔勒市" />
+      <City Name="轮台县" />
+      <City Name="尉犁县" />
+      <City Name="若羌县" />
+      <City Name="且末县" />
+      <City Name="焉耆回族自治县" />
+      <City Name="和静县" />
+      <City Name="和硕县" />
+      <City Name="博湖县" />
+    </State>
+    <State Name="阿克苏地区">
+      <City Name="阿克苏市" />
+      <City Name="温宿县" />
+      <City Name="库车县" />
+      <City Name="沙雅县" />
+      <City Name="新和县" />
+      <City Name="拜城县" />
+      <City Name="乌什县" />
+      <City Name="阿瓦提县" />
+      <City Name="柯坪县" />
+    </State>
+    <State Name="克孜勒苏柯尔克孜自治州">
+      <City Name="阿图什市" />
+      <City Name="阿克陶县" />
+      <City Name="阿合奇县" />
+      <City Name="乌恰县" />
+    </State>
+    <State Name="喀什地区">
+      <City Name="喀什市" />
+      <City Name="疏附县" />
+      <City Name="疏勒县" />
+      <City Name="英吉沙县" />
+      <City Name="泽普县" />
+      <City Name="莎车县" />
+      <City Name="叶城县" />
+      <City Name="麦盖提县" />
+      <City Name="岳普湖县" />
+      <City Name="伽师县" />
+      <City Name="巴楚县" />
+      <City Name="塔什库尔干塔吉克自治县" />
+    </State>
+    <State Name="和田地区">
+      <City Name="和田市" />
+      <City Name="和田县" />
+      <City Name="墨玉县" />
+      <City Name="皮山县" />
+      <City Name="洛浦县" />
+      <City Name="策勒县" />
+      <City Name="于田县" />
+      <City Name="民丰县" />
+    </State>
+    <State Name="伊犁哈萨克自治州">
+      <City Name="奎屯市" />
+      <City Name="伊犁地区" />
+      <City Name="伊宁市" />
+      <City Name="伊宁县" />
+      <City Name="察布查尔锡伯自治县" />
+      <City Name="霍城县" />
+      <City Name="巩留县" />
+      <City Name="新源县" />
+      <City Name="昭苏县" />
+      <City Name="特克斯县" />
+      <City Name="尼勒克县" />
+    </State>
+    <State Name="塔城地区">
+      <City Name="塔城市" />
+      <City Name="乌苏市" />
+      <City Name="额敏县" />
+      <City Name="沙湾县" />
+      <City Name="托里县" />
+      <City Name="裕民县" />
+      <City Name="和布克赛尔蒙古自治县" />
+    </State>
+    <State Name="阿勒泰地区">
+      <City Name="阿勒泰市" />
+      <City Name="布尔津县" />
+      <City Name="富蕴县" />
+      <City Name="福海县" />
+      <City Name="哈巴河县" />
+      <City Name="青河县" />
+      <City Name="吉木乃县" />
+    </State>
+    <State Name="省直辖行政单位">
+      <City Name="石河子市" />
+      <City Name="阿拉尔市" />
+      <City Name="图木舒克市" />
+      <City Name="五家渠市" />
+    </State>
+  </CountryRegion>
+</Location>
+
